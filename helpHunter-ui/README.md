@@ -1,3 +1,35 @@
+# Wymagania
+
+1) node.js w wersji 20.9.0  LTS
+2) angular/cli w wersji 16.2.7
+
+# Uruchomienie
+
+Do uruchomienia projektu można podejść na dwa sposoby:
+
+I - W konsoli
+1) przejść do folderu projktu ui `../specjalisci/helpHunter-ui`
+2) wpisać `ng serve`
+
+II  - W IntelliJ
+1) przejść do folderu projektu ui `../specjalisci/helpHunter-ui`
+2) odnaleźć plik `package.json`
+3) po klknięciu prawym przyciskiem myszy wybrać `Show npm Scripts`
+4) w nowym oknie wybrać `start`
+
+nastpenie w przeglądarce przejść na adres `localhost:4200`
+
+# Zasady
+
+Tworzymy branch w zadaniu w git nadając nazwe zgodnie z zasadą:
+
+issue-'nr. issue w git'-'nazwa zadania w git'
+
+przykładowo
+`issue-9-utworzenie-projektu`
+
+---
+
 # HelpHunterUi
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.7.
