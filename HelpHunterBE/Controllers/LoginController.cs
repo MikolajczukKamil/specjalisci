@@ -6,6 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Npgsql;
 
 namespace HelpHunterBE.Controllers
 {
@@ -35,11 +36,20 @@ namespace HelpHunterBE.Controllers
 
         private bool IsUserValid(string username, string password)
         {
-            // Here goes the login logic
-            // Just to make it work for now - we always return true
-            return true;
-        }
+            // Call the validate_password function in the database
+            using (var connection = new NpgsqlConnection(_configuration.GetConnectionString("YourConnectionString")))
+            {
+                connection.Open();
 
+                using (var command = new NpgsqlCommand("SELECT validate_password(@username, @password)", connection))
+                {
+                    command.Parameters.AddWithValue("username", username);
+                    command.Parameters.AddWithValue("password", password);
+
+                    return (bool)command.ExecuteScalar();
+                }
+            }
+        }
         private string GenerateJwtToken(string username)
         {
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
