@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css'],
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
-export class AppComponent {
-    title = 'helpHunter-ui';
-    constructor(private _router: Router) { }
+export class HomeComponent {
+  constructor(private _router: Router) { }
 
   navigateToRegister() {
     this._router.navigateByUrl('/register')
@@ -16,4 +14,5 @@ export class AppComponent {
   navigateToLogin() {
     this._router.navigateByUrl('/login')
   }
+  
 }

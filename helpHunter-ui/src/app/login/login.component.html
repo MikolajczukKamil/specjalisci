@@ -1,0 +1,128 @@
+<style>
+  .button {
+    color: #6941C6; 
+    font-size: 14px; 
+    font-family: Inter; 
+    font-weight: 600; 
+    line-height: 20px; 
+    word-wrap: break-word; 
+    border: none; 
+    background-color: white;
+  }
+
+  .button:hover {background-color: #3e8e41}
+
+  .button:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+  }
+
+  .input{
+    color: #121212; 
+    font-size: 16px; 
+    font-family: Inter; 
+    font-weight: 400; 
+    line-height: 24px; 
+    word-wrap: break-word; 
+    align-self: stretch; 
+    height: 42px; 
+    padding-left: 12px; 
+    padding-right: 12px; 
+    border-radius: 8px;
+    overflow: hidden; 
+    border: 1px #D0D5DD solid; 
+    justify-content: flex-start; 
+    align-items: center; 
+    gap: 10px; 
+    display: inline-flex
+  }
+
+  .backgroundImage {
+    width: 600px; 
+    height: 436.507px
+  }
+
+  .button_login {
+    align-self: stretch; 
+    height: 44px; 
+    padding-left: 16px; 
+    padding-right: 16px; 
+    background: #7F56D9; 
+    border-radius: 8px; 
+    justify-content: center; 
+    align-items: center; 
+    gap: 16px; 
+    display: inline-flex;
+    white-space: nowrap
+  }
+  .button_login:hover {
+    background: #946fe2; 
+  }
+
+  .button_register {
+    color: #6941C6; 
+    font-size: 14px; 
+    font-family: Inter; 
+    font-weight: 600; 
+    line-height: 20px; 
+    word-wrap: break-word; 
+    background-color:transparent; 
+    border: none;
+  }
+  .button_register:hover {
+    color: #946fe2; 
+  }
+  
+
+</style>
+
+<div style="width: 100%; height: 100%; background: white; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+  <div style="align-self: stretch; height: 100%; background: white; justify-content: flex-start; align-items: center; display: inline-flex">
+    <div style="flex: 1 1 0; align-self: stretch; flex-direction: column; justify-content: space-between; align-items: center; display: inline-flex">
+      <div style="align-self: stretch; height: 70px; padding: 32px; justify-content: flex-start; align-items: center; display: inline-flex">
+        <button style="width: 400px; height: 44px; color: #7F56D9; font-size: 36px; font-family: Inter; font-weight: 700; line-height: 44px; word-wrap: break-word; background-color: white; border: none; text-align: left; " (click)="navigateToHomePage()">HelpHunter</button>
+      </div>
+      <div style="align-self: stretch; height: 360px; padding-left: 32px; padding-right: 32px; flex-direction: column; justify-content: flex-start; align-items: center; display: flex">
+        <div style="height: 360px; flex-direction: column; justify-content: flex-start; align-items: center; gap: 16px; display: flex">
+          <div style="align-self: stretch; height: 74px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 12px; display: flex">
+            <div style="align-self: stretch; color: #121212; font-size: 30px; font-family: Inter; font-weight: 700; line-height: 38px; word-wrap: break-word">Logowanie</div>
+            <div style="align-self: stretch; color: #667085; font-size: 16px; font-family: Inter; font-weight: 400; line-height: 24px; word-wrap: break-word">Witamy ponownie! Proszę wpisać swoje dane</div>
+          </div>
+          <div style="align-self: stretch; height: 174px; border-radius: 12px; flex-direction: column; justify-content: flex-start; align-items: center; gap: 24px; display: flex">
+            <div style="align-self: stretch; height: 174px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 10px; display: flex">
+              <div style="align-self: stretch; height: 70px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 6px; display: flex">
+                <div style="color: #121212; font-size: 14px; font-family: Inter; font-weight: 400; line-height: 20px; word-wrap: break-word">Email*</div>
+                <input class="input" placeholder="Wpisz swój email">
+              </div>
+              <div style="align-self: stretch; height: 94px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 6px; display: flex">
+                <div style="color: #121212; font-size: 14px; font-family: Inter; font-weight: 400; line-height: 20px; word-wrap: break-word">Hasło*</div>
+                <input type = "password" class="input" placeholder="Wpisz swóje hasło">
+                <div style="width: 360px; color: #667085; font-size: 12px; font-family: Inter; font-weight: 400; line-height: 18px; word-wrap: break-word">Musi mieć co najmniej 8 znaków</div>
+              </div>
+            </div>
+          </div>
+          <button class = "button_login">
+            <div style="width: 103px; align-self: stretch; padding-top: 11px; padding-bottom: 11px; justify-content: flex-start; align-items: center; gap: 8px; display: flex">
+              <div style="text-align: center; color: white; font-size: 14px; font-family: Inter; font-weight: 500; text-transform: uppercase; line-height: 36px; letter-spacing: 1.25px; word-wrap: break-word">Zaloguj się</div>
+            </div>
+          </button>
+          <div style="align-self: stretch; justify-content: flex-end; align-items: flex-start; gap: 4px; display: inline-flex">
+            <div style="color: #667085; font-size: 14px; font-family: Inter; font-weight: 400; line-height: 20px; word-wrap: break-word">Nie posiadasz konta?</div>
+            <div style="justify-content: flex-start; align-items: flex-start; display: flex">
+              <div style="justify-content: center; align-items: center; gap: 8px; display: flex">
+                <button class="button_register" (click) = "navigateToRegister()">Zarejestruj się</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="align-self: stretch; height: 70px; padding: 32px; justify-content: flex-start; align-items: center; display: inline-flex">
+        <div style="color: #667085; font-size: 14px; font-family: Inter; font-weight: 400; line-height: 20px; word-wrap: break-word">© HelpHunter 2023</div>
+      </div>
+    </div>
+    <div style="width: 720px; height: 100%; padding-left: 60px; padding-right: 60px; background: #7F56D9; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
+      <img class="backgroundImage" src="assets/images/image.png" />
+    </div>
+  </div>
+</div>
