@@ -1,5 +1,6 @@
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-random-image',
@@ -8,14 +9,34 @@ import { Component, OnInit } from '@angular/core';
   template: `  `,
 })
 
-export class RegisterComponent{
+export class RegisterComponent implements OnInit{
+
   imageUrls1: string= "";
   imageUrls2: string= "";
   imageUrls3: string= "";
   imageUrls4: string = "";
+
+  registerForm = new FormGroup({
+    firstName: new FormControl(""),
+    lastName: new FormControl(""),
+    address: new FormControl(""),
+    mobile: new FormControl(""),
+    email: new FormControl(""),
+    pwd: new FormControl("")
+  });
+
   constructor(private _router: Router) {
     this.getRandomImageUrl();
   };
+
+  ngOnInit(): void {
+    
+  }
+
+  registerSubmit() {
+    console.log(this.registerForm.value);
+    this._router.navigateByUrl('/login');
+  }
 
   navigateToLogin() {
     this._router.navigateByUrl('/login');
@@ -24,6 +45,7 @@ export class RegisterComponent{
   navigateToHomePage() {
     this._router.navigateByUrl('/home');
   }
+
   
   imageUrls: string[] = [
     'assets/images/avatars/avatar1.png',
@@ -39,7 +61,6 @@ export class RegisterComponent{
   private currentIndex = 0;
 
   private shuffleArray(array: string[]): string[] {
-    console.log('gowno');
     let currentIndex = array.length;
     let temporaryValue: string;
     let randomIndex: number;
@@ -71,19 +92,15 @@ export class RegisterComponent{
   }
 
   getImageUrls1(): string {
-    console.log(this.imageUrls1);
     return this.imageUrls1;
   }
   getImageUrls2(): string {
-    console.log(this.imageUrls2);
     return this.imageUrls2;
   }
   getImageUrls3(): string {
-    console.log(this.imageUrls3);
     return this.imageUrls3;
   }
   getImageUrls4(): string {
-    console.log(this.imageUrls4);
     return this.imageUrls4;
   }
 }
