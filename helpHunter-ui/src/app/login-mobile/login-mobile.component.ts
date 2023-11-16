@@ -3,15 +3,15 @@ import { Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'app-login-mobile',
+  templateUrl: './login-mobile.component.html',
+  styleUrls: ['./login-mobile.component.css']
 })
-export class LoginComponent {
+export class LoginMobileComponent {
   constructor(private _router: Router) { }
 
   navigateToRegister() {
-    this._router.navigateByUrl('/register')
+    this._router.navigateByUrl('/register-mobile')
   }
   navigateToHomePage() {
     this._router.navigateByUrl('/home')
@@ -25,5 +25,4 @@ export class LoginComponent {
   loginSubmit() {
     console.log(this.loginForm.value);
   }
-
 }
