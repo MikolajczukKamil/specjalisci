@@ -8,6 +8,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { LoginMobileComponent } from './login-mobile/login-mobile.component';
+import { HomeMobileComponent } from './home-mobile/home-mobile.component';
+import { RegisterMobileComponent } from './register-mobile/register-mobile.component';
 
 @NgModule({
     declarations: [
@@ -15,7 +17,9 @@ import { LoginMobileComponent } from './login-mobile/login-mobile.component';
         RegisterComponent,
         HomeComponent,
         LoginComponent,
-        LoginMobileComponent
+        LoginMobileComponent,
+        HomeMobileComponent,
+        RegisterMobileComponent
     ],
     imports: [
         BrowserModule, 

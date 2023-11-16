@@ -1,5 +1,13 @@
 <style>
-  .font {
+  .error_text{
+    color: red;
+    font-size: 10px; 
+    font-family: Inter; 
+    font-weight: 400; 
+    line-height: 20px; 
+    word-wrap: break-word
+}
+.font {
     color: #121212; 
     font-size: 14px; 
     font-family: Inter; 
@@ -7,9 +15,9 @@
     line-height: 20px; 
     word-wrap: break-word
   }
-  .button_zrejestruj {
+  .button_zarejestruj {
     align-self: stretch; 
-    height: 44px; 
+    height: 40px; 
     padding-left: 16px; 
     padding-right: 16px; 
     background: #7F56D9; 
@@ -19,7 +27,7 @@
     gap: 16px; 
     display: inline-flex
   }
-  .button_zrejestruj:hover {
+  .button_zarejestruj:hover {
     background: #946fe2; 
   }
   .button_zaloguj {
@@ -64,81 +72,119 @@
   .avatar_image:hover{
     opacity: 1;
   }
-  </style>
-    
-    <form [formGroup]="registerForm" (ngSubmit)="registerSubmit()" style="width: 100%; height: 100%; background: white; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
-        <div style="align-self: stretch; height: 100%; background: white; justify-content: flex-start; align-items: center; display: inline-flex">
-          <div style="flex: 1 1 0; align-self: stretch; flex-direction: column; justify-content: space-between; align-items: center; display: inline-flex">
-            <div style="align-self: stretch; height: 70px; padding: 32px; justify-content: flex-start; align-items: center; display: inline-flex">
-              <button style="width: 400px; height: 44px; color: #7F56D9; font-size: 36px; font-family: Inter; font-weight: 700; line-height: 44px; word-wrap: break-word; background-color: white; border: none; text-align: left; " (click)="navigateToHomePage()">HelpHunter</button>
-            </div>
-            <div style="align-self: stretch; height: 800px; padding-left: 32px; padding-right: 32px; flex-direction: column; justify-content: flex-start; align-items: center; display: flex">
-              <div style="height: 728.50px; flex-direction: column; justify-content: flex-start; align-items: center; gap: 16px; display: flex">
-                <div style="align-self: stretch; height: 74px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 12px; display: flex">
-                  <div style="align-self: stretch; color: #121212; font-size: 30px; font-family: Inter; font-weight: 700; line-height: 38px; word-wrap: break-word">Rejestracja</div>
-                  <div style="align-self: stretch; color: #667085; font-size: 16px; font-family: Inter; font-weight: 400; line-height: 24px; word-wrap: break-word">Zarejestruj się i dołącz do naszej społeczności</div>
+</style>
+<form [formGroup]="registerForm" (ngSubmit)="registerSubmit()"
+  style="width: 100%; height: 100%; background: white; flex-direction: column; justify-content: flex-start; align-items: center; display: inline-flex">
+  <div
+    style="align-self: stretch; height: 100%; background: white; justify-content: flex-start; align-items: center; display: inline-flex">
+    <div
+      style="flex: 1 1 0; align-self: stretch; flex-direction: column; justify-content: space-between; align-items: center; display: inline-flex">
+      <div
+        style="align-self: stretch; height: 70px; padding: 32px; justify-content: flex-start; align-items: center; display: inline-flex">
+        <button
+          style="width: 400px; height: 44px; color: #7F56D9; font-size: 36px; font-family: Inter; font-weight: 700; line-height: 44px; word-wrap: break-word; background-color: white; border: none; text-align: left; "
+          (click)="navigateToHomePage()">HelpHunter</button>
+      </div>
+      <div
+        style="align-self: stretch; height: 800px; padding-left: 32px; padding-right: 32px; flex-direction: column; justify-content: flex-start; align-items: center; display: flex">
+        <div
+          style="height: 728.50px; flex-direction: column; justify-content: flex-start; align-items: center; gap: 16px; display: flex">
+          <div
+            style="align-self: stretch; height: 74px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 12px; display: flex">
+            <div
+              style="align-self: stretch; color: #121212; font-size: 30px; font-family: Inter; font-weight: 700; line-height: 38px; word-wrap: break-word">
+              Rejestracja</div>
+            <div
+              style="align-self: stretch; color: #667085; font-size: 16px; font-family: Inter; font-weight: 400; line-height: 24px; word-wrap: break-word">
+              Zarejestruj się i dołącz do naszej społeczności</div>
+          </div>
+          <div
+            style="align-self: stretch; height: 542.50px; border-radius: 12px; flex-direction: column; justify-content: flex-start; align-items: center; gap: 24px; display: flex">
+            <div
+              style="align-self: stretch; height: 542.50px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 10px; display: flex">
+              <div
+                style="width: 400px; justify-content: flex-start; align-items: flex-start; gap: 10px; display: inline-flex">
+                <div
+                  style="flex: 1 1 0; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 6px; display: inline-flex">
+                  <div class="font">Imię*</div>
+                  <input type="text" id="firstName" formControlName="firstName" class="input" style="width: 170px"
+                    placeholder="Wpisz swoje imie">
                 </div>
-                <div style="align-self: stretch; height: 542.50px; border-radius: 12px; flex-direction: column; justify-content: flex-start; align-items: center; gap: 24px; display: flex">
-                  <div style="align-self: stretch; height: 542.50px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 10px; display: flex">
-                    <div style="width: 400px; justify-content: flex-start; align-items: flex-start; gap: 10px; display: inline-flex">
-                      <div style="flex: 1 1 0; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 6px; display: inline-flex">
-                        <div class="font">Imię*</div>
-                          <input type="text"  id="firstName" formControlName="firstName" class="input" style="width: 170px" placeholder="Wpisz swoje imie">
-                      </div>
-                      <div style="flex: 1 1 0; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 6px; display: inline-flex">
-                        <div class="font">Nazwisko*</div>
-                          <input type="text"  id="lastName" formControlName="lastName" class="input" style="width: 170px" placeholder="Wpisz swoje nazwisko">
-                      </div>
-                    </div>
-                    <div style="align-self: stretch; height: 70px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 6px; display: flex">
-                      <div class="font">Adres*</div>
-                      <input type="text"  id="address" formControlName="address" class="input" placeholder="Wpisz swój adres">
-                    </div>
-                    <div style="align-self: stretch; height: 70px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 6px; display: flex">
-                      <div class="font">Telefon*</div>
-                      <input type="text"  id="mobile" formControlName="mobile" class="input" placeholder="Wpisz swój telefon">
-                    </div>
-                    <div style="align-self: stretch; height: 70px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 6px; display: flex">
-                      <div class="font">Email*</div>
-                      <input type="text"  id="email" formControlName="email" class="input" placeholder="Wpisz swój email">
-                    </div>
-                    <div style="align-self: stretch; height: 94px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 6px; display: flex">
-                      <div class="font">Hasło*</div>
-                        <input type = "password" id="pwd" formControlName="pwd" class="input" placeholder="Wpisz swoje hasło">
-                      <div style="width: 360px; color: #667085; font-size: 12px; font-family: Inter; font-weight: 400; line-height: 18px; word-wrap: break-word">Musi mieć co najmniej 8 znaków</div>
-                    </div>
-                    <div style="flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 6px; display: flex">
-                      <div class="font">Avatar</div>
-                      <div style="width: 400px; justify-content: flex-start; align-items: flex-start; gap: 10px; display: inline-flex;">
-                        <img class="avatar_image" [src]="getImageUrls1()" />
-                        <img class="avatar_image" [src]="getImageUrls2()" />
-                        <img class="avatar_image" [src]="getImageUrls3()" />
-                        <img class="avatar_image" [src]="getImageUrls4()" />
-                      </div>
-                    </div>
-                  </div>
+                <div
+                  style="flex: 1 1 0; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 6px; display: inline-flex">
+                  <div class="font">Nazwisko*</div>
+                  <input type="text" id="lastName" formControlName="lastName" class="input" style="width: 170px"
+                    placeholder="Wpisz swoje nazwisko">
                 </div>
-                <button class="button_zrejestruj" type="submit">
-                  <div style="width: 140px; align-self: stretch; padding-top: 11px; padding-bottom: 11px; justify-content: flex-start; align-items: center; gap: 8px; display: flex">
-                    <div style="text-align: center; color: white; font-size: 14px; font-family: Inter; font-weight: 500; text-transform: uppercase; line-height: 36px; letter-spacing: 1.25px; white-space: nowrap;">Zarejestruj się</div>
-                  </div>
-                </button>
-                <div style="align-self: stretch; justify-content: flex-end; align-items: flex-start; gap: 4px; display: inline-flex">
-                  <div style="color: #667085; font-size: 14px; font-family: Inter; font-weight: 400; line-height: 20px; word-wrap: break-word">Posiadasz już konto?</div>
-                  <div style="justify-content: flex-start; align-items: flex-start; display: flex">
-                    <div style="justify-content: center; align-items: center; gap: 8px; display: flex">
-                      <button class="button_zaloguj" (click)="navigateToLogin()">Zaloguj się</button>
-                    </div>
-                  </div>
+              </div>
+              <div
+                style="align-self: stretch; height: 70px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 6px; display: flex">
+                <div class="font">Adres*</div>
+                <input type="text" id="address" formControlName="address" class="input" placeholder="Wpisz swój adres">
+                
+              </div>
+              <div
+                style="align-self: stretch; height: 70px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 6px; display: flex">
+                <div class="font">Telefon*</div>
+                <input type="text" id="mobile" formControlName="mobile" class="input" placeholder="Wpisz swój telefon">
+              </div>
+              <div
+                style="align-self: stretch; height: 70px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 6px; display: flex">
+                <div class="font">Email*</div>
+                <input type="text" id="email" formControlName="email" class="input" placeholder="Wpisz swój email">
+              </div>
+              <div
+                style="align-self: stretch; height: 94px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 6px; display: flex">
+                <div class="font">Hasło*</div>
+                <input type="password" id="pwd" formControlName="pwd" class="input" placeholder="Wpisz swoje hasło">
+                <div
+                  style="width: 360px; color: #667085; font-size: 12px; font-family: Inter; font-weight: 400; line-height: 18px; word-wrap: break-word">
+                  Musi mieć co najmniej 8 znaków</div>
+              </div>
+              <div
+                style="flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 6px; display: flex">
+                <div class="font">Avatar</div>
+                <div
+                  style="width: 400px; justify-content: flex-start; align-items: flex-start; gap: 10px; display: inline-flex;">
+                  <img class="avatar_image" [src]="getImageUrls1()" />
+                  <img class="avatar_image" [src]="getImageUrls2()" />
+                  <img class="avatar_image" [src]="getImageUrls3()" />
+                  <img class="avatar_image" [src]="getImageUrls4()" />
                 </div>
               </div>
             </div>
-            <div style="align-self: stretch; height: 70px; padding: 32px; justify-content: flex-start; align-items: center; display: inline-flex">
-              <div style="color: #667085; font-size: 14px; font-family: Inter; font-weight: 400; line-height: 20px; word-wrap: break-word">© HelpHunter 2023</div>
+          </div>
+          <button class="button_zarejestruj" type="submit">
+            <div
+              style="width: 140px; align-self: stretch; padding-top: 11px; padding-bottom: 11px; justify-content: flex-start; align-items: center; gap: 8px; display: flex">
+              <div
+                style="text-align: center; color: white; font-size: 14px; font-family: Inter; font-weight: 500; text-transform: uppercase; line-height: 36px; letter-spacing: 1.25px; white-space: nowrap;">
+                Zarejestruj się</div>
+            </div>
+          </button>
+          <div
+            style="align-self: stretch; justify-content: flex-end; align-items: flex-start; gap: 4px; display: inline-flex">
+            <div
+              style="color: #667085; font-size: 14px; font-family: Inter; font-weight: 400; line-height: 20px; word-wrap: break-word">
+              Posiadasz już konto?</div>
+            <div style="justify-content: flex-start; align-items: flex-start; display: flex">
+              <div style="justify-content: center; align-items: center; gap: 8px; display: flex">
+                <button class="button_zaloguj" (click)="navigateToLogin()">Zaloguj się</button>
+              </div>
             </div>
           </div>
-          <div style="width: 720px; height: 100%; padding-left: 60px; padding-right: 60px; background: #7F56D9; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
-            <img style="width: 600px; height: 436.507px" src="./assets/images/image.png" />
-          </div>
         </div>
-      </form>
+      </div>
+      <div
+        style="align-self: stretch; height: 70px; padding: 32px; justify-content: flex-start; align-items: center; display: inline-flex">
+        <div
+          style="color: #667085; font-size: 14px; font-family: Inter; font-weight: 400; line-height: 20px; word-wrap: break-word">
+          © HelpHunter 2023</div>
+      </div>
+    </div>
+    <div
+      style="width: 720px; height: 100%; padding-left: 60px; padding-right: 60px; background: #7F56D9; flex-direction: column; justify-content: center; align-items: center; display: inline-flex">
+      <img style="width: 600px; height: 436.507px" src="./assets/images/image.png" />
+    </div>
+  </div>
+</form>
