@@ -25,4 +25,4 @@ import {environment} from "../environments/environment.local";
   providers: [GeocodingService, HttpClient],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
