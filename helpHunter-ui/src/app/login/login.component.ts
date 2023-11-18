@@ -14,7 +14,11 @@ export class LoginComponent {
         private _router: Router,
         private auth: AuthService,
         private snackBar: MatSnackBar
-    ) {}
+    ) {
+        if (this.auth.isLogged()) {
+            this.navigateToHomePage();
+        }
+    }
 
     navigateToRegister() {
         this._router.navigateByUrl('/register');
@@ -35,20 +39,27 @@ export class LoginComponent {
     loginSubmit() {
         if (this.loginForm.valid) {
             const formValue = this.loginForm.getRawValue();
-            this.auth.login(formValue.email, formValue.pwd).then(() => {
-                this.navigateToHomePage();
-            });
+            this.auth
+                .login(formValue.email, formValue.pwd)
+                .then(() => {
+                    this.navigateToHomePage();
+                })
+                .catch(err => {
+                    this.snackBar.open('Niepoprawny login lub hasło', 'Close', {
+                        duration: 3000,
+                    });
+                });
         } else {
             if (this.loginForm.get('email')?.invalid) {
-                this.snackBar.open('Please enter a valid email', 'Close', {
+                this.snackBar.open('Wprowadź poprawny adres email', 'Close', {
                     duration: 3000,
                 });
             } else if (this.loginForm.get('pwd')?.invalid) {
-                this.snackBar.open('Please enter a valid password', 'Close', {
+                this.snackBar.open('Wprowadź poprawne hasło', 'Close', {
                     duration: 3000,
                 });
             } else {
-                this.snackBar.open('Please fill in all fields', 'Close', {
+                this.snackBar.open('Wypełnij pola z loginem i hasłem', 'Close', {
                     duration: 3000,
                 });
             }

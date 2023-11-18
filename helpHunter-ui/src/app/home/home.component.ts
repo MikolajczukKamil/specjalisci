@@ -1,18 +1,14 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { AuthService } from '../services/auth/auth.service';
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
-  constructor(private _router: Router) { }
+    constructor(private auth: AuthService) {}
 
-  navigateToRegister() {
-    this._router.navigateByUrl('/register')
-  }
-  navigateToLogin() {
-    this._router.navigateByUrl('/login')
-  }
-  
+    logout() {
+        this.auth.logout();
+    }
 }

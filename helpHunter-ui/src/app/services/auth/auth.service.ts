@@ -38,6 +38,10 @@ export class AuthService {
         return this.token;
     }
 
+    isLogged(): boolean {
+        return this.token !== null;
+    }
+
     logout() {
         this.token = null;
         localStorage.removeItem('token');

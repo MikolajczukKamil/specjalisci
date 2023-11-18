@@ -5,7 +5,7 @@ import { AuthService } from '../../services/auth/auth.service';
 
 @Injectable()
 export class GeneralInterceptor implements HttpInterceptor {
-    private allowedUrls = ['/api/login', '/api/register'];
+    private allowedUrls = ['/api/login', '/api/register', 'api.mapbox.com'];
 
     constructor(private auth: AuthService) {}
 
