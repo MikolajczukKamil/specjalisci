@@ -1,0 +1,98 @@
+form {
+    width: 100%;
+    height: 100%;
+    background: white;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    display: inline-flex;
+}
+
+.error_text {
+    color: red;
+    font-size: 10px;
+    font-family: Inter;
+    font-weight: 400;
+    line-height: 20px;
+    word-wrap: break-word;
+}
+.font {
+    color: #121212;
+    font-size: 14px;
+    font-family: Inter;
+    font-weight: 400;
+    line-height: 20px;
+    word-wrap: break-word;
+}
+.button_zarejestruj {
+    align-self: stretch;
+    height: 40px;
+    padding-left: 16px;
+    padding-right: 16px;
+    background: #7f56d9;
+    border-radius: 8px;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    display: inline-flex;
+}
+.button_zarejestruj:hover {
+    background: #946fe2;
+}
+.button_zaloguj {
+    color: #6941c6;
+    font-size: 14px;
+    font-family: Inter;
+    font-weight: 600;
+    line-height: 20px;
+    word-wrap: break-word;
+    border: none;
+    background-color: white;
+}
+
+.button_zaloguj:hover {
+    color: #946fe2;
+}
+
+.input {
+    color: #121212;
+    font-size: 16px;
+    font-family: Inter;
+    font-weight: 400;
+    line-height: 24px;
+    word-wrap: break-word;
+    align-self: stretch;
+    height: 42px;
+    padding-left: 12px;
+    padding-right: 12px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px #d0d5dd solid;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    display: inline-flex;
+}
+.avatar_image {
+    width: 92.5px;
+    height: 92.5px;
+    opacity: 0.5;
+}
+.avatar_image:hover {
+    opacity: 1;
+}
+.image_content {
+    width: 720px;
+    height: 100%;
+    padding-left: 60px;
+    padding-right: 60px;
+    background: #7f56d9;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    display: inline-flex;
+
+    @media (max-width: 1185px) {
+        display: none;
+    }
+}
