@@ -42,8 +42,7 @@ export class MapLocalisationComponent implements OnInit {
   createCircle(): any {
     const center = [this.x, this.y];
     const radius = 5;
-    const options = {steps: 50, units: 'kilometers', properties: {foo: 'bar'}};
-    // @ts-ignore
+    const options: {steps?: number, units?: Units, properties?: Properties} = {steps: 50, units: 'kilometers', properties: {foo: 'bar'}};
     return turf.circle(center, radius, options);
   }
 
