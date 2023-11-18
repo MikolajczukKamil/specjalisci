@@ -7,13 +7,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { MapLocalisationComponent } from './map/map-localisation/map-localisation.component';
+import { NgxMapboxGLModule } from "ngx-mapbox-gl";
+import {GeocodingService} from "./map/map-localisation/geocoding.service";;
+import {MatCardModule} from "@angular/material/card";
+import {environment} from "../environments/environment.local";
+import { HttpClient, HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { GeneralInterceptor } from './interceptors/general/general.interceptor';
 import { RouterOutlet } from '@angular/router';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
-    declarations: [AppComponent, RegisterComponent, HomeComponent, LoginComponent],
+    declarations: [AppComponent, RegisterComponent, HomeComponent, LoginComponent, MapLocalisationComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,
@@ -23,8 +28,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         RouterOutlet,
         FormsModule,
         MatSnackBarModule,
+        NgxMapboxGLModule.withConfig({accessToken: environment.mapToken}),
     ],
-    providers: [{ provide: HTTP_INTERCEPTORS, useClass: GeneralInterceptor, multi: true }],
+    providers: [GeocodingService, HttpClient, { provide: HTTP_INTERCEPTORS, useClass: GeneralInterceptor, multi: true }],
     bootstrap: [AppComponent],
 })
 export class AppModule {}
