@@ -10,7 +10,7 @@ export interface Token {
     providedIn: 'root',
 })
 export class AuthService {
-    token: string | null = null;
+    private token: string | null = null;
 
     constructor(
         private http: HttpClient,
