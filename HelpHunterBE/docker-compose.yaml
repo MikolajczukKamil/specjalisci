@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_PASSWORD: specjalisci
+    ports:
+      - "5432:5432"
+
+
+
+# Test user inside the DB
+# User: test
+# Pass: specjalisci
+
+# Using test dump of the db
+# Use command below to load test data into your fresh DB instance
+# docker exec -i postgres pg_restore -U postgres -d postgres -Fc -v < test_db.dump
