@@ -10,12 +10,10 @@ namespace HelpHunterBE.Controllers;
 public class RegistrationController : ControllerBase
 {
     private readonly IConfiguration _configuration;
-    private readonly PasswordValidatorService _passwordValidator;
 
-    public RegistrationController(IConfiguration configuration, PasswordValidatorService passwordValidator)
+    public RegistrationController(IConfiguration configuration)
     {
         _configuration = configuration;
-        _passwordValidator = passwordValidator;
     }
 
     [HttpPost("register")]
@@ -27,7 +25,7 @@ public class RegistrationController : ControllerBase
             {
                 return (IActionResult)Results.BadRequest("weak password");
             }
-            if(await RegisterUserInDataBase(model))
+            if(RegisterUserInDataBase(model))
             {
                 return (IActionResult)Results.Ok("Ok");
             }
@@ -41,13 +39,13 @@ public class RegistrationController : ControllerBase
         
     }
 
-    private bool IsPasswordStrong(LoginModel loginModel)
+    private static bool IsPasswordStrong(LoginModel loginModel)
     {
         var passwordValidator = new PasswordValidatorService(new PasswordRequirements());
         return passwordValidator.TestAndScore(loginModel.Password, new string[] { loginModel.Username });
     }
 
-    private async Task<bool> RegisterUserInDataBase(LoginModel loginModel)
+    private bool RegisterUserInDataBase(LoginModel loginModel)
     {
         using (var connection = new NpgsqlConnection(_configuration.GetConnectionString("YourConnectionString")))
         {
