@@ -1,6 +1,7 @@
 ﻿using Easy_Password_Validator;
 using Easy_Password_Validator.Models;
 using Microsoft.AspNetCore.Mvc;
+using Npgsql;
 
 namespace HelpHunterBE.Controllers;
 
@@ -22,10 +23,6 @@ public class RegistrationController : ControllerBase
     {
         try
         {
-            if (await IsUserNameTaken(model.Username))
-            {
-                return (IActionResult)Results.Conflict("UserName has already been taken");
-            }
             if (!IsPasswordStrong(model))
             {
                 return (IActionResult)Results.BadRequest("weak password");
@@ -34,7 +31,6 @@ public class RegistrationController : ControllerBase
             {
                 return (IActionResult)Results.Ok("Ok");
             }
-            // not sure if this isnt redundant
             return StatusCode(500);
             
         }
@@ -45,12 +41,6 @@ public class RegistrationController : ControllerBase
         
     }
 
-    private async Task<bool> IsUserNameTaken(string username)
-    {
-        // search database for given user name
-        return false;
-    }
-
     private bool IsPasswordStrong(LoginModel loginModel)
     {
         var passwordValidator = new PasswordValidatorService(new PasswordRequirements());
@@ -59,7 +49,17 @@ public class RegistrationController : ControllerBase
 
     private async Task<bool> RegisterUserInDataBase(LoginModel loginModel)
     {
-        // add database write code
-        return true;
+        using (var connection = new NpgsqlConnection(_configuration.GetConnectionString("YourConnectionString")))
+        {
+            connection.Open();
+
+            using (var command = new NpgsqlCommand("Insert add_user(@username, @password)", connection))
+            {
+                command.Parameters.AddWithValue("username", loginModel.Username);
+                command.Parameters.AddWithValue("password", loginModel.Password);
+
+                return (bool)command.ExecuteScalar();
+            }
+        }
     }
 }
