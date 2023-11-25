@@ -23,14 +23,13 @@ jobs:
         node-version: [14.x, 16.x, 18.x]
 
     steps:
-    - uses: actions/checkout@v3
-      with:
-        path: 'specjalisci/helpHunter-ui/'
+    - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        cache-dependency-path: helpHunter-ui/package-lock.json
     - run: npm ci
-    - run: npx ng build --configuration production --output-path /app/testy
+    - run: npx ng build --configuration production --output-path /app/tests
     - run: npm test
