@@ -5,11 +5,11 @@ name: Node.js Frontend CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "**" ]
     paths:
     - 'helpHunter-ui/**' 
   pull_request:
-    branches: [ "master" ]
+    branches: [ "**" ]
     paths:
     - 'helpHunter-ui/**' 
 
