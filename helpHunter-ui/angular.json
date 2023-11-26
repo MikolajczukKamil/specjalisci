@@ -25,9 +25,9 @@
               "src/assets"
             ],
             "styles": [
-              "@angular/material/prebuilt-themes/indigo-pink.css",
-              "mapbox-gl/dist/mapbox-gl.css",
-              "src/styles.css"
+              "src/styles.css",
+              "src/theme.scss",
+              "mapbox-gl/dist/mapbox-gl.css"
             ],
             "scripts": []
           },
@@ -93,8 +93,9 @@
               "src/assets"
             ],
             "styles": [
-              "@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.css"
+              "src/styles.css",
+              "src/theme.scss",
+              "mapbox-gl/dist/mapbox-gl.css"
             ],
             "scripts": []
           }

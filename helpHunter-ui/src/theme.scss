@@ -1,0 +1,108 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+
+$md-primary: (
+  50 : #f9f5ff,
+  100 : #f4ebff,
+  200 : #e9d7fe,
+  300 : #d6bbfb,
+  400 : #b692f6,
+  500 : #9e77ed,
+  600 : #7f56d9,
+  700 : #6941c6,
+  800 : #53389e,
+  900 : #42307d,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+  )
+);
+
+$md-gray: (
+  50 : #edeef0,
+  100 : #f2f4f7,
+  200 : #eaecf0,
+  300 : #d0d5dd,
+  400 : #98a2b3,
+  500 : #667085,
+  600 : #475467,
+  700 : #344054,
+  800 : #1d2939,
+  900 : #101828,
+  contrast: (
+    50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+  )
+);
+
+$md-warning: (
+  100 : #f2f4f7,
+  500 : #667085,
+  900 : #101828,
+  contrast: (
+    100 : #000000,
+    500 : #ffffff,
+    900 : #ffffff,
+  )
+);
+
+$theme-app-primary: mat.define-palette($md-primary, 600);
+$theme-app-accent: mat.define-palette($md-gray, 600);
+
+$theme-typography-level: mat.define-typography-level(
+  $font-family: 'Inter, Roboto, sans-serif',
+  $font-weight: 400,
+  $font-size: 1rem,
+  $line-height: 1,
+  $letter-spacing: normal,
+);
+
+$theme-typography-config: mat.define-typography-config(
+  $headline-1: $theme-typography-level,
+  $headline-2: $theme-typography-level,
+  $headline-3: $theme-typography-level,
+  $headline-4: $theme-typography-level,
+  $headline-5: $theme-typography-level,
+  $headline-6: $theme-typography-level,
+  $subtitle-1: $theme-typography-level,
+  $subtitle-2:$theme-typography-level,
+  $body-1: $theme-typography-level,
+  $body-2: $theme-typography-level,
+  $caption: $theme-typography-level,
+  $button: mat.define-typography-level(
+    $font-family: 'Inter, Roboto, sans-serif',
+    $font-weight: 500,
+    $font-size: 14px,
+    $line-height: 36px,
+  ),
+);
+
+$theme: mat.define-light-theme((
+  color: (
+    primary: $theme-app-primary,
+    accent: $theme-app-accent,
+  ),
+  typography: $theme-typography-config,
+  density: 0,
+));
+
+@include mat.core-theme($theme);
+@include mat.button-theme($theme);
