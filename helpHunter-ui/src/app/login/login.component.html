@@ -37,7 +37,7 @@
                     align-items: center;
                     display: inline-flex;
                 ">
-                <button
+                <div
                     style="
                         width: 400px;
                         height: 44px;
@@ -53,7 +53,7 @@
                     "
                     (click)="navigateToHomePage()">
                     HelpHunter
-                </button>
+                </div>
             </div>
             <div
                 style="
@@ -200,34 +200,7 @@
                             </div>
                         </div>
                     </div>
-                    <button class="button_login" type="submit">
-                        <div
-                            style="
-                                width: 103px;
-                                align-self: stretch;
-                                padding-top: 11px;
-                                padding-bottom: 11px;
-                                justify-content: flex-start;
-                                align-items: center;
-                                gap: 8px;
-                                display: flex;
-                            ">
-                            <div
-                                style="
-                                    text-align: center;
-                                    color: white;
-                                    font-size: 14px;
-                                    font-family: Inter;
-                                    font-weight: 500;
-                                    text-transform: uppercase;
-                                    line-height: 36px;
-                                    letter-spacing: 1.25px;
-                                    word-wrap: break-word;
-                                ">
-                                Zaloguj się
-                            </div>
-                        </div>
-                    </button>
+                    <app-button [text]="'Zaloguj się'" style="width: 100%" [submit]="true" />
                     <div
                         style="
                             align-self: stretch;

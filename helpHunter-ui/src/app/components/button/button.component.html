@@ -1,0 +1,48 @@
+<button
+    *ngIf="type === 'basic'"
+    mat-button
+    [ngStyle]="{ height: size === 'small' ? '28px' : size === 'medium' ? '44px' : '52px' }"
+    class="button"
+    [color]="color"
+    [disabled]="disabled"
+    [attr.type]="submit ? 'submit' : 'button'"
+    [class]="class"
+    [style]="style">
+    {{ text }}
+</button>
+<button
+    *ngIf="type === 'raised'"
+    mat-raised-button
+    [ngStyle]="{ height: size === 'small' ? '28px' : size === 'medium' ? '44px' : '52px' }"
+    class="button"
+    [color]="color"
+    [disabled]="disabled"
+    [attr.type]="submit ? 'submit' : 'button'"
+    [class]="class"
+    [style]="style">
+    {{ text }}
+</button>
+<button
+    *ngIf="type === 'stroked'"
+    mat-stroked-button
+    [ngStyle]="{ height: size === 'small' ? '28px' : size === 'medium' ? '44px' : '52px' }"
+    class="button"
+    [color]="color"
+    [disabled]="disabled"
+    [attr.type]="submit ? 'submit' : 'button'"
+    [class]="class"
+    [style]="style">
+    {{ text }}
+</button>
+<button
+    *ngIf="type === 'flat'"
+    mat-flat-button
+    [ngStyle]="{ height: size === 'small' ? '28px' : size === 'medium' ? '44px' : '52px' }"
+    class="button"
+    [color]="color"
+    [disabled]="disabled"
+    [attr.type]="submit ? 'submit' : 'button'"
+    [class]="class"
+    [style]="style">
+    {{ text }}
+</button>

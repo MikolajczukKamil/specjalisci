@@ -23,23 +23,6 @@
     height: 436.507px;
 }
 
-.button_login {
-    align-self: stretch;
-    height: 44px;
-    padding-left: 16px;
-    padding-right: 16px;
-    background: #7f56d9;
-    border-radius: 8px;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
-    display: inline-flex;
-    white-space: nowrap;
-}
-.button_login:hover {
-    background: #946fe2;
-}
-
 .button_register {
     color: #6941c6;
     font-size: 14px;

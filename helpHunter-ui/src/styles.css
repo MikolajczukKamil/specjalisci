@@ -1,4 +1,116 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/fonts/Inter-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/fonts/Inter-ExtraLight.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/fonts/Inter-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/fonts/Inter-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/fonts/Inter-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/fonts/Inter-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/fonts/Inter-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/fonts/Inter-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('./assets/fonts/Inter-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+}
+
+html,
+body {
+    height: 100%;
+}
+body {
+    margin: 0;
+    font-family: Inter, Roboto, 'Helvetica Neue', sans-serif;
+}
+
+:root {
+    --primary-50: #f9f5ff;
+    --primary-100: #f4ebff;
+    --primary-200: #e9d7fe;
+    --primary-300: #d6bbfb;
+    --primary-400: #b692f6;
+    --primary-500: #9e77ed;
+    --primary-600: #7f56d9;
+    --primary-700: #6941c6;
+    --primary-800: #53389e;
+    --primary-900: #42307d;
+
+    --gray-50: #edeef0;
+    --gray-100: #f2f4f7;
+    --gray-200: #eaecf0;
+    --gray-300: #d0d5dd;
+    --gray-400: #98a2b3;
+    --gray-500: #667085;
+    --gray-600: #475467;
+    --gray-700: #344054;
+    --gray-800: #1d2939;
+    --gray-900: #101828;
+
+    --black: #121212;
+    --white: #ffffff;
+
+    --success-100: #d1fadf;
+    --success-500: #12b76a;
+    --success-900: #05603a;
+
+    --info-100: #d1f1ff;
+    --info-500: #2e90fa;
+    --info-900: #194185;
+
+    --warning-100: #fef0c7;
+    --warning-500: #f79009;
+    --warning-900: #93370d;
+
+    --error-100: #fee4e2;
+    --error-500: #f04438;
+    --error-900: #912018;
+}
