@@ -1,7 +1,7 @@
 -- Tworzenie tabeli Users
 CREATE TABLE Users (
     user_id SERIAL PRIMARY KEY,
-    username VARCHAR(50) NOT NULL,
+    username VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     password VARCHAR(255) NOT NULL,
     full_name VARCHAR(100) NOT NULL,
@@ -14,7 +14,7 @@ CREATE TABLE Users (
 INSERT INTO Users (username, email, password, full_name, date_of_birth, is_providing_services)
 VALUES
     ('john_doe', 'john@example.com', '$1$IOchfG/z$bZW1pRFA3wuvn6pAuD.Du/', 'Sylwia Jankowska', '1990-01-15', true),
-    ('jane_smith', 'jane@example.com', 'hashed_password_2', 'Igor Adamczyk', '1985-05-22', false),
+    ('Kamil@sggw.com', 'Kamil@sggw.com', '$1$qyDv12Sy$XXa1qlRckgb9tkgJ46QjN/', 'Kamil Mikołajczuk', '1992-03-10', true),
     ('user_3', 'user3@example.com', 'hashed_password_3', 'Alicja Kowalska', '1992-03-10', true),
     ('user_4', 'user4@example.com', 'hashed_password_4', 'Bartłomiej Nowak', '1988-07-05', false),
     ('user_5', 'user5@example.com', 'hashed_password_5', 'Czesław Malinowski', '1995-12-18', true),
