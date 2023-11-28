@@ -13,7 +13,7 @@ CREATE TABLE Users (
 -- Wprowadzanie przykładowych danych do tabeli Users
 INSERT INTO Users (username, email, password, full_name, date_of_birth, is_providing_services)
 VALUES
-    ('john_doe', 'john@example.com', 'hashed_password_1', 'Sylwia Jankowska', '1990-01-15', true),
+    ('john_doe', 'john@example.com', '$1$IOchfG/z$bZW1pRFA3wuvn6pAuD.Du/', 'Sylwia Jankowska', '1990-01-15', true),
     ('jane_smith', 'jane@example.com', 'hashed_password_2', 'Igor Adamczyk', '1985-05-22', false),
     ('user_3', 'user3@example.com', 'hashed_password_3', 'Alicja Kowalska', '1992-03-10', true),
     ('user_4', 'user4@example.com', 'hashed_password_4', 'Bartłomiej Nowak', '1988-07-05', false),
