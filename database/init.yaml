@@ -2,10 +2,11 @@ version: '3.7'
 services:
   postgres:
     image: postgres:16.1
+    container_name: database-specjalisci
     restart: always
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PASSWORD=!qqG9zfE^Ze!4k
       - PGDATA=/data/postgres
     logging:
       options:
@@ -15,4 +16,4 @@ services:
       - '5438:5432'
     volumes:
       - ./postgres-data:/var/lib/postgresql/data
-      - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
