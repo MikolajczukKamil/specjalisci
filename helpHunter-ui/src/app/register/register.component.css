@@ -58,14 +58,25 @@ form {
     gap: 10px;
     display: inline-flex;
 }
-.avatar_image {
+
+.avatar_image_hide:hover {
+    opacity: 1;
+}
+
+.avatar_image_show {
+    width: 92.5px;
+    height: 92.5px;
+    opacity: 1;
+    transition: opacity 0.5s;
+ }
+ 
+ .avatar_image_hide {
     width: 92.5px;
     height: 92.5px;
     opacity: 0.5;
-}
-.avatar_image:hover {
-    opacity: 1;
-}
+    transition: opacity 0.5s;
+ }
+
 .image_content {
     width: 720px;
     height: 100%;

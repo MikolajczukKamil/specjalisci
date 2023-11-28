@@ -266,10 +266,10 @@
                                         gap: 10px;
                                         display: inline-flex;
                                     ">
-                                    <img class="avatar_image" [src]="getImageUrls1()" />
-                                    <img class="avatar_image" [src]="getImageUrls2()" />
-                                    <img class="avatar_image" [src]="getImageUrls3()" />
-                                    <img class="avatar_image" [src]="getImageUrls4()" />
+                                    <img [ngClass]="{avatar_image_show: shouldShowImage1, avatar_image_hide: !shouldShowImage1}" [src]="getImageUrls1()"  (click)="choseImage1()" />
+                                    <img [ngClass]="{avatar_image_show: shouldShowImage2, avatar_image_hide: !shouldShowImage2}" [src]="getImageUrls2()"  (click)="choseImage2()" />
+                                    <img [ngClass]="{avatar_image_show: shouldShowImage3, avatar_image_hide: !shouldShowImage3}" [src]="getImageUrls3()"  (click)="choseImage3()" />
+                                    <img [ngClass]="{avatar_image_show: shouldShowImage4, avatar_image_hide: !shouldShowImage4}" [src]="getImageUrls4()"  (click)="choseImage4()" />
                                 </div>
                             </div>
                         </div>
