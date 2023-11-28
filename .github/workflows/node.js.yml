@@ -39,7 +39,7 @@ jobs:
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
           
   deploy:
-    needs: publish
+    needs: build
     name: deploy image
     runs-on: ubuntu-latest
 
