@@ -2,7 +2,7 @@ name: Node.js Frontend CI
 
 on:
   push:
-    branches: [ "**" ]
+    branches: [ "master" ]
     paths:
       - helpHunter-ui/**
 
@@ -48,6 +48,7 @@ jobs:
         run: |
           install -m 600 -D /dev/null ~/.ssh/id_rsa
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          touch ~/.ssh/known_hosts
           ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
       - name: connect and pull
         run: ssh -p 1043 ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }}/helpHunter-ui/ && docker-compose stop && docker-compose rm -f && docker-compose pull && docker-compose up -d"
