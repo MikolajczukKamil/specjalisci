@@ -17,7 +17,7 @@ II  - W IntelliJ
 3) po klknięciu prawym przyciskiem myszy wybrać `Show npm Scripts`
 4) w nowym oknie wybrać `start`
 
-nastpenie w przeglądarce przejść na adres `localhost:4200`
+następnie w przeglądarce przejść na adres `localhost:4200`
 
 # Zasady
 
