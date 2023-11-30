@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~normalize.css';
 
 @font-face {
     font-family: 'Inter';
@@ -70,6 +71,9 @@ body {
 body {
     margin: 0;
     font-family: Inter, Roboto, 'Helvetica Neue', sans-serif;
+}
+div {
+    box-sizing: border-box;
 }
 
 :root {
