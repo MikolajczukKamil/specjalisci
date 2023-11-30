@@ -17,6 +17,10 @@ import { GeneralInterceptor } from './interceptors/general/general.interceptor';
 import { RouterOutlet } from '@angular/router';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ButtonComponent } from './components/button/button.component';
+import { NavbarComponent } from './home/components/navbar/navbar.component';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MainComponent } from './main/main.component';
 
 @NgModule({
     declarations: [
@@ -26,6 +30,9 @@ import { ButtonComponent } from './components/button/button.component';
         LoginComponent,
         MapLocalisationComponent,
         ButtonComponent,
+        NavbarComponent,
+        PageNotFoundComponent,
+        MainComponent,
     ],
     imports: [
         BrowserModule,
@@ -38,6 +45,7 @@ import { ButtonComponent } from './components/button/button.component';
         MatSnackBarModule,
         MatButtonModule,
         NgxMapboxGLModule.withConfig({ accessToken: environment.mapToken }),
+        MatIconModule,
     ],
     providers: [
         GeocodingService,
