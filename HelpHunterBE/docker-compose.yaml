@@ -1,0 +1,11 @@
+version: '3.3'
+services:
+  postgres:
+    image: 063846433154.dkr.ecr.eu-central-1.amazonaws.com/sggw-backend:latest
+    restart: always
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    ports:
+      - '9999:5000'
