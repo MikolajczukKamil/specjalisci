@@ -35,6 +35,7 @@ jobs:
           REPOSITORY: sggw
           IMAGE_TAG: latest
         run: |
+          aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 063846433154.dkr.ecr.eu-central-1.amazonaws.com/sggw
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
           
