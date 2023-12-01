@@ -2,7 +2,7 @@ name: .NET Backend CI/CD
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "*" ]
     paths:
       - HelpHunterBE/**
 
