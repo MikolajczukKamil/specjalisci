@@ -1,10 +1,16 @@
-<div [ngStyle]="{'height': height + 'px', 'width': width + 'px'}">
-  <mgl-map
-    [style]="'mapbox://styles/mapbox/streets-v9'"
-    [zoom]="[zoom]"
-    [center]="[x, y]">
-    <mgl-layer id="circle" type="fill" [source]="circle" [paint]="{'fill-color': '#627BC1', 'fill-opacity': 0.3}"></mgl-layer>
-    <mgl-marker #marker [lngLat]="[x, y]" anchor="center"></mgl-marker>
-    <mgl-popup [marker]="marker">{{name}}</mgl-popup>
-  </mgl-map>
+<div class="map-container">
+    <mgl-map
+        [style]="'mapbox://styles/mapbox/streets-v9'"
+        [zoom]="[zoom]"
+        [center]="[x, y]"
+        (mapCreate)="mapCreated($event)"
+        (mapLoad)="mapLoaded($event)">
+        <mgl-layer
+            id="circle"
+            type="fill"
+            [source]="circle"
+            [paint]="{ 'fill-color': '#627BC1', 'fill-opacity': 0.3 }"></mgl-layer>
+        <mgl-marker #marker [lngLat]="[x, y]" anchor="center"></mgl-marker>
+        <mgl-popup [marker]="marker">{{ name }}</mgl-popup>
+    </mgl-map>
 </div>

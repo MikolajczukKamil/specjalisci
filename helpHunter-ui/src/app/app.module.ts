@@ -17,10 +17,13 @@ import { GeneralInterceptor } from './interceptors/general/general.interceptor';
 import { RouterOutlet } from '@angular/router';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ButtonComponent } from './components/button/button.component';
-import { NavbarComponent } from './home/components/navbar/navbar.component';
+import { NavbarComponent } from './main/components/navbar/navbar.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MainComponent } from './main/main.component';
+import { FootbarComponent } from './main/components/footbar/footbar.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
     declarations: [
@@ -33,6 +36,7 @@ import { MainComponent } from './main/main.component';
         NavbarComponent,
         PageNotFoundComponent,
         MainComponent,
+        FootbarComponent,
     ],
     imports: [
         BrowserModule,
@@ -46,6 +50,8 @@ import { MainComponent } from './main/main.component';
         MatButtonModule,
         NgxMapboxGLModule.withConfig({ accessToken: environment.mapToken }),
         MatIconModule,
+        MatButtonToggleModule,
+        MatInputModule,
     ],
     providers: [
         GeocodingService,
