@@ -1,0 +1,23 @@
+.footbar {
+    width: 100%;
+    height: 70px;
+    padding: 32px;
+}
+
+.footbar-text {
+    margin: 0;
+    font-size: 14px;
+    color: var(--gray-500);
+    line-height: 20px;
+}
+
+@media (max-width: 768px) {
+    .footbar {
+        height: 50px;
+        padding: 15px;
+    }
+
+    .footbar-text {
+        font-size: 12px;
+    }
+}

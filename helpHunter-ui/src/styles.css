@@ -72,7 +72,8 @@ body {
     margin: 0;
     font-family: Inter, Roboto, 'Helvetica Neue', sans-serif;
 }
-div {
+div,
+input {
     box-sizing: border-box;
 }
 

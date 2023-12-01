@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Geocoding, GeocodingService } from './geocoding.service';
 import * as turf from '@turf/turf';
 import { Properties, Units } from '@turf/turf';
+import { Map, MapboxEvent } from 'mapbox-gl';
 
 @Component({
     selector: 'app-map-localisation',
@@ -9,12 +10,6 @@ import { Properties, Units } from '@turf/turf';
     styleUrls: ['./map-localisation.component.css'],
 })
 export class MapLocalisationComponent implements OnInit {
-    @Input()
-    height: number = 1024;
-
-    @Input()
-    width: number = 1024;
-
     @Input()
     zoom: number = 15;
 
@@ -30,6 +25,7 @@ export class MapLocalisationComponent implements OnInit {
     @Input()
     country: string = '';
 
+    map!: Map;
     x: number = 21.0;
     y: number = 52.229;
     name: string = '';
@@ -69,5 +65,13 @@ export class MapLocalisationComponent implements OnInit {
             const place = feature?.place_name?.toLowerCase();
             return place?.indexOf(this.city.toLowerCase()) != -1;
         });
+    }
+
+    mapCreated(map: Map) {
+        this.map = map;
+    }
+
+    mapLoaded(event: MapboxEvent) {
+        this.map.resize();
     }
 }
