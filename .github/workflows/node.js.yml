@@ -49,8 +49,8 @@ jobs:
         run: |
           install -m 600 -D /dev/null ~/.ssh/id_rsa
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-      - name: login to ecr
-        run: aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 063846433154.dkr.ecr.eu-central-1.amazonaws.com/sggw
+      - name: connect and login to ECR
+        run: ssh -o StrictHostKeyChecking=no -p 1043 ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 063846433154.dkr.ecr.eu-central-1.amazonaws.com/sggw"
       - name: connect and pull
         run: ssh -o StrictHostKeyChecking=no -p 1043 ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }}/helpHunter-ui/ && docker-compose stop && docker-compose rm -f && docker-compose pull && docker-compose up -d"
       - name: cleanup ssh key
