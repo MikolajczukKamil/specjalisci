@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Geocoding, GeocodingService } from './geocoding.service';
 import * as turf from '@turf/turf';
 import { Properties, Units } from '@turf/turf';
-import { Map, MapboxEvent } from 'mapbox-gl';
+import {Map, MapboxEvent, Point} from 'mapbox-gl';
+import {Marker} from "./marker.model";
 
 @Component({
     selector: 'app-map-localisation',
@@ -10,33 +10,19 @@ import { Map, MapboxEvent } from 'mapbox-gl';
     styleUrls: ['./map-localisation.component.css'],
 })
 export class MapLocalisationComponent implements OnInit {
-    @Input()
-    zoom: number = 15;
 
     @Input()
-    address: string = '';
-
-    @Input()
-    city: string = '';
-
-    @Input()
-    region: string = '';
-
-    @Input()
-    country: string = '';
+    markers: Marker[] = [
+      { name: "Marker 1", coordinates: {x: 21.0, y: 52.229} } as Marker,
+      { name: "Marker 2", coordinates: {x: 22.0, y: 53.228} } as Marker
+    ]
 
     map!: Map;
-    x: number = 21.0;
-    y: number = 52.229;
-    name: string = '';
+    zoom: number = 5.5;
+    center: Point = { x: 19.70, y: 52.10 } as Point
 
-    circle: any = {
-        type: 'geojson',
-        data: null,
-    };
-
-    createCircle(): any {
-        const center = [this.x, this.y];
+    createCircle(x : number, y: number): any {
+        const center = [x, y];
         const radius = 5;
         const options: { steps?: number; units?: Units; properties?: Properties } = {
             steps: 50,
@@ -46,26 +32,7 @@ export class MapLocalisationComponent implements OnInit {
         return turf.circle(center, radius, options);
     }
 
-    public constructor(private geocodingService: GeocodingService) {}
-
-    public ngOnInit() {
-        this.geocodingService.getGeocoding(this.address, this.city, this.region, this.country).subscribe({
-            next: value => {
-                this.filterGeocoding(value);
-                this.x = value?.features[0]?.center[0];
-                this.y = value?.features[0]?.center[1];
-                this.name = value?.features[0]?.place_name;
-                this.circle.data = this.createCircle();
-            },
-        });
-    }
-
-    private filterGeocoding(value: Geocoding) {
-        value.features = value?.features?.filter(feature => {
-            const place = feature?.place_name?.toLowerCase();
-            return place?.indexOf(this.city.toLowerCase()) != -1;
-        });
-    }
+    public ngOnInit() {}
 
     mapCreated(map: Map) {
         this.map = map;

@@ -49,7 +49,7 @@
             *ngIf="isMapVisited || navigationMode === 'map' || !isSmallScreen"
             [hidden]="navigationMode !== 'map' && isSmallScreen"
             class="content">
-            <app-map-localisation city="Warszawa"></app-map-localisation>
+            <app-map-localisation></app-map-localisation>
         </div>
         <div [hidden]="navigationMode !== 'filters'" class="content">
             <div class="filters-container"></div>
