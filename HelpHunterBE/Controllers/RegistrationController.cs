@@ -17,7 +17,7 @@ public class RegistrationController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] LoginModel model)
+    public async Task<IActionResult> Register([FromBody] RegistrationModel model)
     {
         try
         {
@@ -39,23 +39,26 @@ public class RegistrationController : ControllerBase
         
     }
 
-    private static bool IsPasswordStrong(LoginModel loginModel)
+    private static bool IsPasswordStrong(RegistrationModel registrationModel)
     {
         var passwordValidator = new PasswordValidatorService(new PasswordRequirements());
-        return passwordValidator.TestAndScore(loginModel.Password, new string[] { loginModel.Username });
+        return passwordValidator.TestAndScore(
+            registrationModel.password, new string[] { registrationModel.username }
+        );
     }
 
-    private bool RegisterUserInDataBase(LoginModel loginModel)
+    private bool RegisterUserInDataBase(RegistrationModel registrationModel)
     {
         using (var connection = new NpgsqlConnection(_configuration.GetConnectionString("YourConnectionString")))
         {
             connection.Open();
-
-            using (var command = new NpgsqlCommand("Insert add_user(@username, @password)", connection))
+            var commandString = "INSERT INTO Users" +
+                " (username, email, password, full_name, date_of_birth, registration_date) " +
+                $"VALUES ('{registrationModel.username}','{registrationModel.email}','{registrationModel.password}," +
+                $"'{registrationModel.full_name}','{registrationModel.date_of_birth}','{registrationModel.registration_date}'," +
+                $"'{registrationModel.is_providing_services}')";
+            using (var command = new NpgsqlCommand(commandString, connection))
             {
-                command.Parameters.AddWithValue("username", loginModel.Username);
-                command.Parameters.AddWithValue("password", loginModel.Password);
-
                 return (bool)command.ExecuteScalar();
             }
         }
