@@ -24,6 +24,8 @@ import { MainComponent } from './main/main.component';
 import { FootbarComponent } from './main/components/footbar/footbar.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatInputModule } from '@angular/material/input';
+import { FiltersComponent } from './home/filters/filters.component';
+import { MatDialogModule } from "@angular/material/dialog";
 
 @NgModule({
     declarations: [
@@ -37,6 +39,7 @@ import { MatInputModule } from '@angular/material/input';
         PageNotFoundComponent,
         MainComponent,
         FootbarComponent,
+        FiltersComponent,
     ],
     imports: [
         BrowserModule,
@@ -52,6 +55,7 @@ import { MatInputModule } from '@angular/material/input';
         MatIconModule,
         MatButtonToggleModule,
         MatInputModule,
+        MatDialogModule
     ],
     providers: [
         GeocodingService,
