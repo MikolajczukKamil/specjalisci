@@ -3,6 +3,7 @@ WORKDIR /app
 
 COPY /Controllers .
 COPY /Properties .
+COPY /Models .
 COPY Login.cs .
 COPY Program.cs .
 COPY WeatherForecast.cs .
