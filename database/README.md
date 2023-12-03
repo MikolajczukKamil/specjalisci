@@ -1,12 +1,12 @@
 # Jak uruchomić
 1. Wchodzimy do katalogu specjalisci
-2. Używamy polecenia docker-compose -f database/init.yaml up -d
+2. Używamy polecenia docker-compose -f database/docker-compose.yaml up -d
 
 # Jak zaciągnąć zmiany
 0. Zaciągamy zmiany z githuba lub wprowadzając coś ręcznie do pliku database/sql/init.sql
 1. Wchodzimy do katalogu specjalisci
 2. docker rm -f database-specjalisci
-3. docker-compose -f database/init.yaml up -d
+3. docker-compose -f database/docker-compose.yaml up -d
 
 # Jak się podłączyć
 Nazwa serwera: database-specjalisci <br>
