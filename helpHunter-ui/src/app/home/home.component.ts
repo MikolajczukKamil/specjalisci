@@ -3,6 +3,8 @@ import { AuthService } from '../services/auth/auth.service';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { DeviceSizeService } from '../services/deviceSize/device-size.service';
 import { Subject, takeUntil } from 'rxjs';
+import {FiltersComponent} from "./filters/filters.component";
+import {MatDialog} from "@angular/material/dialog";
 
 type NavigationMode = 'list' | 'map' | 'filters';
 
@@ -19,7 +21,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     constructor(
         private auth: AuthService,
-        private deviceSizeService: DeviceSizeService
+        private deviceSizeService: DeviceSizeService,
+        public dialog: MatDialog
     ) {}
 
     ngOnInit(): void {
@@ -44,4 +47,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.destroy.next(true);
         this.destroy.unsubscribe();
     }
+
+  openFilters() {
+        this.dialog.open(FiltersComponent, { width: '500px', height: '500px' });
+  }
 }

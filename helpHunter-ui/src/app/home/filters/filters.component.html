@@ -1,0 +1,118 @@
+<div class="filters">
+  <div class="title">
+    <h1>Filtry</h1>
+    <mat-icon class="close" (click)="closeModal()">close</mat-icon>
+  </div>
+  <div>
+    <div class="section-container">
+      <div>
+        Obszar obecnej lokalizacji
+      </div>
+      <div class="choice-container" [formGroup]="size">
+        <div>
+          <input type="checkbox" style="display: none" value="5" id="5" formControlName="5">
+          <label class="choice" for="5">5</label>
+        </div>
+        <div>
+          <input type="checkbox" style="display: none" value="10" id="10" formControlName="10">
+          <label class="choice" for="10">10</label>
+        </div>
+        <div>
+          <input type="checkbox" style="display: none" value="10" id="15" formControlName="15">
+          <label class="choice" for="15">15</label>
+        </div>
+        <div>
+          <input type="checkbox" style="display: none" value="20" id="20" formControlName="20">
+          <label class="choice" for="20">20</label>
+        </div>
+      </div>
+    </div>
+    <div class="section-container">
+      <div>
+        Tryb pracy
+      </div>
+      <div class="choice-container" [formGroup]="work">
+        <div>
+          <input type="checkbox" style="display: none" id="office" formControlName="office">
+          <label class="choice" for="office">Stacjonarna</label>
+        </div>
+        <div>
+          <input type="checkbox" style="display: none" id="remote" formControlName="remote">
+          <label class="choice" for="remote">Dojazdowa</label>
+        </div>
+      </div>
+    </div>
+    <div class="categories-container">
+      <div class="categories">Kategorie</div>
+      <div [formGroup]="builder">
+        <div>Budowlanka</div>
+        <div class="choice-container">
+          <div>
+            <input type="checkbox" style="display: none" id="tiles" formControlName="tiles">
+            <label class="choice" for="tiles">Płytki</label>
+          </div>
+          <div>
+            <input type="checkbox" style="display: none" id="painting" formControlName="painting">
+            <label class="choice" for="painting">Malowanie</label>
+          </div>
+          <div>
+            <input type="checkbox" style="display: none" id="bath" formControlName="bath">
+            <label class="choice" for="bath">Montaż wanny</label>
+          </div>
+          <div>
+            <input type="checkbox" style="display: none" id="hydraulics" formControlName="hydraulics">
+            <label class="choice" for="hydraulics">Hydraulika</label>
+          </div>
+        </div>
+      </div>
+      <div [formGroup]="it">
+        <div>IT</div>
+        <div class="choice-container">
+          <div>
+            <input type="checkbox" style="display: none" id="printer" formControlName="printer">
+            <label class="choice" for="printer">Instalacja drukarki</label>
+          </div>
+          <div>
+            <input type="checkbox" style="display: none" id="laptop" formControlName="laptop">
+            <label class="choice" for="laptop">Naprawa laptopa</label>
+          </div>
+          <div>
+            <input type="checkbox" style="display: none" id="phone" formControlName="phone">
+            <label class="choice" for="phone">Wymiana ekranu telefonu</label>
+          </div>
+          <div>
+            <input type="checkbox" style="display: none" id="network" formControlName="network">
+            <label class="choice" for="network">Konfiguracja sieci</label>
+          </div>
+        </div>
+      </div>
+      <div [formGroup]="mechanic">
+        <div>Mechanicy</div>
+        <div class="choice-container">
+          <div>
+            <input type="checkbox" style="display: none" id="oil" formControlName="oil">
+            <label class="choice" for="oil">Wymiana oleju</label>
+          </div>
+          <div>
+            <input type="checkbox" style="display: none" id="filter" formControlName="filter">
+            <label class="choice" for="filter">Wymiana filtrów</label>
+          </div>
+          <div>
+            <input type="checkbox" style="display: none" id="tire" formControlName="tire">
+            <label class="choice" for="tire">Wymiana opon</label>
+          </div>
+          <div>
+            <input type="checkbox" style="display: none" id="diagnostics" formControlName="diagnostics">
+            <label class="choice" for="diagnostics">Diagnostyka</label>
+          </div>
+          <input type="checkbox" style="display: none" id="geometry" formControlName="geometry">
+          <label class="choice" for="geometry">Geometria</label>
+        </div>
+      </div>
+    </div>
+    <div class="buttons">
+      <button (click)="reset()" value="Wyczyść" class="choice-clear">Wyczyść</button>
+      <button (click)="save()" value="Zastosuj" class="choice-accept">Zastosuj</button>
+    </div>
+  </div>
+</div>
