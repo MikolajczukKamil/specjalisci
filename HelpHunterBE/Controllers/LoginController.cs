@@ -37,7 +37,7 @@ namespace HelpHunterBE.Controllers
         private bool IsUserValid(string username, string password)
         {
             // Call the validate_password function in the database
-            using (var connection = new NpgsqlConnection(_configuration.GetConnectionString("YourConnectionString")))
+            using (var connection = new NpgsqlConnection(_configuration.GetConnectionString("Postgres")))
             {
                 connection.Open();
 
@@ -46,7 +46,15 @@ namespace HelpHunterBE.Controllers
                     command.Parameters.AddWithValue("username", username);
                     command.Parameters.AddWithValue("password", password);
 
-                    return (bool)command.ExecuteScalar();
+                    var result = command.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        return (bool)result;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
             }
         }
