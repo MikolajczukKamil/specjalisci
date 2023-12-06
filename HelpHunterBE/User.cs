@@ -1,12 +1,14 @@
-public class User
+public class ServiceInfo
 {
+    public int ServiceId { get; set; }
+    public string ServiceName { get; set; }
+    public decimal? MaxPrice { get; set; }
+    public decimal? MinPrice { get; set; }
+    public string OperatingMode { get; set; }
+    public string CategoryName { get; set; }
+    public int CategoryId { get; set; }
     public int UserId { get; set; }
-    public string Username { get; set; }
-    public string Email { get; set; }
-    public string Password { get; set; }
     public string FullName { get; set; }
-    public DateTime? DateOfBirth { get; set; }
-    public bool IsProvidingServices { get; set; }
     public string Location { get; set; }
     public decimal? LocationCoordinatesX { get; set; }
     public decimal? LocationCoordinatesY { get; set; }
