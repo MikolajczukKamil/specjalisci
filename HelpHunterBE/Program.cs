@@ -43,7 +43,7 @@ builder.Services.AddCors(options =>
         {
             policy.WithOrigins("http://95.217.193.230")
                 .AllowAnyMethod()
-                .AllowAnyHeader(); ;
+                .AllowAnyHeader();
         });
 });
 
