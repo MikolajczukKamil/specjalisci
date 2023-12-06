@@ -1,0 +1,45 @@
+.header {
+  font-size: 30px;
+  /*font-weight: bold;*/
+  align-items: center;
+  padding: 10px;
+  margin-left: 15px;
+}
+
+.start-list {
+  width: 15%;
+  font-size: 18px;
+}
+
+.end-list {
+  width: 85%;
+  text-align: left;
+  font-size: 18px;
+}
+
+.list-item {
+  align-items: center;
+  border-bottom: lightgray 1px solid;
+  padding: 10px;
+}
+
+.list-item-end {
+  align-items: center;
+  padding: 10px;
+}
+
+.image {
+  border-radius: 10%;
+  width: 75px;
+  height: 75px;
+  margin-top: 10px;
+}
+
+.button {
+  margin: 10px;
+  background-color: #6941c6;
+  color: white;
+  border-radius: 10px;
+  font-size: 18px;
+  width: 150px;
+}

@@ -1,0 +1,25 @@
+<mat-card>
+  <mat-card-header>
+    <div class="header">Mój profil</div>
+  </mat-card-header>
+  <mat-card-content fxLayoutAlign="space-between center" fxLayoutGap="20px" class="py-4">
+    <ng-container *ngFor="let list of list">
+      <mat-card-content style="display: flex">
+        <div class="list-item start-list">
+          <p>{{list.title}}</p>
+          <p style="color: lightgray"><small>{{list.subtitle}}</small></p>
+        </div>
+        <div class="list-item end-list">
+          <button *ngIf="list.title == 'Dane kontaktowe'" class="button">Edytuj</button>
+          <img *ngIf="list.title == 'Twój avatar'; else elseblock" src="{{list.data}}" class="image"/>
+          <button *ngIf="list.title == 'Tryb specjalisty'">Wyloguj się</button>
+          <button *ngIf="list.title == 'Tryb pracy'" class="button">Stacjonarny</button>
+          <button *ngIf="list.title == 'Tryb pracy'" class="button">Dojazdowy</button>
+          <ng-template #elseblock class="list-item end-list">
+            <p>{{list.data}}</p>
+          </ng-template>
+        </div>
+      </mat-card-content>
+    </ng-container>
+  </mat-card-content>
+</mat-card>

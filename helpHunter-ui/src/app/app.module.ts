@@ -26,6 +26,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatInputModule } from '@angular/material/input';
 import { FiltersComponent } from './home/filters/filters.component';
 import { MatDialogModule } from "@angular/material/dialog";
+import { ProfileComponent } from './profile/profile.component';
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
     declarations: [
@@ -40,6 +42,7 @@ import { MatDialogModule } from "@angular/material/dialog";
         MainComponent,
         FootbarComponent,
         FiltersComponent,
+        ProfileComponent,
     ],
     imports: [
         BrowserModule,
@@ -51,11 +54,12 @@ import { MatDialogModule } from "@angular/material/dialog";
         FormsModule,
         MatSnackBarModule,
         MatButtonModule,
-        NgxMapboxGLModule.withConfig({ accessToken: environment.mapToken }),
+        NgxMapboxGLModule.withConfig({accessToken: environment.mapToken}),
         MatIconModule,
         MatButtonToggleModule,
         MatInputModule,
-        MatDialogModule
+        MatDialogModule,
+        MatCardModule
     ],
     providers: [
         GeocodingService,
