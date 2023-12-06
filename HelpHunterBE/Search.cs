@@ -1,0 +1,7 @@
+public class SearchCriteria
+{
+    public string Location { get; set; }
+    public decimal Price { get; set; }
+    public int Rating { get; set; }
+    public string CategoryOrServiceName { get; set; }
+}
