@@ -4,4 +4,5 @@ public class SearchCriteria
     public decimal Price { get; set; }
     public int Rating { get; set; }
     public string CategoryOrServiceName { get; set; }
+    public string OrderBy {get; set;}
 }

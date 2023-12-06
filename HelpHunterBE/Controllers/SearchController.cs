@@ -6,6 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Npgsql;
 
 namespace HelpHunterBE.Controllers
@@ -22,6 +23,7 @@ namespace HelpHunterBE.Controllers
         }
 
         [HttpPost("search")]
+        [Authorize]
         public IActionResult Search([FromBody] SearchCriteria criteria)
         {
             try
@@ -44,6 +46,9 @@ namespace HelpHunterBE.Controllers
 
                     if (!string.IsNullOrEmpty(criteria.CategoryOrServiceName))
                         sqlQuery += " AND category_or_service_name = @CategoryOrServiceName";
+
+                    if (!string.IsNullOrEmpty(criteria.OrderBy))
+                        sqlQuery += " ORDER BY @OrderBy";
 
                     Console.WriteLine(sqlQuery);
 
