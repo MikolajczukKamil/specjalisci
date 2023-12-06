@@ -2,13 +2,11 @@
 
 public record RegistrationModel
 {
-    public int user_id;
-    public string username;
-    public string email;
-    public string password;
-    public string full_name ;
-    public DateTime date_of_birth ;
-    public DateTime registration_date ;
-    public bool is_providing_services ;
-
+    public string username { get; init; }
+    public string email { get; init; }
+    public string password { get; init; }
+    public string full_name { get; init; }
+    public DateTime date_of_birth { get; init; }
+    public DateTime registration_date { get; init; }
+    public bool is_providing_services { get; init; }
 }

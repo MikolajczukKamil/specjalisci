@@ -23,11 +23,11 @@ public class RegistrationController : ControllerBase
         {
             if (!IsPasswordStrong(model))
             {
-                return (IActionResult)Results.BadRequest("weak password");
+                return BadRequest("weak password");
             }
             if(RegisterUserInDataBase(model))
             {
-                return (IActionResult)Results.Ok("Ok");
+                return Ok("Ok");
             }
             return StatusCode(500);
             
