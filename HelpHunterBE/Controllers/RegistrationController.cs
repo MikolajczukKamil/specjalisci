@@ -2,6 +2,7 @@
 using Easy_Password_Validator.Models;
 using Microsoft.AspNetCore.Mvc;
 using Npgsql;
+using System.Globalization;
 
 namespace HelpHunterBE.Controllers;
 
@@ -53,13 +54,16 @@ public class RegistrationController : ControllerBase
         {
             connection.Open();
             var commandString = "INSERT INTO users" +
-                " (username, email, password, full_name, date_of_birth, is_providing_services) " +
+                " (username, email, password, full_name, date_of_birth, is_providing_services," +
+                " location, location_coordinates_x , location_coordinates_y) " +
                 $"VALUES ('{registrationModel.username}','{registrationModel.email}','{registrationModel.password}'," +
                 $"'{registrationModel.full_name}','{registrationModel.date_of_birth}'," +
-                $"'{registrationModel.is_providing_services}')";
+                $"'{registrationModel.is_providing_services}', '{registrationModel.location}'," +
+                $"{registrationModel.location_coordinates_x.ToString(CultureInfo.InvariantCulture)}," +
+                $"{registrationModel.location_coordinates_y.ToString(CultureInfo.InvariantCulture)})";
             using (var command = new NpgsqlCommand(commandString, connection))
             {
-                return command.ExecuteScalar() == null ? false: true;
+                return command.ExecuteNonQuery() == 0 ? false : true;
             }
         }
     }

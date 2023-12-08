@@ -9,4 +9,7 @@ public record RegistrationModel
     public DateTime date_of_birth { get; init; }
     public DateTime registration_date { get; init; }
     public bool is_providing_services { get; init; }
+    public double location_coordinates_x { get; init; }
+    public double location_coordinates_y { get; init; }
+    public string location{ get; init; }
 }
