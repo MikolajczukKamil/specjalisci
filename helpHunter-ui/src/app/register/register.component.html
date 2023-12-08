@@ -26,7 +26,7 @@
                     align-items: center;
                     display: inline-flex;
                 ">
-                <button
+                <div
                     style="
                         width: 400px;
                         height: 44px;
@@ -42,7 +42,7 @@
                     "
                     (click)="navigateToHomePage()">
                     HelpHunter
-                </button>
+                </div>
             </div>
             <div
                 style="
@@ -266,42 +266,15 @@
                                         gap: 10px;
                                         display: inline-flex;
                                     ">
-                                    <img class="avatar_image" [src]="getImageUrls1()" />
-                                    <img class="avatar_image" [src]="getImageUrls2()" />
-                                    <img class="avatar_image" [src]="getImageUrls3()" />
-                                    <img class="avatar_image" [src]="getImageUrls4()" />
+                                    <img [ngClass]="{avatar_image_show: shouldShowImage1, avatar_image_hide: !shouldShowImage1}" [src]="getImageUrls1()"  (click)="choseImage1()" />
+                                    <img [ngClass]="{avatar_image_show: shouldShowImage2, avatar_image_hide: !shouldShowImage2}" [src]="getImageUrls2()"  (click)="choseImage2()" />
+                                    <img [ngClass]="{avatar_image_show: shouldShowImage3, avatar_image_hide: !shouldShowImage3}" [src]="getImageUrls3()"  (click)="choseImage3()" />
+                                    <img [ngClass]="{avatar_image_show: shouldShowImage4, avatar_image_hide: !shouldShowImage4}" [src]="getImageUrls4()"  (click)="choseImage4()" />
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <button class="button_zarejestruj" type="submit">
-                        <div
-                            style="
-                                width: 140px;
-                                align-self: stretch;
-                                padding-top: 11px;
-                                padding-bottom: 11px;
-                                justify-content: flex-start;
-                                align-items: center;
-                                gap: 8px;
-                                display: flex;
-                            ">
-                            <div
-                                style="
-                                    text-align: center;
-                                    color: white;
-                                    font-size: 14px;
-                                    font-family: Inter;
-                                    font-weight: 500;
-                                    text-transform: uppercase;
-                                    line-height: 36px;
-                                    letter-spacing: 1.25px;
-                                    white-space: nowrap;
-                                ">
-                                Zarejestruj się
-                            </div>
-                        </div>
-                    </button>
+                    <app-button [submit]="true" text="Zarejestruj się" style="width: 100%" />
                     <div
                         style="
                             align-self: stretch;

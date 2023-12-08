@@ -1,0 +1,53 @@
+name: .NET Backend CI/CD
+
+on:
+  push:
+    branches: [ "*" ]
+    paths:
+      - HelpHunterBE/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: HelpHunterBE
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-central-1
+      - name: Login to AWS ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+      - name: Build, tag, and push docker image to Amazon ECR Private
+        env:
+          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          REPOSITORY: sggw-backend
+          IMAGE_TAG: latest
+        run: |
+          aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 063846433154.dkr.ecr.eu-central-1.amazonaws.com/sggw-backend
+          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+
+  deploy:
+    needs: build
+    name: deploy image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: install ssh keys
+        run: |
+          install -m 600 -D /dev/null ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+      - name: connect and login to ECR
+        run: ssh -o StrictHostKeyChecking=no -p 1043 ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 063846433154.dkr.ecr.eu-central-1.amazonaws.com/sggw-backend"
+      - name: connect and pull
+        run: ssh -o StrictHostKeyChecking=no -p 1043 ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }}/HelpHunterBE/ && docker-compose stop && docker-compose rm -f && docker-compose pull && docker-compose up -d"
+      - name: cleanup ssh key
+        run: rm -rf ~/.ssh

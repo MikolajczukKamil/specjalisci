@@ -1,0 +1,7 @@
+<div class="main-container">
+    <app-navbar></app-navbar>
+    <div class="content" [ngStyle]="{ height: isSmallScreen ? 'calc(100% - 100px)' : 'calc(100% - 140px)' }">
+        <router-outlet></router-outlet>
+    </div>
+    <app-footbar></app-footbar>
+</div>

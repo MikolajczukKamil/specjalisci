@@ -1,10 +1,18 @@
-<div [ngStyle]="{'height': height + 'px', 'width': width + 'px'}">
-  <mgl-map
-    [style]="'mapbox://styles/mapbox/streets-v9'"
-    [zoom]="[zoom]"
-    [center]="[x, y]">
-    <mgl-layer id="circle" type="fill" [source]="circle" [paint]="{'fill-color': '#627BC1', 'fill-opacity': 0.3}"></mgl-layer>
-    <mgl-marker #marker [lngLat]="[x, y]" anchor="center"></mgl-marker>
-    <mgl-popup [marker]="marker">{{name}}</mgl-popup>
-  </mgl-map>
+<div class="map-container">
+    <mgl-map
+        [style]="'mapbox://styles/mapbox/streets-v9'"
+        [zoom]="[zoom]"
+        [center]="[center.x, center.y]"
+        (mapCreate)="mapCreated($event)"
+        (mapLoad)="mapLoaded($event)">
+        <span *ngFor="let currentMarker of markers; let i = index">
+          <mgl-layer
+              id="circle{{i}}"
+              type="fill"
+              [source]="{ type: 'geojson', data: createCircle(currentMarker.coordinates.x, currentMarker.coordinates.y)}"
+              [paint]="{ 'fill-color': '#627BC1', 'fill-opacity': 0.3 }"></mgl-layer>
+          <mgl-marker #marker [lngLat]="[currentMarker.coordinates.x, currentMarker.coordinates.y]" anchor="center"></mgl-marker>
+          <mgl-popup [closeButton]="false" [marker]="marker">{{currentMarker?.name}}</mgl-popup>
+        </span>
+    </mgl-map>
 </div>

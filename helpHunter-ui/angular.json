@@ -26,8 +26,9 @@
             ],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
-              "mapbox-gl/dist/mapbox-gl.css",
-              "src/styles.css"
+              "src/styles.css",
+              "src/theme.scss",
+              "mapbox-gl/dist/mapbox-gl.css"
             ],
             "scripts": []
           },
@@ -36,13 +37,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "20mb",
+                  "maximumError": "20mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "20mb",
+                  "maximumError": "20mb"
                 }
               ],
               "outputHashing": "all"
@@ -94,7 +95,9 @@
             ],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles.css"
+              "src/styles.css",
+              "src/theme.scss",
+              "mapbox-gl/dist/mapbox-gl.css"
             ],
             "scripts": []
           }

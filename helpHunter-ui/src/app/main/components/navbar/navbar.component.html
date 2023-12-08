@@ -1,0 +1,33 @@
+<div class="nav-bar">
+    <h1 class="logo">HelpHunter</h1>
+    <div class="nav-buttons">
+        <ng-container *ngIf="!isSmallScreen">
+            <div class="nav-links">
+                <a routerLinkActive="active" routerLink="/home" class="link">Strona główna</a>
+                <a routerLinkActive="active" routerLink="/chat" class="link">Wiadomości</a>
+                <a routerLinkActive="active" routerLink="/profile" class="link">Profil</a>
+            </div>
+            <app-button text="Wyloguj się" (click)="logout()" />
+        </ng-container>
+        <ng-container *ngIf="isSmallScreen">
+            <button *ngIf="!isMobileMenuOpen" mat-icon-button class="menu-button" (click)="isMobileMenuOpen = true">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <button *ngIf="isMobileMenuOpen" mat-icon-button class="menu-button" (click)="isMobileMenuOpen = false">
+                <mat-icon>close</mat-icon>
+            </button>
+        </ng-container>
+    </div>
+    <div *ngIf="isSmallScreen" class="menu-container" [ngClass]="{ open: isMobileMenuOpen }">
+        <div class="menu-content">
+            <div style="display: flex; flex-direction: column; justify-content: center; width: 80%">
+                <a routerLinkActive="active" routerLink="/home" class="link menu-link">Strona główna</a>
+                <hr class="divider" />
+                <a routerLinkActive="active" routerLink="/chat" class="link menu-link">Wiadomości</a>
+                <hr class="divider" />
+                <a routerLinkActive="active" routerLink="/profile" class="link menu-link">Profil</a>
+            </div>
+            <app-button text="Wyloguj się" (click)="logout()" style="width: 100%" />
+        </div>
+    </div>
+</div>
