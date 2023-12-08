@@ -49,17 +49,17 @@ public class RegistrationController : ControllerBase
 
     private bool RegisterUserInDataBase(RegistrationModel registrationModel)
     {
-        using (var connection = new NpgsqlConnection(_configuration.GetConnectionString("YourConnectionString")))
+        using (var connection = new NpgsqlConnection(_configuration.GetConnectionString("Postgres")))
         {
             connection.Open();
-            var commandString = "INSERT INTO Users" +
-                " (username, email, password, full_name, date_of_birth, registration_date) " +
-                $"VALUES ('{registrationModel.username}','{registrationModel.email}','{registrationModel.password}," +
-                $"'{registrationModel.full_name}','{registrationModel.date_of_birth}','{registrationModel.registration_date}'," +
+            var commandString = "INSERT INTO users" +
+                " (username, email, password, full_name, date_of_birth, is_providing_services) " +
+                $"VALUES ('{registrationModel.username}','{registrationModel.email}','{registrationModel.password}'," +
+                $"'{registrationModel.full_name}','{registrationModel.date_of_birth}'," +
                 $"'{registrationModel.is_providing_services}')";
             using (var command = new NpgsqlCommand(commandString, connection))
             {
-                return (bool)command.ExecuteScalar();
+                return command.ExecuteScalar() == null ? false: true;
             }
         }
     }
