@@ -11,7 +11,7 @@ public class ServiceInfo
     public int Rating { get; set; }
     public string FullName { get; set; }
     public string Location { get; set; }
-    public decimal? LocationCoordinatesX { get; set; }
-    public decimal? LocationCoordinatesY { get; set; }
+    public float? LocationCoordinatesX { get; set; }
+    public float? LocationCoordinatesY { get; set; }
     public double? Distance { get; set; }
 }

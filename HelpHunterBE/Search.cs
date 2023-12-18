@@ -6,8 +6,8 @@ public class SearchCriteria
     public string CategoryOrServiceName { get; set; }
     public decimal RatingMax { get; set; }
     public decimal RatingMin { get; set; }
-    public decimal UserCoordinateX { get; set; }
-    public decimal UserCoordinateY { get; set; }
+    public float UserCoordinateX { get; set; }
+    public float UserCoordinateY { get; set; }
 
     
 
