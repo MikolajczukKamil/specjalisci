@@ -1,0 +1,18 @@
+<div class="map-container">
+    <mgl-map
+        [style]="'mapbox://styles/mapbox/streets-v9'"
+        [zoom]="[4]"
+        [center]="[19.24, 52.011]"
+        (mapCreate)="mapCreated($event)"
+        (mapLoad)="mapLoaded($event)"
+        (move)="onMapDrag($event)"
+        (mapDragEnd)="onMapDragEnd($event)">
+        <mgl-marker [lngLat]="markerCoordinates"></mgl-marker>
+        <mgl-control *ngIf="markerCoordinates" position="bottom-left">
+            <div>
+                <div>Longitude:&nbsp;{{ markerCoordinates[0] }}</div>
+                <div>Latitude:&nbsp;{{ markerCoordinates[1] }}</div>
+            </div>
+        </mgl-control>
+    </mgl-map>
+</div>
