@@ -18,6 +18,12 @@ export class GeocodingService {
                 this.token
         );
     }
+
+    getReverseGeocoding(x: number, y: number): Observable<Geocoding> {
+        return this.client.get<Geocoding>(
+            this.url + encodeURIComponent(x + ',' + y) + '.json?language=pl&types=address&access_token=' + this.token
+        );
+    }
 }
 
 export interface Geocoding {
