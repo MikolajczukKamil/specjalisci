@@ -21,7 +21,7 @@ namespace HelpHunterBE.Logic
             {
                 connection.Open();
 
-                string query = "SELECT * FROM users WHERE id = @userId";
+                string query = "SELECT * FROM users WHERE user_id = @userId";
 
                 using (var command = new NpgsqlCommand(query, connection))
                 {
@@ -39,8 +39,8 @@ namespace HelpHunterBE.Logic
                             user.Birthdate = reader.GetDateTime(5);
                             user.IsProvidingServices = reader.GetBoolean(6);
                             user.Location = reader.GetString(7);
-                            user.Latitude = reader.GetFloat(7);
-                            user.Longitude = reader.GetFloat(7);
+                            user.Latitude = reader.GetDecimal(8);
+                            user.Longitude = reader.GetDecimal(9);
                         }
                     }
                 }
@@ -57,7 +57,7 @@ namespace HelpHunterBE.Logic
                 {
                     connection.Open();
 
-                    string query = "UPDATE users SET username = @Username, email = @Email, password = @Password, fullname = @Fullname, birthdate = @Birthdate, is_providing_services = @IsProvidingServices, location = @Location, latitude = @Latitude, longitude = @Longitude WHERE id = @Id";
+                    string query = "UPDATE users SET username = @Username, email = @Email, password = @Password, full_name = @Fullname, date_of_birth = @Birthdate, is_providing_services = @IsProvidingServices, location = @Location, location_coordinates_x = @Latitude, location_coordinates_y = @Longitude WHERE user_id = @Id";
 
                     using (var command = new NpgsqlCommand(query, connection))
                     {

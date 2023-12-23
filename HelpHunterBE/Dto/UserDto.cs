@@ -15,7 +15,7 @@
         public DateTime Birthdate { get; set; }
         public bool IsProvidingServices { get; set; }
         public string Location { get; set; }
-        public float Latitude { get; set; }
-        public float Longitude { get; set; }
+        public decimal Latitude { get; set; }
+        public decimal Longitude { get; set; }
     }
 }

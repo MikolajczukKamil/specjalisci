@@ -9,7 +9,8 @@ namespace HelpHunterBE.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Test")]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Test")]
+    [AllowAnonymous]
     public class UserController : Controller
     {
         private readonly IUserLogic _userLogic;
