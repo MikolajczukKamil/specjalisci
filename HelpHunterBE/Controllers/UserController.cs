@@ -8,9 +8,8 @@ using System.Net;
 namespace HelpHunterBE.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Test")]
-    [AllowAnonymous]
+    [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Test")]
     public class UserController : Controller
     {
         private readonly IUserLogic _userLogic;
