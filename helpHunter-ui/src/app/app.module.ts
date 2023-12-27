@@ -26,6 +26,10 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatInputModule } from '@angular/material/input';
 import { FiltersComponent } from './home/filters/filters.component';
 import { MatDialogModule } from "@angular/material/dialog";
+import { ServiceOrderingComponent } from './service-ordering/service-ordering.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @NgModule({
     declarations: [
@@ -40,6 +44,7 @@ import { MatDialogModule } from "@angular/material/dialog";
         MainComponent,
         FootbarComponent,
         FiltersComponent,
+        ServiceOrderingComponent,
     ],
     imports: [
         BrowserModule,
@@ -55,7 +60,10 @@ import { MatDialogModule } from "@angular/material/dialog";
         MatIconModule,
         MatButtonToggleModule,
         MatInputModule,
-        MatDialogModule
+        MatDialogModule,
+        MatFormFieldModule, 
+        MatDatepickerModule, 
+        MatNativeDateModule
     ],
     providers: [
         GeocodingService,

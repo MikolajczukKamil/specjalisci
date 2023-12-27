@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { authGuard } from './guards/auth/auth.guard';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { MainComponent } from './main/main.component';
+import { ServiceOrderingComponent } from './service-ordering/service-ordering.component';
 
 const routes: Routes = [
     {
@@ -19,6 +20,7 @@ const routes: Routes = [
     },
     { path: 'register', component: RegisterComponent },
     { path: 'login', component: LoginComponent },
+    { path: 'service-ordering', component: ServiceOrderingComponent },
     { path: '**', component: PageNotFoundComponent },
 ];
 
