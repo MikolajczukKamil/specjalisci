@@ -27,7 +27,7 @@ public class RegistrationController : ControllerBase
             {
                 return BadRequest("weak password");
             }
-            if(RegisterUserInDataBase(model))
+            if(AddUserEntryInDatabase(model))
             {
                 return Ok("Ok");
             }
@@ -49,12 +49,21 @@ public class RegistrationController : ControllerBase
         );
     }
 
-    private bool RegisterUserInDataBase(RegistrationModel registrationModel)
+    private bool AddUserEntryInDatabase(RegistrationModel registrationModel)
     {
         using (var connection = new NpgsqlConnection(_configuration.GetConnectionString("Postgres")))
         {
             connection.Open();
-            var commandString = "INSERT INTO users" +
+            using (var command = new NpgsqlCommand(CreateUserDataBaseRegistrationSqlCommandString(registrationModel), connection))
+            {
+                return command.ExecuteNonQuery() == 0 ? false : true;
+            }
+        }
+    }
+
+    private string CreateUserDataBaseRegistrationSqlCommandString(RegistrationModel registrationModel)
+    {
+        return "INSERT INTO users" +
                 " (username, email, password, full_name, date_of_birth, is_providing_services," +
                 " location, location_coordinates_x , location_coordinates_y) " +
                 $"VALUES ('{registrationModel.username}','{registrationModel.email}','{registrationModel.password}'," +
@@ -62,10 +71,5 @@ public class RegistrationController : ControllerBase
                 $"'{registrationModel.is_providing_services}', '{registrationModel.location}'," +
                 $"{registrationModel.location_coordinates_x.ToString(CultureInfo.InvariantCulture)}," +
                 $"{registrationModel.location_coordinates_y.ToString(CultureInfo.InvariantCulture)})";
-            using (var command = new NpgsqlCommand(commandString, connection))
-            {
-                return command.ExecuteNonQuery() == 0 ? false : true;
-            }
-        }
     }
 }
