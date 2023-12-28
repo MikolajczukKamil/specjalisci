@@ -1,7 +1,11 @@
+
+using Easy_Password_Validator.Models;
+using Easy_Password_Validator;
 using HelpHunterBE;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.json");
@@ -13,6 +17,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddTransient(service => new PasswordValidatorService(new PasswordRequirements()));
 var jwtConfig = builder.Configuration
     .GetSection("Jwt")
     .Get<JwtConfig>()!;
