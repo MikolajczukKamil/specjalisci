@@ -2,6 +2,7 @@
 using Easy_Password_Validator.Models;
 using Easy_Password_Validator;
 using HelpHunterBE;
+using HelpHunterBE.Logic;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -13,6 +14,7 @@ builder.Configuration.AddJsonFile("appsettings.json");
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddScoped<SearchLogic>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

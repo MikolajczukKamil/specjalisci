@@ -34,7 +34,7 @@ namespace HelpHunterBE.Controllers
         }
 
         [HttpGet("testRole")]
-        [AllowAnonymous]
+        [Authorize]
         public string TestRole()
         {
             var auth = HttpContext.User.IsInRole("Test");
