@@ -1,4 +1,4 @@
-﻿namespace HelpHunterBE;
+﻿namespace HelpHunterBE.Models;
 
 public record RegistrationModel
 {
@@ -11,5 +11,5 @@ public record RegistrationModel
     public bool is_providing_services { get; init; }
     public double location_coordinates_x { get; init; }
     public double location_coordinates_y { get; init; }
-    public string location{ get; init; }
+    public string location { get; init; }
 }

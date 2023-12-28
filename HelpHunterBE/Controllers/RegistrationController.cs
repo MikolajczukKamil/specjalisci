@@ -1,5 +1,6 @@
 ﻿using Easy_Password_Validator;
 using Easy_Password_Validator.Models;
+using HelpHunterBE.Models;
 using Microsoft.AspNetCore.Mvc;
 using Npgsql;
 using System.Globalization;
