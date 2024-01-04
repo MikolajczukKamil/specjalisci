@@ -3,23 +3,91 @@
     <div class="header">Mój profil</div>
   </mat-card-header>
   <mat-card-content fxLayoutAlign="space-between center" fxLayoutGap="20px" class="py-4">
-    <ng-container *ngFor="let list of list">
-      <mat-card-content style="display: flex">
-        <div class="list-item start-list">
-          <p>{{list.title}}</p>
-          <p style="color: lightgray"><small>{{list.subtitle}}</small></p>
-        </div>
-        <div class="list-item end-list">
-          <button *ngIf="list.title == 'Dane kontaktowe'" class="button">Edytuj</button>
-          <img *ngIf="list.title == 'Twój avatar'; else elseblock" src="{{list.data}}" class="image"/>
-          <button *ngIf="list.title == 'Tryb specjalisty'">Wyloguj się</button>
-          <button *ngIf="list.title == 'Tryb pracy'" class="button">Stacjonarny</button>
-          <button *ngIf="list.title == 'Tryb pracy'" class="button">Dojazdowy</button>
-          <ng-template #elseblock class="list-item end-list">
-            <p>{{list.data}}</p>
-          </ng-template>
-        </div>
-      </mat-card-content>
-    </ng-container>
+    <mat-card-content class="list-item" style="display: flex; margin: auto">
+      <div class="start-list">
+        <p>Dane kontaktowe
+          <br><small style="color: gray">Zaktualizuj swoje zdjęcie i data osobwe.</small></p>
+      </div>
+      <div class="end-list" style="text-align: right">
+        <app-button *ngIf="!isEdit" text="Edytuj" (click)="editData()"/>
+        <app-button *ngIf="isEdit" type="stroked" text="Anuluj" style="margin-right: 5px; border: 2px black"
+                    (click)="cancel()"/>
+        <app-button *ngIf="isEdit" text="Zapisz" (click)="save()"/>
+      </div>
+    </mat-card-content>
+    <mat-card-content class="list-item" style="display: flex; margin: auto">
+      <div class="start-list">
+        <p>Imię i nazwisko</p>
+      </div>
+      <div class="end-list">
+        <p *ngIf="!isEdit">{{user?.FIRST_NAME}} {{user?.LAST_NAME}}</p>
+        <input *ngIf="isEdit" value={{user?.FIRST_NAME}} class="input">
+        <input *ngIf="isEdit" value={{user?.LAST_NAME}} class="input">
+      </div>
+    </mat-card-content>
+    <mat-card-content class="list-item" style="display: flex; margin: auto">
+      <div class="start-list">
+        <p>Telefon</p>
+      </div>
+      <div class="end-list">
+        <p *ngIf="!isEdit">{{user?.PHONE_NUMBER}}</p>
+        <input *ngIf="isEdit" value={{user?.PHONE_NUMBER}} class="input">
+      </div>
+    </mat-card-content>
+    <mat-card-content class="list-item" style="display: flex; margin: auto">
+      <div class="start-list">
+        <p>Email</p>
+      </div>
+      <div class="end-list">
+        <p *ngIf="!isEdit">{{user?.EMAIL}}</p>
+        <input *ngIf="isEdit" value={{user?.EMAIL}} class="input">
+      </div>
+    </mat-card-content>
+    <mat-card-content class="list-item" style="display: flex; margin: auto">
+      <div class="start-list">
+        <p>Twój avatar
+          <br><small style="color: gray">Będzie to widoczne na Twoim profilu.</small></p>
+      </div>
+      <div class="end-list">
+        <img src="{{user?.AVATAR}}" class="image"/>
+      </div>
+    </mat-card-content>
+    <mat-card-content class="list-item" style="display: flex; margin: auto">
+      <div class="start-list">
+        <p>Adres</p>
+      </div>
+      <div class="end-list">
+        <p *ngIf="!isEdit">{{user?.ADDRESS}}</p>
+        <input *ngIf="isEdit" value={{user?.ADDRESS}} class="input">
+      </div>
+    </mat-card-content>
+    <mat-card-content class="list-item" style="display: flex; margin: auto">
+      <div class="start-list">
+        <p>Tryb specjalisty</p>
+      </div>
+      <div class="end-list expert">
+          <div *ngIf="user?.EXPERT" class="expert-true" style="border-bottom-right-radius: 0; border-top-right-radius: 0">Włączony</div>
+          <div *ngIf="!user?.EXPERT" class="expert-false" style="border-bottom-right-radius: 0; border-top-right-radius: 0">Włączony</div>
+          <div *ngIf="!user?.EXPERT" class="expert-true" style="border-bottom-left-radius: 0; border-top-left-radius: 0">Wyłączony</div>
+          <div *ngIf="user?.EXPERT" class="expert-false" style="border-bottom-left-radius: 0; border-top-left-radius: 0">Wyłączony</div>
+      </div>
+    </mat-card-content>
+    <mat-card-content *ngIf="user?.EXPERT" class="list-item" style="display: flex; margin: auto">
+      <div class="start-list">
+        <p>O firmie</p>
+      </div>
+      <div class="end-list">
+        <p *ngIf="!isEdit">{{user?.ADDITIONAL_INFO}}</p>
+        <input *ngIf="isEdit" value={{user?.ADDITIONAL_INFO}} class="input">
+      </div>
+    </mat-card-content>
+    <mat-card-content *ngIf="user?.EXPERT" class="list-item" style="display: flex; margin: auto">
+      <div class="start-list">
+        <p>List usług</p>
+      </div>
+      <div class="end-list">
+        <p>{{user?.SERVICES}}</p>
+      </div>
+    </mat-card-content>
   </mat-card-content>
 </mat-card>
