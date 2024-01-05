@@ -43,8 +43,6 @@ import {MatCardModule} from "@angular/material/card";
         MainComponent,
         FootbarComponent,
         FiltersComponent,
-        ProfileComponent,
-        MapSelectLocationComponent,
     ],
     imports: [
         BrowserModule,
