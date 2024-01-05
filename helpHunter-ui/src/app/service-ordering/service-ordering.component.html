@@ -14,9 +14,9 @@
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-date-range-picker #picker></mat-date-range-picker>
     </mat-form-field>
-    <mat-form-field style="width: 100%; height: 200px" >
+    <mat-form-field style="width: 100%" >
       <mat-label>Opis</mat-label>
-      <textarea matInput id="description" formControlName="description"></textarea>
+      <textarea matInput id="description" style="height: 150px" formControlName="description"></textarea>
     </mat-form-field>
     <div class="button-container" style="align-self: center;">
       <button class="button-exit" (click)="closeModal()">Wróć</button>

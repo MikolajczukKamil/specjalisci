@@ -20,7 +20,6 @@ const routes: Routes = [
     },
     { path: 'register', component: RegisterComponent },
     { path: 'login', component: LoginComponent },
-    { path: 'service-ordering', component: ServiceOrderingComponent },
     { path: '**', component: PageNotFoundComponent },
 ];
 
