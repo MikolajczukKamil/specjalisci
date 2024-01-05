@@ -8,7 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MapLocalisationComponent } from './map/map-localisation/map-localisation.component';
-import { NgxMapboxGLModule } from 'ngx-mapbox-gl';
+import { MapService, NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { GeocodingService } from './map/map-localisation/geocoding.service';
 import { MatButtonModule } from '@angular/material/button';
 import { environment } from '../environments/environment.local';
@@ -25,7 +25,8 @@ import { FootbarComponent } from './main/components/footbar/footbar.component';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatInputModule } from '@angular/material/input';
 import { FiltersComponent } from './home/filters/filters.component';
-import { MatDialogModule } from "@angular/material/dialog";
+import { MatDialogModule } from '@angular/material/dialog';
+import { MapSelectLocationComponent } from './map/map-select-location/map-select-location.component';
 import { ProfileComponent } from './profile/profile.component';
 import {MatCardModule} from "@angular/material/card";
 
@@ -43,6 +44,7 @@ import {MatCardModule} from "@angular/material/card";
         FootbarComponent,
         FiltersComponent,
         ProfileComponent,
+        MapSelectLocationComponent,
     ],
     imports: [
         BrowserModule,
@@ -64,6 +66,7 @@ import {MatCardModule} from "@angular/material/card";
     providers: [
         GeocodingService,
         HttpClient,
+        MapService,
         { provide: HTTP_INTERCEPTORS, useClass: GeneralInterceptor, multi: true },
     ],
     bootstrap: [AppComponent],

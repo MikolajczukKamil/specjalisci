@@ -51,7 +51,8 @@
             *ngIf="isMapVisited || navigationMode === 'map' || !isSmallScreen"
             [hidden]="navigationMode !== 'map' && isSmallScreen"
             class="content">
-            <app-map-localisation></app-map-localisation>
+            <!--            <app-map-localisation></app-map-localisation>-->
+            <app-map-select-location></app-map-select-location>
         </div>
         <div [hidden]="navigationMode !== 'filters'" class="content">
             <div class="filters-container"></div>
