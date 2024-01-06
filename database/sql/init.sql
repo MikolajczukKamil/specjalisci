@@ -10,7 +10,7 @@ CREATE TABLE Users (
     location VARCHAR(255),
     location_coordinates_x DECIMAL(10, 6),
     location_coordinates_y DECIMAL(10, 6),
-    avatar VARCHAR(50),
+    avatar INT,
     phone_number VARCHAR(15),
     description VARCHAR(1000)
 );
