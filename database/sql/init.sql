@@ -175,7 +175,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Funkcja do haszowania przy rejestracji
-CREATE OR REPLACE FUNCTION register(p_full_name VARCHAR, p_location VARCHAR, p_phone_number VARCHAR, p_email VARCHAR, p_password VARCHAR, p_avatar VARCHAR)
+CREATE OR REPLACE FUNCTION register(p_full_name VARCHAR, p_phone_number VARCHAR, p_email VARCHAR, p_password VARCHAR, p_avatar VARCHAR)
 RETURNS BOOLEAN AS $$
 DECLARE
     email_exists BOOLEAN;
@@ -189,8 +189,8 @@ BEGIN
         -- Zaszyfrowanie hasła za pomocą MD5
         p_password := crypt(p_password, gen_salt('md5'));
 	-- Wstawienie danych użytkownika do tabeli
-        INSERT INTO Users (username, full_name, location, phone_number, email, password, avatar)
-        VALUES (p_email, p_full_name, p_location, p_phone_number, p_email, p_password, p_avatar);
+        INSERT INTO Users (username, full_name, phone_number, email, password, avatar)
+        VALUES (p_email, p_full_name, p_phone_number, p_email, p_password, p_avatar);
 
         -- Zwracamy true, jeśli użytkownik został pomyślnie zarejestrowany
         RETURN TRUE;

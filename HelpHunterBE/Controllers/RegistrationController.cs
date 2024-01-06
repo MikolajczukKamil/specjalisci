@@ -73,7 +73,6 @@ public class RegistrationController : ControllerBase
     {
         return "SELECT register(" +
     $"'{registrationModel.full_name}', " +
-    $"'{registrationModel.location}', " +
     $"'{registrationModel.phone_number}', " +
     $"'{registrationModel.email}', " +
     $"'{registrationModel.password}', " +
