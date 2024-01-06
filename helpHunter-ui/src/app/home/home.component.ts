@@ -5,6 +5,7 @@ import { DeviceSizeService } from '../services/deviceSize/device-size.service';
 import { Subject, takeUntil } from 'rxjs';
 import {FiltersComponent} from "./filters/filters.component";
 import {MatDialog} from "@angular/material/dialog";
+import { ServiceOrderingComponent } from '../service-ordering/service-ordering.component';
 
 type NavigationMode = 'list' | 'map' | 'filters';
 
@@ -51,4 +52,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   openFilters() {
         this.dialog.open(FiltersComponent, { width: '500px', height: '500px' });
   }
+
+  openServiceButton() {
+    this.dialog.open(ServiceOrderingComponent, { width: '460px', height: '780px' });
+}
 }

@@ -1,0 +1,27 @@
+<form [formGroup]="OrderingServiceForm" (ngSubmit)="orderSubmit()">
+  <div class="form-container">
+    <div class="title">
+      <h1>Formularz zamawiania usługi</h1>
+      <mat-icon class="close" (click)="closeModal()">close</mat-icon>
+    </div>
+    <mat-form-field style="width: 100%; padding-bottom: 350px;">
+      <mat-label>Wybierz okres</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate placeholder="Start date" id="dateFrom" formControlName="dateFrom">
+        <input matEndDate placeholder="End date" id="dateTo" formControlName="dateTo">
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+    <mat-form-field style="width: 100%" >
+      <mat-label>Opis</mat-label>
+      <textarea matInput id="description" style="height: 150px" formControlName="description"></textarea>
+    </mat-form-field>
+    <div class="button-container" style="align-self: center;">
+      <button class="button-exit" (click)="closeModal()">Wróć</button>
+      <button type="submit" class="button-submit">Wyślij</button>
+
+    </div>
+  </div>
+</form>
