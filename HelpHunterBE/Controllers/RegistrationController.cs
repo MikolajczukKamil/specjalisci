@@ -31,8 +31,8 @@ public class RegistrationController : ControllerBase
             {
                 return Ok("Ok");
             }
-            return StatusCode(500);
-            
+            return StatusCode(409, "Email in use");
+
         }
         catch (Exception ex)
         {
@@ -45,7 +45,7 @@ public class RegistrationController : ControllerBase
     {
         var passwordValidator = new PasswordValidatorService(new PasswordRequirements());
         return passwordValidator.TestAndScore(
-            registrationModel.password, new string[] { registrationModel.username }
+            registrationModel.password, new string[] { registrationModel.email }
         );
     }
 
@@ -56,20 +56,29 @@ public class RegistrationController : ControllerBase
             connection.Open();
             using (var command = new NpgsqlCommand(CreateUserDataBaseRegistrationSqlCommandString(registrationModel), connection))
             {
-                return command.ExecuteNonQuery() == 0 ? false : true;
+                var result = command.ExecuteScalar();
+                if (result != null && result != DBNull.Value)
+                    {
+                        return (bool)result;
+                    }
+                    else
+                    {
+                        return false;
+                    }
             }
         }
     }
 
     private string CreateUserDataBaseRegistrationSqlCommandString(RegistrationModel registrationModel)
     {
-        return "INSERT INTO users" +
-                " (username, email, password, full_name, date_of_birth, is_providing_services," +
-                " location, location_coordinates_x , location_coordinates_y) " +
-                $"VALUES ('{registrationModel.username}','{registrationModel.email}','{registrationModel.password}'," +
-                $"'{registrationModel.full_name}','{registrationModel.date_of_birth}'," +
-                $"'{registrationModel.is_providing_services}', '{registrationModel.location}'," +
-                $"{registrationModel.location_coordinates_x.ToString(CultureInfo.InvariantCulture)}," +
-                $"{registrationModel.location_coordinates_y.ToString(CultureInfo.InvariantCulture)})";
+        return "SELECT register(" +
+    $"'{registrationModel.full_name}', " +
+    $"'{registrationModel.location}', " +
+    $"'{registrationModel.phone_number}', " +
+    $"'{registrationModel.email}', " +
+    $"'{registrationModel.password}', " +
+    $"'{registrationModel.avatar}'" +
+    ");";
+
     }
 }
