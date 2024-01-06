@@ -27,6 +27,7 @@ export class RegisterComponent implements OnInit {
     imageUrls3: string = '';
     imageUrls4: string = '';
     chosenImage:string = '';
+    full_name:  string = '';
 
     registerForm = new FormGroup({
         firstName: new FormControl<string>('', {
@@ -83,6 +84,7 @@ export class RegisterComponent implements OnInit {
 
     registerSubmit() {
         if (this.registerForm.valid && this.chosenImage.length > 0) {
+            this.full_name = this.registerForm.get('firstName')?.value + ' ' + this.registerForm.get('lastName')?.value;            
             this.navigateToLogin();
 
         } else {
