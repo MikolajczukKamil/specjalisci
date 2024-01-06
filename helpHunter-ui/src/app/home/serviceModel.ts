@@ -9,8 +9,8 @@ export class ServicesService {
 
   constructor(private client: HttpClient) {}
 
-  getServices(filters: ServiceFilters): Observable<ServicesService[]> {
-    return this.client.post<ServicesService[]>(this.url, filters);
+  getServices(filters: ServiceFilters): Observable<ServiceModel[]> {
+    return this.client.post<ServiceModel[]>(this.url, filters);
   }
 }
 
@@ -25,7 +25,7 @@ export interface ServiceFilters {
   UserCoordinateY: number
 }
 
-export interface ServicesService {
+export interface ServiceModel {
   ServiceId : string,
   ServiceName : string,
   MaxPrice : number,

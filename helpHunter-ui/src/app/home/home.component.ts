@@ -6,7 +6,7 @@ import { Subject, takeUntil } from 'rxjs';
 import {FiltersComponent} from "./filters/filters.component";
 import {MatDialog} from "@angular/material/dialog";
 import { ServiceOrderingComponent } from '../service-ordering/service-ordering.component';
-import {ServiceFilters, ServicesService} from "./services.service";
+import {ServiceFilters, ServiceModel, ServicesService} from "./serviceModel";
 
 type NavigationMode = 'list' | 'map' | 'filters';
 
