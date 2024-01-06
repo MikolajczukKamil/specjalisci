@@ -2,7 +2,7 @@
 CREATE TABLE Users (
     user_id SERIAL PRIMARY KEY,
     username VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     full_name VARCHAR(100) NOT NULL,
     date_of_birth DATE,
@@ -37,6 +37,12 @@ CREATE TABLE Available_Services (
     availability VARCHAR(100),
     range DECIMAL(10, 2),
     operating_mode VARCHAR(50)
+);
+
+CREATE TABLE Ratings (
+    rating_id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES Users(user_id) NOT NULL,
+    rating INTEGER CHECK (rating BETWEEN 1 AND 5) NOT NULL
 );
 
 
@@ -125,7 +131,27 @@ VALUES
     (19, 19, 2, 'Zabezpieczanie systemów przed zagrożeniami cybernetycznymi', 250.00, 180.00, 'Elastyczne', 40.00, 'Stacjonarne'),
     (20, 20, 4, 'Rozwinięte rozwiązania e-commerce i sklepy internetowe', 200.00, 150.00, 'Poniedziałek-Piątek', 30.00, 'Mobilne');
 
-
+INSERT INTO Ratings (user_id, rating) VALUES
+    (1, 4),
+    (2, 2),
+    (3, 5),
+    (4, 1),
+    (5, 3),
+    (6, 5),
+    (7, 2),
+    (8, 4),
+    (9, 3),
+    (10, 1),
+    (11, 4),
+    (12, 2),
+    (13, 5),
+    (14, 1),
+    (15, 3),
+    (16, 5),
+    (17, 2),
+    (18, 4),
+    (19, 3),
+    (20, 1);
 
 
 -- Instalacja rozszerzenia pgcrypto (jeśli jeszcze nie zainstalowane)
