@@ -17,5 +17,8 @@
         public string Location { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
+        public int Avatar { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Description {  get; set; }
     }
 }

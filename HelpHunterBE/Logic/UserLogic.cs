@@ -41,6 +41,9 @@ namespace HelpHunterBE.Logic
                             user.Location = reader.GetString(7);
                             user.Latitude = reader.GetDecimal(8);
                             user.Longitude = reader.GetDecimal(9);
+                            user.Avatar = reader.GetInt32(10);
+                            user.PhoneNumber = reader.GetString(11);
+                            user.Description = reader.GetString(12);
                         }
                     }
                 }
@@ -57,7 +60,7 @@ namespace HelpHunterBE.Logic
                 {
                     connection.Open();
 
-                    string query = "UPDATE users SET username = @Username, email = @Email, password = @Password, full_name = @Fullname, date_of_birth = @Birthdate, is_providing_services = @IsProvidingServices, location = @Location, location_coordinates_x = @Latitude, location_coordinates_y = @Longitude WHERE user_id = @Id";
+                    string query = "UPDATE users SET username = @Username, email = @Email, password = @Password, full_name = @Fullname, date_of_birth = @Birthdate, is_providing_services = @IsProvidingServices, location = @Location, location_coordinates_x = @Latitude, location_coordinates_y = @Longitude, avatar = @Avatar, phone_number = @PhoneNumber, description = @Description WHERE user_id = @Id";
 
                     using (var command = new NpgsqlCommand(query, connection))
                     {
@@ -71,6 +74,9 @@ namespace HelpHunterBE.Logic
                         command.Parameters.AddWithValue("@Location", userDto.Location);
                         command.Parameters.AddWithValue("@Latitude", userDto.Latitude);
                         command.Parameters.AddWithValue("@Longitude", userDto.Longitude);
+                        command.Parameters.AddWithValue("@Avatar", userDto.Avatar);
+                        command.Parameters.AddWithValue("@PhoneNumber", userDto.PhoneNumber);
+                        command.Parameters.AddWithValue("@Description", userDto.Description);
 
                         command.ExecuteNonQuery();
                     }
