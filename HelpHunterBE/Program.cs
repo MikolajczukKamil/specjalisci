@@ -43,6 +43,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+builder.Services.AddScoped<IUserLogic, UserLogic>();
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
