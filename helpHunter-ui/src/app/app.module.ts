@@ -68,7 +68,7 @@ import {MatCardModule} from "@angular/material/card";
         MatDialogModule,
         MatFormFieldModule, 
         MatDatepickerModule, 
-        MatNativeDateModule
+        MatNativeDateModule,
         MatCardModule
     ],
     providers: [
