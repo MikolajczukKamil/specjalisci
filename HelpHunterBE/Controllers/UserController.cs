@@ -19,7 +19,7 @@ namespace HelpHunterBE.Controllers
             _userLogic = userLogic;
         }
 
-        [HttpGet]
+        [HttpGet("{userId}")]
         public UserDto GetUserData(int userId)
         {
             return _userLogic.GetUserData(userId);
@@ -28,8 +28,7 @@ namespace HelpHunterBE.Controllers
         [HttpPut]
         public HttpStatusCode UpdateUser(UserDto userDto)
         {
-            _userLogic.UpdateUser(userDto);
-            return HttpStatusCode.OK;
+            return _userLogic.UpdateUser(userDto);
         }
     }
 }
