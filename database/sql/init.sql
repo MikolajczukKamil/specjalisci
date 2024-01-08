@@ -9,7 +9,10 @@ CREATE TABLE Users (
     is_providing_services BOOLEAN,
     location VARCHAR(255),
     location_coordinates_x DECIMAL(10, 6),
-    location_coordinates_y DECIMAL(10, 6)
+    location_coordinates_y DECIMAL(10, 6),
+    avatar INT,
+    phone_number VARCHAR(15),
+    description VARCHAR(1000)
 );
 
 -- Tworzenie tabeli Categories
@@ -168,5 +171,29 @@ BEGIN
 
     -- Verify the input password against the stored hash using pgcrypto
     RETURN crypt(p_input_password, stored_password_hash) = stored_password_hash;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Funkcja do haszowania przy rejestracji
+CREATE OR REPLACE FUNCTION register(p_full_name VARCHAR, p_phone_number VARCHAR, p_email VARCHAR, p_password VARCHAR, p_avatar VARCHAR)
+RETURNS BOOLEAN AS $$
+DECLARE
+    email_exists BOOLEAN;
+BEGIN
+    -- Sprawdzenie, czy podany email jest już zajęty
+    SELECT EXISTS (SELECT 1 FROM Users WHERE email = p_email) INTO email_exists;
+    -- Jeśli email już istnieje, zwracamy false
+    IF email_exists THEN
+        RETURN FALSE;
+    ELSE
+        -- Zaszyfrowanie hasła za pomocą MD5
+        p_password := crypt(p_password, gen_salt('md5'));
+	-- Wstawienie danych użytkownika do tabeli
+        INSERT INTO Users (username, full_name, phone_number, email, password, avatar)
+        VALUES (p_email, p_full_name, p_phone_number, p_email, p_password, p_avatar);
+
+        -- Zwracamy true, jeśli użytkownik został pomyślnie zarejestrowany
+        RETURN TRUE;
+    END IF;
 END;
 $$ LANGUAGE plpgsql;
