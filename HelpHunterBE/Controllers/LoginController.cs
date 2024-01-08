@@ -57,8 +57,8 @@ namespace HelpHunterBE.Controllers
             }
         }
         private string GenerateJwtToken(string username)
-        {
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+        {   string signingKey = Environment.GetEnvironmentVariable("JWT_KEY");
+            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signingKey));
             var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
             var claims = new[]
             {
