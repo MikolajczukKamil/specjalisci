@@ -12,11 +12,11 @@ namespace HelpHunterBE.Controllers
 {
     [Route("api")]
     [ApiController]
-    public class OrderController : ControllerBase
+    public class LoginController : ControllerBase
     {
         private readonly IConfiguration _configuration;
 
-        public OrderController(IConfiguration configuration)
+        public LoginController(IConfiguration configuration)
         {
             _configuration = configuration;
         }

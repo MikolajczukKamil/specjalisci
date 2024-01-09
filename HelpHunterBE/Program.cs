@@ -1,4 +1,5 @@
 using HelpHunterBE;
+using HelpHunterBE.Logic;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -35,6 +36,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(signingKey)
         };
     });
+builder.Services.AddScoped<IOrderLogic, OrderLogic>();
 
 builder.Services.AddCors(options =>
 {
@@ -57,7 +59,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseCors();
 
 app.UseHttpsRedirection();

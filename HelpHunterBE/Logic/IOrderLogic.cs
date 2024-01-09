@@ -1,4 +1,6 @@
 ﻿
+using HelpHunterBE.Models;
+
 namespace HelpHunterBE.Logic
 {
     public interface IOrderLogic

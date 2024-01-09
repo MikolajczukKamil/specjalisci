@@ -1,4 +1,7 @@
 ﻿
+using HelpHunterBE.Models;
+using Npgsql;
+
 namespace HelpHunterBE.Logic
 {
     public class OrderLogic:IOrderLogic
