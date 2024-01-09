@@ -11,16 +11,19 @@ public class ConfigController : ControllerBase
     {
         try
         {
-            string mapKey = Environment.GetEnvironmentVariable("MAP_TOKEN");
+            string mapToken = Environment.GetEnvironmentVariable("MAP_TOKEN");
 
-            if (mapKey != null)
+            if (string.IsNullOrEmpty(mapToken))
             {
-                return Ok($"{mapKey}");
+                throw new ApplicationException("MAP_TOKEN not found in environment variables.");
             }
-            else
+
+            var configResponse = new
             {
-                return NotFound("MAP_TOKEN environment variable not found");
-            }
+                map_token = mapToken
+            };
+
+            return Ok(configResponse);
         }
         catch (Exception ex)
         {
