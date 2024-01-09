@@ -31,9 +31,11 @@ jobs:
           REPOSITORY: sggw-backend
           IMAGE_TAG: latest
           MAP_TOKEN: ${{ secrets.MAP_TOKEN }}
+          JWT_KEY: ${{ secrets.JWT_KEY }}
         run: |
           aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin 063846433154.dkr.ecr.eu-central-1.amazonaws.com/sggw-backend
           sed -i 's@test@'"$MAP_TOKEN"'@' Dockerfile
+          sed -i 's@test2@'"$JWT_KEY"'@' Dockerfile
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
