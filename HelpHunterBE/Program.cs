@@ -29,7 +29,12 @@ builder.Services.AddSingleton(jwtConfig);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        var signingKey = Encoding.UTF8.GetBytes(jwtConfig.Key);
+        string signingKey = Environment.GetEnvironmentVariable("JWT_KEY");
+
+        if (string.IsNullOrEmpty(signingKey))
+        {
+            throw new ApplicationException("JWT_KEY not found in environment variables.");
+        }
 
         options.TokenValidationParameters = new TokenValidationParameters
         {
@@ -39,7 +44,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidIssuer = jwtConfig.Issuer,
             ValidAudience = jwtConfig.Audience,
-            IssuerSigningKey = new SymmetricSecurityKey(signingKey)
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signingKey))
         };
     });
 
