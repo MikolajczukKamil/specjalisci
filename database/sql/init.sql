@@ -175,7 +175,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Funkcja do haszowania przy rejestracji
-CREATE OR REPLACE FUNCTION register(p_full_name VARCHAR, p_phone_number VARCHAR, p_email VARCHAR, p_password VARCHAR, p_avatar VARCHAR)
+CREATE OR REPLACE FUNCTION register(p_full_name VARCHAR, p_phone_number VARCHAR, p_email VARCHAR, p_password VARCHAR, p_avatar int)
 RETURNS BOOLEAN AS $$
 DECLARE
     email_exists BOOLEAN;

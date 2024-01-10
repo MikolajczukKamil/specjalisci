@@ -72,12 +72,11 @@ public class RegistrationController : ControllerBase
     private string CreateUserDataBaseRegistrationSqlCommandString(RegistrationModel registrationModel)
     {
         return "SELECT register(" +
-    $"'{registrationModel.email}', " +
     $"'{registrationModel.full_name}', " +
     $"'{registrationModel.phone_number}', " +
     $"'{registrationModel.email}', " +
     $"'{registrationModel.password}', " +
-    $"'{registrationModel.avatar}'" +
+    $"{registrationModel.avatar}" +
     ");";
 
     }
