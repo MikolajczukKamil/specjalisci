@@ -28,6 +28,25 @@ CREATE TABLE Services (
     service_name VARCHAR(100) NOT NULL
 );
 
+-- Tworzenie tabeli Orders
+CREATE TABLE Orders (
+    id serial PRIMARY KEY,
+    status INT NOT NULL, --enum('Inprogress', 'Completed', 'Canceled')
+    specialist_pricing decimal(10,2) NOT NULL,
+    specialist_description text NOT NULL,
+    start_date timestamp NOT NULL,
+    estimated_time double precision NOT NULL,
+    final_price decimal(10,2) NOT NULL,
+    end_date timestamp
+);
+
+INSERT INTO Orders (status, specialist_pricing, specialist_description, start_date, estimated_time, final_price, end_date)
+VALUES
+    (1, 150.00, 'Installation of equipment', '2024-01-10 10:00:00', 8.5, 1275.00, '2024-01-10 18:30:00'),
+    (2, 200.00, 'Maintenance services', '2024-01-12 13:30:00', 5.0, 1000.00, '2024-01-12 18:30:00'),
+    (3, 180.00, 'Repair work', '2024-01-15 09:00:00', 10.0, 1800.00, NULL);
+
+
 -- Tworzenie tabeli Available_Services
 CREATE TABLE Available_Services (
     available_service_id SERIAL PRIMARY KEY,
