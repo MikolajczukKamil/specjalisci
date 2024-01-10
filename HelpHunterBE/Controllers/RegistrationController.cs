@@ -77,7 +77,7 @@ public class RegistrationController : ControllerBase
     $"'{registrationModel.phone_number}', " +
     $"'{registrationModel.email}', " +
     $"'{registrationModel.password}', " +
-    $"{registrationModel.avatar}" +
+    $"'{registrationModel.avatar}'" +
     ");";
 
     }
