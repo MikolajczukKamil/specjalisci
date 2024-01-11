@@ -1,5 +1,5 @@
 ﻿using HelpHunterBE.Dto;
-using HelpHunterBE.Logic;
+using HelpHunterBE.Logic.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

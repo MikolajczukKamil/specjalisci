@@ -1,8 +1,8 @@
 using Npgsql;
 
-namespace HelpHunterBE.Logic
+namespace HelpHunterBE.Logic.Searches
 {
-    public class SearchLogic
+    public class SearchLogic : ISearchLogic
     {
         private readonly IConfiguration _configuration;
 
@@ -87,13 +87,13 @@ namespace HelpHunterBE.Logic
                         c.category_name,
                         c.category_id";
 
-            if (criteria.RatingMax > 0 || criteria.RatingMin > 0) 
+            if (criteria.RatingMax > 0 || criteria.RatingMin > 0)
                 sqlQuery += " HAVING";
 
             if (criteria.RatingMax > 0)
                 sqlQuery += " AVG(r.rating) <= @RatingMax";
-            
-            if (criteria.RatingMax > 0 && criteria.RatingMin > 0) 
+
+            if (criteria.RatingMax > 0 && criteria.RatingMin > 0)
                 sqlQuery += " AND";
 
             if (criteria.RatingMin > 0)
@@ -143,16 +143,16 @@ namespace HelpHunterBE.Logic
 
         private ServiceInfo MapServiceInfoFromReader(NpgsqlDataReader reader, SearchCriteria criteria)
         {
-            float? LocationCoordX = reader.IsDBNull(reader.GetOrdinal("location_coordinates_x")) ? (float?)null : reader.GetFloat(reader.GetOrdinal("location_coordinates_x"));
-            float? LocationCoordY = reader.IsDBNull(reader.GetOrdinal("location_coordinates_y")) ? (float?)null : reader.GetFloat(reader.GetOrdinal("location_coordinates_y"));
+            float? LocationCoordX = reader.IsDBNull(reader.GetOrdinal("location_coordinates_x")) ? null : reader.GetFloat(reader.GetOrdinal("location_coordinates_x"));
+            float? LocationCoordY = reader.IsDBNull(reader.GetOrdinal("location_coordinates_y")) ? null : reader.GetFloat(reader.GetOrdinal("location_coordinates_y"));
             double? CalculatedDistance = Utils.Utils.CalculateDistance(LocationCoordX, LocationCoordY, criteria.UserCoordinateX, criteria.UserCoordinateY);
 
             var serviceInfo = new ServiceInfo
             {
                 ServiceId = reader.GetInt32(reader.GetOrdinal("service_id")),
                 ServiceName = reader.GetString(reader.GetOrdinal("service_name")),
-                MaxPrice = reader.IsDBNull(reader.GetOrdinal("max_price")) ? (decimal?)null : reader.GetDecimal(reader.GetOrdinal("max_price")),
-                MinPrice = reader.IsDBNull(reader.GetOrdinal("min_price")) ? (decimal?)null : reader.GetDecimal(reader.GetOrdinal("min_price")),
+                MaxPrice = reader.IsDBNull(reader.GetOrdinal("max_price")) ? null : reader.GetDecimal(reader.GetOrdinal("max_price")),
+                MinPrice = reader.IsDBNull(reader.GetOrdinal("min_price")) ? null : reader.GetDecimal(reader.GetOrdinal("min_price")),
                 OperatingMode = reader.GetString(reader.GetOrdinal("operating_mode")),
                 CategoryName = reader.GetString(reader.GetOrdinal("category_name")),
                 CategoryId = reader.GetInt32(reader.GetOrdinal("category_id")),

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using HelpHunterBE.Logic;
+using HelpHunterBE.Logic.Searches;
 
 namespace HelpHunterBE.Controllers
 {

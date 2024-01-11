@@ -3,7 +3,7 @@ using HelpHunterBE.utils;
 using Npgsql;
 using System.Net;
 
-namespace HelpHunterBE.Logic
+namespace HelpHunterBE.Logic.Users
 {
     public class UserLogic : IUserLogic
     {
