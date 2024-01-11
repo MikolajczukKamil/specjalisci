@@ -6,7 +6,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { FiltersComponent } from './filters/filters.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ServiceOrderingComponent } from '../service-ordering/service-ordering.component';
-import {ServiceFilters, ServiceModel, ServicesService} from "./serviceModel";
+import { ServiceFilters, ServiceModel, ServicesService } from './serviceModel';
 import { MapLocalisationComponent } from '../map/map-localisation/map-localisation.component';
 import { isEqual } from 'lodash';
 
