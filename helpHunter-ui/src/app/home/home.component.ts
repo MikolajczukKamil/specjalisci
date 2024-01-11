@@ -9,6 +9,8 @@ import { ServiceOrderingComponent } from '../service-ordering/service-ordering.c
 import {ServiceFilters, ServiceModel, ServicesService} from "./serviceModel";
 import { MapLocalisationComponent } from '../map/map-localisation/map-localisation.component';
 import { isEqual } from 'lodash';
+import {TokenService} from "../map/token.service";
+import {environment} from "../../environments/environment.local";
 
 type NavigationMode = 'list' | 'map' | 'filters';
 
@@ -217,7 +219,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         private auth: AuthService,
         private deviceSizeService: DeviceSizeService,
         public dialog: MatDialog,
-        private servicesService: ServicesService
+        private servicesService: ServicesService,
+        private tokenService: TokenService
     ) {}
 
     ngOnInit(): void {
@@ -228,6 +231,10 @@ export class HomeComponent implements OnInit, OnDestroy {
                 this.navigationMode = 'list';
                 this.isSmallScreen = isSmallScreen;
             });
+
+        this.tokenService.getToken().subscribe(token => {
+            environment.mapToken = token.map_token
+        })
     }
 
     changeNavigationMode(event: MatButtonToggleChange) {
