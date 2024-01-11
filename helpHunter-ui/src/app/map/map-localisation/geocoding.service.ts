@@ -2,13 +2,21 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.local';
+import { TokenService } from '../token.service';
 
 @Injectable()
 export class GeocodingService {
     private url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/';
-    private token = environment.mapToken;
+    private token = '';
 
-    constructor(private client: HttpClient) {}
+    constructor(
+        private client: HttpClient,
+        private tokenService: TokenService
+    ) {
+        this.tokenService.getToken().subscribe(token => {
+            this.token = token.map_token;
+        });
+    }
 
     getGeocoding(address: string, city: string, region: string, country: string): Observable<Geocoding> {
         return this.client.get<Geocoding>(

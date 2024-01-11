@@ -1,10 +1,11 @@
-<div class="map-container">
+<div class="map-container" *ngIf="accessToken">
     <mgl-map
         [style]="'mapbox://styles/mapbox/streets-v9'"
         [zoom]="[zoom]"
         [center]="[center.x, center.y]"
         (mapCreate)="mapCreated($event)"
-        (mapLoad)="mapLoaded($event)">
+        (mapLoad)="mapLoaded($event)"
+        [accessToken]="accessToken">
         <ng-container *ngFor="let service of services; let i = index">
             <mgl-layer
                 id="circle{{ i }}"

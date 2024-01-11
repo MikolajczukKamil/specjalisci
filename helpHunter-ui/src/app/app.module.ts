@@ -11,7 +11,6 @@ import { MapLocalisationComponent } from './map/map-localisation/map-localisatio
 import { MapService, NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { GeocodingService } from './map/map-localisation/geocoding.service';
 import { MatButtonModule } from '@angular/material/button';
-import { environment } from '../environments/environment.local';
 import { HttpClient, HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { GeneralInterceptor } from './interceptors/general/general.interceptor';
 import { RouterOutlet } from '@angular/router';
@@ -61,7 +60,7 @@ import { MatCardModule } from '@angular/material/card';
         FormsModule,
         MatSnackBarModule,
         MatButtonModule,
-        NgxMapboxGLModule.withConfig({ accessToken: environment.mapToken }),
+        NgxMapboxGLModule,
         MatIconModule,
         MatButtonToggleModule,
         MatInputModule,
