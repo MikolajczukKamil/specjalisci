@@ -9,6 +9,8 @@ import { ServiceOrderingComponent } from '../service-ordering/service-ordering.c
 import { ServiceFilters, ServiceModel, ServicesService } from './serviceModel';
 import { MapLocalisationComponent } from '../map/map-localisation/map-localisation.component';
 import { isEqual } from 'lodash';
+import {Filters} from "./filters/filters.model";
+import {FILTERS_NAME_MAPPING} from "./filters/filters-mapping.model";
 
 type NavigationMode = 'list' | 'map' | 'filters';
 
@@ -40,178 +42,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     isMapVisited: boolean = false;
     isSmallScreen: boolean = false;
     destroy = new Subject<boolean>();
-    selectedService: Service | null = null;
-
-    services = [
-        {
-            name: 'Mariusz Kowalski',
-            cityName: 'Warszawa',
-            minPrice: 100,
-            maxPrice: 200,
-            image: 'avatar1',
-            location: {
-                address: 'Warszawa 00-00, ul. Kowalska 1',
-                coordinates: {
-                    lat: 52.229,
-                    lng: 21.0,
-                },
-            },
-        },
-        {
-            name: 'Mariusz Kowalski',
-            cityName: 'Warszawa',
-            minPrice: 100,
-            maxPrice: 200,
-            image: 'avatar2',
-            location: {
-                address: 'Warszawa 00-00, ul. Kowalska 1',
-                coordinates: {
-                    lat: 53,
-                    lng: 23.0,
-                },
-            },
-        },
-        {
-            name: 'Mariusz Kowalski',
-            cityName: 'Warszawa',
-            minPrice: 100,
-            maxPrice: 200,
-            image: 'avatar1',
-            location: {
-                address: 'Warszawa 00-00, ul. Kowalska 1',
-                coordinates: {
-                    lat: 40,
-                    lng: 29.0,
-                },
-            },
-        },
-        {
-            name: 'Mariusz Kowalski',
-            cityName: 'Warszawa',
-            minPrice: 100,
-            maxPrice: 200,
-            image: 'avatar1',
-            location: {
-                address: 'Warszawa 00-00, ul. Kowalska 1',
-                coordinates: {
-                    lat: 53,
-                    lng: 25.0,
-                },
-            },
-        },
-        {
-            name: 'Mariusz Kowalski',
-            cityName: 'Warszawa',
-            minPrice: 100,
-            maxPrice: 200,
-            image: 'avatar3',
-            location: {
-                address: 'Warszawa 00-00, ul. Kowalska 1',
-                coordinates: {
-                    lat: 20,
-                    lng: 21.0,
-                },
-            },
-        },
-        {
-            name: 'Mariusz Kowalski',
-            cityName: 'Warszawa',
-            minPrice: 100,
-            maxPrice: 200,
-            image: 'avatar1',
-            location: {
-                address: 'Warszawa 00-00, ul. Kowalska 1',
-                coordinates: {
-                    lat: 58,
-                    lng: 21.0,
-                },
-            },
-        },
-        {
-            name: 'Mariusz Kowalski',
-            cityName: 'Warszawa',
-            minPrice: 100,
-            maxPrice: 200,
-            image: 'avatar1',
-            location: {
-                address: 'Warszawa 00-00, ul. Kowalska 1',
-                coordinates: {
-                    lat: 50.229,
-                    lng: 24.0,
-                },
-            },
-        },
-        {
-            name: 'Mariusz Kowalski',
-            cityName: 'Warszawa',
-            minPrice: 100,
-            maxPrice: 2001,
-            image: 'avatar1',
-            location: {
-                address: 'Warszawa 00-00, ul. Kowalska 1',
-                coordinates: {
-                    lat: 50.229,
-                    lng: 24.0,
-                },
-            },
-        },
-        {
-            name: 'Mariusz Kowalski',
-            cityName: 'Warszawa',
-            minPrice: 100,
-            maxPrice: 201,
-            image: 'avatar1',
-            location: {
-                address: 'Warszawa 00-00, ul. Kowalska 1',
-                coordinates: {
-                    lat: 50.229,
-                    lng: 24.0,
-                },
-            },
-        },
-        {
-            name: 'Mariusz Kowalski',
-            cityName: 'Warszawa',
-            minPrice: 100,
-            maxPrice: 240,
-            image: 'avatar1',
-            location: {
-                address: 'Warszawa 00-00, ul. Kowalska 1',
-                coordinates: {
-                    lat: 50.229,
-                    lng: 24.0,
-                },
-            },
-        },
-        {
-            name: 'Mariusz Kowalski',
-            cityName: 'Warszawa',
-            minPrice: 100,
-            maxPrice: 200,
-            image: 'avatar1',
-            location: {
-                address: 'Warszawa 00-00, ul. Kowalska 1',
-                coordinates: {
-                    lat: 50.22,
-                    lng: 24.0,
-                },
-            },
-        },
-        {
-            name: 'Mariusz Kowalski',
-            cityName: 'Warszawa',
-            minPrice: 150,
-            maxPrice: 200,
-            image: 'avatar1',
-            location: {
-                address: 'Warszawa 00-00, ul. Kowalska 1',
-                coordinates: {
-                    lat: 50.229,
-                    lng: 24.0,
-                },
-            },
-        },
-    ];
+    selectedService: ServiceModel | null = null;
+    services: ServiceModel[] = []
 
     constructor(
         private auth: AuthService,
@@ -228,6 +60,8 @@ export class HomeComponent implements OnInit, OnDestroy {
                 this.navigationMode = 'list';
                 this.isSmallScreen = isSmallScreen;
             });
+
+        this.fetchServices("Warszawa", 'Budowlanka')
     }
 
     changeNavigationMode(event: MatButtonToggleChange) {
@@ -243,24 +77,48 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.destroy.unsubscribe();
     }
 
-    openFilters() {
-        this.dialog.open(FiltersComponent, { width: '500px', height: '500px' });
+    fetchServices(localisation: string, serviceName: string | undefined) {
+      this.servicesService.getServices({Location: localisation, CategoryOrServiceName: serviceName} as ServiceFilters).subscribe(value => {
+        this.services = value
+      })
     }
 
-    openServiceButton(service: Service) {
+    openFilters() {
+        const dialogRef = this.dialog.open(FiltersComponent, { width: '500px', height: '500px' });
+        dialogRef.afterClosed().subscribe(result => {
+          const filters = result as Filters
+          let serviceName : string | undefined = ""
+
+          if (filters?.builder.length > 0) {
+            serviceName = FILTERS_NAME_MAPPING.get(filters.builder[0])
+          }
+
+          if (filters?.it.length > 0) {
+            serviceName = FILTERS_NAME_MAPPING.get(filters.it[0])
+          }
+
+          if (filters?.mechanic.length > 0) {
+            serviceName = FILTERS_NAME_MAPPING.get(filters.mechanic[0])
+          }
+
+          this.fetchServices('Warszawa', serviceName)
+        })
+    }
+
+    openServiceButton(service: ServiceModel) {
         this.dialog.open(ServiceOrderingComponent, { width: '460px', height: '780px' });
     }
 
-    selectService(service: Service) {
+    selectService(service: ServiceModel) {
         this.selectedService = service;
 
         this.scrollToSelectedService();
     }
 
-    goToLocation(service: Service) {
+    goToLocation(service: ServiceModel) {
         if (this.mapComponent) {
             this.mapComponent.flyTo({
-                center: [service.location.coordinates.lng, service.location.coordinates.lat],
+                center: [service.locationCoordinatesX, service.locationCoordinatesY],
                 zoom: 13,
             });
         }
@@ -277,7 +135,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         }
     }
 
-    isSelected(service: Service) {
+    isSelected(service: ServiceModel) {
         return isEqual(service, this.selectedService);
     }
 }

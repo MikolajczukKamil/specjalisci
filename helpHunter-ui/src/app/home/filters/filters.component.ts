@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
 import {FormControl, FormGroup} from "@angular/forms";
 import {Filters} from "./filters.model";
@@ -62,6 +62,7 @@ export class FiltersComponent {
       it: this.getCorrespondingValues(this.it),
       mechanic: this.getCorrespondingValues(this.mechanic)
     } as Filters)
+
   }
 
   closeModal() {
@@ -69,8 +70,8 @@ export class FiltersComponent {
   }
 
   private getCorrespondingValues(group : FormGroup): any {
-    const controls: { [key: string]: boolean } = {};
-    Object.keys(group.controls).forEach(control => { controls[control] = group.get(control)?.value === true; })
+    const controls: string[] = [];
+    Object.keys(group.controls).filter(control => group.get(control)?.value === true).map(control => controls.push(control))
     return controls
   }
 

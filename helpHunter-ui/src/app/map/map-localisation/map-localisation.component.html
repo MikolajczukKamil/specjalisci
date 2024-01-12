@@ -12,12 +12,12 @@
                 type="fill"
                 [source]="{
                     type: 'geojson',
-                    data: createCircle(service.location.coordinates.lng, service.location.coordinates.lat)
+                    data: createCircle(service.locationCoordinatesX, service.locationCoordinatesY)
                 }"
                 [paint]="{ 'fill-color': '#627BC1', 'fill-opacity': 0.3 }"></mgl-layer>
             <mgl-marker
                 #marker
-                [lngLat]="[service.location.coordinates.lng, service.location.coordinates.lat]"
+                [lngLat]="[service.locationCoordinatesX, service.locationCoordinatesY]"
                 anchor="center">
                 <img
                     src="assets/icons/marker.png"
@@ -27,7 +27,7 @@
                     (click)="clickOnMarker.emit(service)" />
             </mgl-marker>
             <mgl-popup [closeButton]="false" [marker]="marker" [offset]="{ bottom: [0, -25] }">
-                {{ service.name }}
+                {{ service.serviceName }}
             </mgl-popup>
         </ng-container>
     </mgl-map>

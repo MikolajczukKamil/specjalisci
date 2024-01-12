@@ -6,6 +6,7 @@ import { Marker } from './marker.model';
 import { Service } from '../../home/home.component';
 import { Subject, takeUntil } from 'rxjs';
 import { TokenService } from '../token.service';
+import {ServiceModel} from "../../home/serviceModel";
 
 @Component({
     selector: 'app-map-localisation',
@@ -14,10 +15,10 @@ import { TokenService } from '../token.service';
 })
 export class MapLocalisationComponent implements OnInit {
     @Input()
-    services: Service[] = [];
+    services: ServiceModel[] = [];
 
     @Output()
-    clickOnMarker = new EventEmitter<Service>();
+    clickOnMarker = new EventEmitter<ServiceModel>();
 
     map!: Map;
     zoom: number = 5.5;
