@@ -4,9 +4,9 @@ export const FILTERS_NAME_MAPPING = new Map<string, string>([
   ["bath", "Montaż mebli"],
   ["hydraulics", "Naprawa Elektryki"],
 
-  ["printer", "Budowlanka"],
-  ["laptop", "Informatyka"],
-  ["phone", "Usługi"],
+  ["printer", "Programowanie Mikrokontrolerów"],
+  ["laptop", "Inżynieria Oprogramowania"],
+  ["phone", "Sztuczna Inteligencja"],
   ["network", "Bezpieczeństwo Sieciowie"],
 
   ["oil", "Budowlanka"],
