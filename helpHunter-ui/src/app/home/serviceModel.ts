@@ -26,18 +26,18 @@ export interface ServiceFilters {
 }
 
 export interface ServiceModel {
-  ServiceId : string,
-  ServiceName : string,
-  MaxPrice : number,
-  MinPrice : number,
-  OperatingMode : string,
-  CategoryName : string,
-  CategoryId : string,
-  UserId : string,
-  Rating : number,
-  FullName : string,
-  Location: string,
-  LocationCoordinatesX : number,
-  LocationCoordinatesY : number,
-  Distance : number
+  serviceId : number,
+  serviceName : string,
+  maxPrice : number,
+  minPrice : number,
+  operatingMode : string,
+  categoryName : string,
+  categoryId : number,
+  userId : number,
+  rating : number,
+  fullName : string,
+  location: string,
+  locationCoordinatesX : number,
+  locationCoordinatesY : number,
+  distance : number
 }
