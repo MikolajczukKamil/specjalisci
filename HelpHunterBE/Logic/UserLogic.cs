@@ -2,6 +2,7 @@
 using HelpHunterBE.utils;
 using Npgsql;
 using System.Net;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace HelpHunterBE.Logic
 {
@@ -14,15 +15,33 @@ namespace HelpHunterBE.Logic
             _configuration = configuration;
         }
 
-        public UserDto GetUserData(int userId)
+        public UserDto GetUserData(int userId, string token)
         {
             UserDto user = new UserDto();
+
+            if (userId == -1 && !string.IsNullOrEmpty(token))
+            {
+                // Extract user_id from JWT token
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var jsonToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
+
+                if (jsonToken != null)
+                {
+                    var userIdClaim = jsonToken.Claims.FirstOrDefault(claim => claim.Type == "user_id");
+
+                    if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int extractedUserId))
+                    {
+                        userId = extractedUserId;
+                    }
+                }
+
+            }
 
             using (var connection = new NpgsqlConnection(_configuration.GetConnectionString("Postgres")))
             {
                 connection.Open();
 
-                string query = "SELECT * FROM users WHERE user_id = @userId";
+                string query = "SELECT * FROM users WHERE user_id = @UserId";
 
                 using (var command = new NpgsqlCommand(query, connection))
                 {
@@ -88,6 +107,32 @@ namespace HelpHunterBE.Logic
                 Console.WriteLine(exception.Message);
                 return HttpStatusCode.InternalServerError;
             }
+        }
+
+        public int GetUserIdByUsername(string username)
+        {
+            int userId = 0;
+
+            using (var connection = new NpgsqlConnection(_configuration.GetConnectionString("Postgres")))
+            {
+                connection.Open();
+
+                string query = "SELECT user_id FROM users WHERE username = @Username";
+
+                using (var command = new NpgsqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Username", username);
+
+                    var result = command.ExecuteScalar();
+
+                    if (result != null && result != DBNull.Value)
+                    {
+                        userId = Convert.ToInt32(result);
+                    }
+                }
+            }
+
+            return userId;
         }
     }
 }

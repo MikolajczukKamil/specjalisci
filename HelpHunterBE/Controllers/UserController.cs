@@ -22,7 +22,8 @@ namespace HelpHunterBE.Controllers
         [HttpGet("{userId}")]
         public UserDto GetUserData(int userId)
         {
-            return _userLogic.GetUserData(userId);
+            var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+            return _userLogic.GetUserData(userId, token);
         }
 
         [HttpPut]
