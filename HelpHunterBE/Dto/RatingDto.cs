@@ -12,6 +12,8 @@ namespace HelpHunterBE.Dto
         [Required]
         public int ReviewerId { get; set; }
 
+        public string? ReviewerName { get; set; }
+
         [Required]
         [Range(1, 5)]
         public int Rating { get; set; }

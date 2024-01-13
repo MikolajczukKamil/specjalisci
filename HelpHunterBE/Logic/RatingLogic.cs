@@ -42,7 +42,7 @@ namespace HelpHunterBE.Logic
             using var connection = new NpgsqlConnection(_configuration.GetConnectionString("Postgres"));
             await connection.OpenAsync();
 
-            var query = "SELECT * FROM ratings WHERE specialist_id = @SpecialistId";
+            var query = "SELECT ratings.*, users.full_name as reviewer_name FROM ratings INNER JOIN users ON ratings.reviewer_id = users.user_id WHERE specialist_id = @SpecialistId";
             using var command = new NpgsqlCommand(query, connection);
             command.Parameters.AddWithValue("@SpecialistId", specialistId);
 
@@ -57,7 +57,8 @@ namespace HelpHunterBE.Logic
                     SpecialistId = reader.GetInt32(1),
                     ReviewerId = reader.GetInt32(2),
                     Rating = reader.GetInt32(3),
-                    Comment = reader.GetString(4)
+                    Comment = reader.GetString(4),
+                    ReviewerName = reader.GetString(5)
                 };
 
                 list.Add(rating);
