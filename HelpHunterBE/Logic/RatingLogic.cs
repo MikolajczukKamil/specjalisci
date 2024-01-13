@@ -12,9 +12,9 @@ namespace HelpHunterBE.Logic
             _configuration = configuration;
         }
 
-        public async Task<List<RatingDto>> GetRatings(int specialistId)
+        public async Task<List<RatingDto>> GetRatings(int userId)
         {
-            return await FindRatingsFor(specialistId);
+            return await FindRatingsFor(userId);
         }
 
         public async Task<bool> PostRating(RatingDto rating)
@@ -22,9 +22,9 @@ namespace HelpHunterBE.Logic
             using var connection = new NpgsqlConnection(_configuration.GetConnectionString("Postgres"));
             await connection.OpenAsync();
 
-            var query = "INSERT INTO ratings (specialist_id, reviewer_id, rating, comment) VALUES (@SpecialistId, @ReviewerId, @Rating, @Comment)";
+            var query = "INSERT INTO ratings (user_id, reviewer_id, rating, comment) VALUES (@UserId, @ReviewerId, @Rating, @Comment)";
             using var command = new NpgsqlCommand(query, connection);
-            command.Parameters.AddWithValue("@SpecialistId", rating.SpecialistId);
+            command.Parameters.AddWithValue("@UserId", rating.UserId);
             command.Parameters.AddWithValue("@ReviewerId", rating.ReviewerId);
             command.Parameters.AddWithValue("@Rating", rating.Rating);
             command.Parameters.AddWithValue("@Comment", rating.Comment);
@@ -37,14 +37,14 @@ namespace HelpHunterBE.Logic
             catch { return false; }
         }
 
-        private async Task<List<RatingDto>> FindRatingsFor(int specialistId)
+        private async Task<List<RatingDto>> FindRatingsFor(int userId)
         {
             using var connection = new NpgsqlConnection(_configuration.GetConnectionString("Postgres"));
             await connection.OpenAsync();
 
-            var query = "SELECT ratings.*, users.full_name as reviewer_name FROM ratings INNER JOIN users ON ratings.reviewer_id = users.user_id WHERE specialist_id = @SpecialistId";
+            var query = "SELECT ratings.*, users.full_name as reviewer_name FROM ratings INNER JOIN users ON ratings.reviewer_id = users.user_id WHERE ratings.user_id = @UserId";
             using var command = new NpgsqlCommand(query, connection);
-            command.Parameters.AddWithValue("@SpecialistId", specialistId);
+            command.Parameters.AddWithValue("@UserId", userId);
 
             var reader = await command.ExecuteReaderAsync();
             var list = new List<RatingDto>();
@@ -54,7 +54,7 @@ namespace HelpHunterBE.Logic
                 var rating = new RatingDto
                 {
                     Id = reader.GetInt32(0),
-                    SpecialistId = reader.GetInt32(1),
+                    UserId = reader.GetInt32(1),
                     ReviewerId = reader.GetInt32(2),
                     Rating = reader.GetInt32(3),
                     Comment = reader.GetString(4),

@@ -17,11 +17,10 @@ namespace HelpHunterBE.Controllers
             this._logic = logic;
         }
 
-        [AllowAnonymous]
-        [HttpGet("{specialistId}")]
-        public async Task<IActionResult> GetRatings(int specialistId)
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetRatings(int userId)
         {
-            var ratings = await _logic.GetRatings(specialistId);
+            var ratings = await _logic.GetRatings(userId);
 
             return Ok(ratings);
         }

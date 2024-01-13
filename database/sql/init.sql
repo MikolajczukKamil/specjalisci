@@ -44,7 +44,7 @@ CREATE TABLE Available_Services (
 
 CREATE TABLE Ratings (
     rating_id SERIAL PRIMARY KEY,
-    specialist_id INT REFERENCES Users(user_id) NOT NULL,
+    user_id INT REFERENCES Users(user_id) NOT NULL,
     reviewer_id INT REFERENCES Users(user_id) NOT NULL,
     rating INTEGER CHECK (rating BETWEEN 1 AND 5) NOT NULL,
     comment VARCHAR(1000) NOT NULL
@@ -136,7 +136,7 @@ VALUES
     (19, 19, 2, 'Zabezpieczanie systemów przed zagrożeniami cybernetycznymi', 250.00, 180.00, 'Elastyczne', 40.00, 'Stacjonarne'),
     (20, 20, 4, 'Rozwinięte rozwiązania e-commerce i sklepy internetowe', 200.00, 150.00, 'Poniedziałek-Piątek', 30.00, 'Mobilne');
 
-INSERT INTO Ratings (specialist_id, reviewer_id, rating, comment) VALUES
+INSERT INTO Ratings (user_id, reviewer_id, rating, comment) VALUES
     (1, 10, 4, 'A'),
     (2, 15, 2, 'A'),
     (3, 4, 5, 'A'),

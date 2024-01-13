@@ -7,7 +7,7 @@ namespace HelpHunterBE.Dto
         public int Id { get; set; }
 
         [Required]
-        public int SpecialistId { get; set; }
+        public int UserId { get; set; }
 
         [Required]
         public int ReviewerId { get; set; }
@@ -25,7 +25,7 @@ namespace HelpHunterBE.Dto
 
         public override string ToString()
         {
-            return $"RatingDto(Id={Id}, SpecId={SpecialistId}, ReviewerId={ReviewerId}, Rating={Rating}, Comment={Comment})";
+            return $"RatingDto(Id={Id}, UserId={UserId}, ReviewerId={ReviewerId}, Rating={Rating}, Comment={Comment})";
         }
     }
 }
