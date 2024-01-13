@@ -45,7 +45,9 @@ CREATE TABLE Available_Services (
 CREATE TABLE Ratings (
     rating_id SERIAL PRIMARY KEY,
     user_id INT REFERENCES Users(user_id) NOT NULL,
-    rating INTEGER CHECK (rating BETWEEN 1 AND 5) NOT NULL
+    reviewer_id INT REFERENCES Users(user_id) NOT NULL,
+    rating INTEGER CHECK (rating BETWEEN 1 AND 5) NOT NULL,
+    comment VARCHAR(1000) NOT NULL
 );
 
 
@@ -134,27 +136,27 @@ VALUES
     (19, 19, 2, 'Zabezpieczanie systemów przed zagrożeniami cybernetycznymi', 250.00, 180.00, 'Elastyczne', 40.00, 'Stacjonarne'),
     (20, 20, 4, 'Rozwinięte rozwiązania e-commerce i sklepy internetowe', 200.00, 150.00, 'Poniedziałek-Piątek', 30.00, 'Mobilne');
 
-INSERT INTO Ratings (user_id, rating) VALUES
-    (1, 4),
-    (2, 2),
-    (3, 5),
-    (4, 1),
-    (5, 3),
-    (6, 5),
-    (7, 2),
-    (8, 4),
-    (9, 3),
-    (10, 1),
-    (11, 4),
-    (12, 2),
-    (13, 5),
-    (14, 1),
-    (15, 3),
-    (16, 5),
-    (17, 2),
-    (18, 4),
-    (19, 3),
-    (20, 1);
+INSERT INTO Ratings (user_id, reviewer_id, rating, comment) VALUES
+    (1, 10, 4, 'A'),
+    (2, 15, 2, 'A'),
+    (3, 4, 5, 'A'),
+    (4, 19, 1, 'A'),
+    (5, 6, 3, 'A'),
+    (6, 1, 5, 'A'),
+    (7, 1, 2, 'A'),
+    (8, 9, 4, 'A'),
+    (9, 13, 3, 'A'),
+    (10, 2, 1, 'A'),
+    (11, 1, 4, 'A'),
+    (12, 18, 2, 'A'),
+    (13, 14, 5, 'A'),
+    (14, 5, 1, 'A'),
+    (15, 20, 3, 'A'),
+    (16, 19, 5, 'A'),
+    (17, 17, 2, 'A'),
+    (18, 11, 4, 'A'),
+    (19, 6, 3, 'A'),
+    (20, 9, 1, 'A');
 
 
 -- Instalacja rozszerzenia pgcrypto (jeśli jeszcze nie zainstalowane)
