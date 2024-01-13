@@ -29,8 +29,6 @@ namespace HelpHunterBE.Controllers
         [HttpPost]
         public async Task<IActionResult> PostRating([FromBody] RatingDto rating)
         {
-            Console.WriteLine(rating);
-
             var result = await _logic.PostRating(rating);
 
             if (result)
