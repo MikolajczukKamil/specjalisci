@@ -80,9 +80,15 @@ export class RegisterComponent implements OnInit {
                         });
                     },
                     error: error => {
-                        this.snackBar.open('Wystąpił błąd', 'Close', {
-                            duration: 3000,
-                        });
+                        if (error.status == 409) {
+                            this.snackBar.open('Podany adres email jest już zajęty', 'Close', {
+                                duration: 3000,
+                            });
+                        } else {
+                            this.snackBar.open('Wystąpił błąd', 'Close', {
+                                duration: 3000,
+                            });
+                        }
                     },
                 });
         } else {
