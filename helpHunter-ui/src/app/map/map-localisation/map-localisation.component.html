@@ -15,10 +15,7 @@
                     data: createCircle(service.locationCoordinatesX, service.locationCoordinatesY)
                 }"
                 [paint]="{ 'fill-color': '#627BC1', 'fill-opacity': 0.3 }"></mgl-layer>
-            <mgl-marker
-                #marker
-                [lngLat]="[service.locationCoordinatesX, service.locationCoordinatesY]"
-                anchor="center">
+            <mgl-marker #marker [lngLat]="[service.locationCoordinatesX, service.locationCoordinatesY]" anchor="center">
                 <img
                     src="assets/icons/marker.png"
                     alt="marker"
@@ -30,5 +27,8 @@
                 {{ service.serviceName }}
             </mgl-popup>
         </ng-container>
+        <mgl-control position="bottom-right" mglGeolocate> </mgl-control>
+        <mgl-control position="bottom-right" mglNavigation> </mgl-control>
+        <mgl-control position="bottom-left" mglScale> </mgl-control>
     </mgl-map>
 </div>
