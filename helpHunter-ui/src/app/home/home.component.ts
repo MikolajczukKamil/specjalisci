@@ -9,8 +9,9 @@ import { ServiceOrderingComponent } from '../service-ordering/service-ordering.c
 import { ServiceFilters, ServiceModel, ServicesService } from './serviceModel';
 import { MapLocalisationComponent } from '../map/map-localisation/map-localisation.component';
 import { isEqual } from 'lodash';
-import {Filters} from "./filters/filters.model";
-import {FILTERS_NAME_MAPPING} from "./filters/filters-mapping.model";
+import { Filters } from './filters/filters.model';
+import { FILTERS_NAME_MAPPING } from './filters/filters-mapping.model';
+import { GeocodingService } from '../map/map-localisation/geocoding.service';
 
 type NavigationMode = 'list' | 'map' | 'filters';
 
@@ -43,13 +44,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     isSmallScreen: boolean = false;
     destroy = new Subject<boolean>();
     selectedService: ServiceModel | null = null;
-    services: ServiceModel[] = []
+    services: ServiceModel[] = [];
 
     constructor(
         private auth: AuthService,
         private deviceSizeService: DeviceSizeService,
         public dialog: MatDialog,
-        private servicesService: ServicesService
+        private servicesService: ServicesService,
+        private geocodingService: GeocodingService
     ) {}
 
     ngOnInit(): void {
@@ -61,7 +63,19 @@ export class HomeComponent implements OnInit, OnDestroy {
                 this.isSmallScreen = isSmallScreen;
             });
 
-        this.fetchServices("Warszawa", 'Budowlanka')
+        this.geocodingService
+            .getCurrentLocation()
+            .then(location => {
+                this.fetchServices({
+                    Location: '',
+                    CategoryOrServiceName: '',
+                    UserCoordinateX: location.x,
+                    UserCoordinateY: location.y,
+                });
+            })
+            .catch(error => {
+                this.fetchServices({ Location: '', CategoryOrServiceName: '' });
+            });
     }
 
     changeNavigationMode(event: MatButtonToggleChange) {
@@ -77,32 +91,38 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.destroy.unsubscribe();
     }
 
-    fetchServices(localisation: string, serviceName: string | undefined) {
-      this.servicesService.getServices({Location: localisation, CategoryOrServiceName: serviceName} as ServiceFilters).subscribe(value => {
-        this.services = value
-      })
+    fetchServices(filters: ServiceFilters) {
+        this.servicesService.getServices(filters).subscribe(value => {
+            // swap x with y
+            value.forEach(service => {
+                const x = service.locationCoordinatesX;
+                service.locationCoordinatesX = service.locationCoordinatesY;
+                service.locationCoordinatesY = x;
+            });
+            this.services = value;
+        });
     }
 
     openFilters() {
         const dialogRef = this.dialog.open(FiltersComponent, { width: '500px', height: '500px' });
         dialogRef.afterClosed().subscribe(result => {
-          const filters = result as Filters
-          let serviceName : string | undefined = ""
+            const filters = result as Filters;
+            let serviceName: string | undefined = '';
 
-          if (filters?.builder.length > 0) {
-            serviceName = FILTERS_NAME_MAPPING.get(filters.builder[0])
-          }
+            if (filters?.builder.length > 0) {
+                serviceName = FILTERS_NAME_MAPPING.get(filters.builder[0]);
+            }
 
-          if (filters?.it.length > 0) {
-            serviceName = FILTERS_NAME_MAPPING.get(filters.it[0])
-          }
+            if (filters?.it.length > 0) {
+                serviceName = FILTERS_NAME_MAPPING.get(filters.it[0]);
+            }
 
-          if (filters?.mechanic.length > 0) {
-            serviceName = FILTERS_NAME_MAPPING.get(filters.mechanic[0])
-          }
+            if (filters?.mechanic.length > 0) {
+                serviceName = FILTERS_NAME_MAPPING.get(filters.mechanic[0]);
+            }
 
-          this.fetchServices('Warszawa', serviceName)
-        })
+            this.fetchServices({ Location: '', CategoryOrServiceName: serviceName ?? '' });
+        });
     }
 
     openServiceButton(service: ServiceModel) {

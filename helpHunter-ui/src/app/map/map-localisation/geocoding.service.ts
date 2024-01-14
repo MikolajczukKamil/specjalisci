@@ -32,6 +32,19 @@ export class GeocodingService {
             this.url + encodeURIComponent(x + ',' + y) + '.json?language=pl&types=address&access_token=' + this.token
         );
     }
+
+    getCurrentLocation(): Promise<{ x: number; y: number }> {
+        return new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(
+                position => {
+                    resolve({ x: position.coords.longitude, y: position.coords.latitude });
+                },
+                error => {
+                    reject(error);
+                }
+            );
+        });
+    }
 }
 
 export interface Geocoding {
