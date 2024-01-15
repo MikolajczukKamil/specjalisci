@@ -34,7 +34,15 @@ public class RegistrationController : ControllerBase
             {
                 var mailData = new MailDto
                 {
-
+                    SenderEmail = "helphunterpomoc@gmail.com",
+                    SenderFullname = "HelpHunter Wsparcie",
+                    ReceiverEmail = "rosochackif@gmail.com",
+                    ReceiverFullname = "John Doe",
+                    Url = "google.com",
+                    Subject = "Witaj w HelpHunter",
+                    SenderMessage = "Siema",
+                    ServiceName = "Testowanie",
+                    ServicePrice = 222.22m
                 };
 
                 _mailLogic.SendMail(mailData, false);

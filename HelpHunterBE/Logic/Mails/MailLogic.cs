@@ -26,10 +26,11 @@ namespace HelpHunterBE.Logic.Mails
             {
                 SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
                 smtpClient.Port = 587;
-                smtpClient.Credentials = new NetworkCredential(fromEmail, "haslo_do_konta");
+                smtpClient.Credentials = new NetworkCredential("helphunterpomoc@gmail.com", "helphunterpomocSGGW");
                 smtpClient.EnableSsl = true;
+                smtpClient.UseDefaultCredentials = false;
 
-                MailMessage message = new MailMessage(fromEmail, recipientEmail, subject, body);
+                MailMessage message = new MailMessage("helphunterpomoc@gmail.com", "rosochackif@gmail.com", subject, body);
                 message.IsBodyHtml = true;
 
                 smtpClient.Send(message);
