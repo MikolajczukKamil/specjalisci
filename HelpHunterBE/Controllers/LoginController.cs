@@ -69,10 +69,10 @@ namespace HelpHunterBE.Controllers
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, username),
+                new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.Role, "Test"), // We can add more roles later like this
-                new Claim("user_id", userId.ToString()) // Custom claim for user_id
+                new Claim("username", username) // Custom claim for username
             };
 
             var token = new JwtSecurityToken(

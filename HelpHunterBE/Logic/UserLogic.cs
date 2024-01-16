@@ -15,26 +15,20 @@ namespace HelpHunterBE.Logic
             _configuration = configuration;
         }
 
-        public UserDto GetUserData(int userId, string token)
+        public UserDto GetUserData(int userId, Dictionary<string, string> claims)
         {
             UserDto user = new UserDto();
 
-            if (userId == -1 && !string.IsNullOrEmpty(token))
+            if (userId == -1)
             {
-                // Extract user_id from JWT token
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var jsonToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
-
-                if (jsonToken != null)
+                if (claims.TryGetValue("sub", out var subClaimValue))
                 {
-                    var userIdClaim = jsonToken.Claims.FirstOrDefault(claim => claim.Type == "user_id");
-
-                    if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int extractedUserId))
+                    // Parse the 'sub' claim value to an integer
+                    if (int.TryParse(subClaimValue, out int extractedUserId))
                     {
                         userId = extractedUserId;
                     }
                 }
-
             }
 
             using (var connection = new NpgsqlConnection(_configuration.GetConnectionString("Postgres")))
