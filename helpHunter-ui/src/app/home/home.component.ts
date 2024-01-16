@@ -45,6 +45,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     destroy = new Subject<boolean>();
     selectedService: ServiceModel | null = null;
     services: ServiceModel[] = [];
+    distance: number = 100
+    workMode: string | undefined = undefined
 
     constructor(
         private auth: AuthService,
@@ -99,6 +101,13 @@ export class HomeComponent implements OnInit, OnDestroy {
                 service.locationCoordinatesX = service.locationCoordinatesY;
                 service.locationCoordinatesY = x;
             });
+
+            if (this.workMode != undefined) {
+              value = value.filter(service => {
+                return service?.operatingMode == this.workMode
+              })
+            }
+
             this.services = value;
         });
     }
@@ -117,8 +126,20 @@ export class HomeComponent implements OnInit, OnDestroy {
                 serviceName = FILTERS_NAME_MAPPING.get(filters.it[0]);
             }
 
-            if (filters?.mechanic.length > 0) {
-                serviceName = FILTERS_NAME_MAPPING.get(filters.mechanic[0]);
+            if (filters?.services.length > 0) {
+                serviceName = FILTERS_NAME_MAPPING.get(filters.services[0]);
+            }
+
+            if (filters?.services?.length > 0) {
+                this.distance = parseInt(FILTERS_NAME_MAPPING.get(filters.services[0]) as string)
+            } else {
+                this.distance = 100
+            }
+
+            if (filters?.work?.length > 0) {
+              this.workMode = FILTERS_NAME_MAPPING.get(filters?.work[0])
+            } else {
+              this.workMode = undefined
             }
 
             this.fetchServices({ Location: '', CategoryOrServiceName: serviceName ?? '' });
