@@ -1,0 +1,23 @@
+<div class="pricing">
+    <div class="title">
+        <h1>Wycena usługi</h1>
+        <mat-icon class="close" (click)="closeModal()">close</mat-icon>
+    </div>
+    <div class="content">
+        <mat-form-field>
+            <mat-label>Wybierz datę rozpoczęcia</mat-label>
+            <input matInput [matDatepicker]="picker" />
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <textarea class="description" placeholder="Opis"></textarea>
+        <input type="text" class="text" placeholder="Szacowany czas wykonania" />
+        <input type="number" class="price" placeholder="Cena" />
+    </div>
+    <div>
+        <div class="buttons">
+            <button (click)="closeModal()" class="choice-return">Wróć</button>
+            <button (click)="closeModal()" class="choice-accept">Akceptuj</button>
+        </div>
+    </div>
+</div>

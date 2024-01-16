@@ -32,6 +32,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MapSelectLocationComponent } from './map/map-select-location/map-select-location.component';
 import { ProfileComponent } from './profile/profile.component';
 import { MatCardModule } from '@angular/material/card';
+import { MessagesComponent } from './messages/messages/messages.component';
+import { ServicePricingComponent } from './messages/service-pricing/service-pricing.component';
 
 @NgModule({
     declarations: [
@@ -49,6 +51,8 @@ import { MatCardModule } from '@angular/material/card';
         ServiceOrderingComponent,
         ProfileComponent,
         MapSelectLocationComponent,
+        MessagesComponent,
+        ServicePricingComponent,
     ],
     imports: [
         BrowserModule,
