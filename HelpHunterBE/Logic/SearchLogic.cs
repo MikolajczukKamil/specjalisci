@@ -1,4 +1,6 @@
+using HelpHunterBE.Dto;
 using Npgsql;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace HelpHunterBE.Logic
 {
@@ -31,6 +33,56 @@ namespace HelpHunterBE.Logic
                 Console.WriteLine(ex);
                 throw; // Rethrow the exception after logging or handling
             }
+        }
+
+        public List<ServiceInfo> GetSpecialistsByCategoryAndDistance(SearchCriteria criteria)
+        {
+            var category = new SearchCriteria()
+            {
+                CategoryOrServiceName = criteria.CategoryOrServiceName,
+            };
+
+            List<ServiceInfo> specialistsWithCategory = ExecuteSearchQuery(category);
+            Dictionary<ServiceInfo, double> listOfSpecialists = new Dictionary<ServiceInfo, double>();
+
+            specialistsWithCategory.ForEach(specialist =>
+            {
+                var distance = CalculateDistance(
+                    criteria.UserCoordinateX, 
+                    criteria.UserCoordinateY, 
+                    Convert.ToDouble(specialist.LocationCoordinatesX), 
+                    Convert.ToDouble(specialist.LocationCoordinatesY));
+
+                listOfSpecialists.Add(specialist, distance);
+            });
+
+            return listOfSpecialists
+                .OrderBy(x => x.Value)
+                .Select(x => x.Key)
+                .ToList();
+        }
+
+        private double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
+        {
+            const double EarthRadius = 6371.01;
+
+            double lat1Radians = Math.PI * lat1 / 180;
+            double lat2Radians = Math.PI * lat2 / 180;
+            double lon1Radians = Math.PI * lon1 / 180;
+            double lon2Radians = Math.PI * lon2 / 180;
+
+            double deltaLat = lat2Radians - lat1Radians;
+            double deltaLon = lon2Radians - lon1Radians;
+
+            double sinSquaredHalfDeltaLat = Math.Sin(deltaLat / 2) * Math.Sin(deltaLat / 2);
+            double sinSquaredHalfDeltaLon = Math.Sin(deltaLon / 2) * Math.Sin(deltaLon / 2);
+            double cosLat1CosLat2 = Math.Cos(lat1Radians) * Math.Cos(lat2Radians);
+
+            double a = sinSquaredHalfDeltaLat + cosLat1CosLat2 * sinSquaredHalfDeltaLon;
+            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+
+            double distanceInKilometers = EarthRadius * c;
+            return distanceInKilometers;
         }
 
         private string BuildSqlQuery(SearchCriteria criteria)
