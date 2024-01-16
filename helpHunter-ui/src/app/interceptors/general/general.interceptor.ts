@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
+import { catchError, Observable, tap } from 'rxjs';
 import { AuthService } from '../../services/auth/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class GeneralInterceptor implements HttpInterceptor {
@@ -9,7 +10,10 @@ export class GeneralInterceptor implements HttpInterceptor {
 
     private allowedUrls = ['/api/login', '/api/register', 'api.mapbox.com'];
 
-    constructor(private auth: AuthService) {}
+    constructor(
+        private auth: AuthService,
+        private snackBar: MatSnackBar
+    ) {}
 
     intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
         if (request.url.startsWith('/')) {
@@ -18,7 +22,7 @@ export class GeneralInterceptor implements HttpInterceptor {
             });
         }
 
-        if (!this.allowedUrls.includes(request.url)) {
+        if (!this.allowedUrls.some(allowedUrl => request.url.includes(allowedUrl))) {
             if (!this.auth.getToken()) {
                 this.auth.logout();
             } else {
@@ -29,6 +33,19 @@ export class GeneralInterceptor implements HttpInterceptor {
                 });
             }
         }
-        return next.handle(request);
+
+        return next.handle(request).pipe(
+            catchError((err: any) => {
+                if (err instanceof HttpErrorResponse) {
+                    if (err.status === 401 && !this.allowedUrls.some(allowedUrl => request.url.includes(allowedUrl))) {
+                        this.auth.logout();
+                        this.snackBar.open('Sesja wygasła', 'Close', {
+                            duration: 3000,
+                        });
+                    }
+                }
+                throw err;
+            })
+        );
     }
 }

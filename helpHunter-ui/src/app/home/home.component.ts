@@ -6,9 +6,12 @@ import { Subject, takeUntil } from 'rxjs';
 import { FiltersComponent } from './filters/filters.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ServiceOrderingComponent } from '../service-ordering/service-ordering.component';
-import {ServiceFilters, ServiceModel, ServicesService} from "./serviceModel";
+import { ServiceFilters, ServiceModel, ServicesService } from './serviceModel';
 import { MapLocalisationComponent } from '../map/map-localisation/map-localisation.component';
 import { isEqual } from 'lodash';
+import { Filters } from './filters/filters.model';
+import { FILTERS_NAME_MAPPING } from './filters/filters-mapping.model';
+import { GeocodingService } from '../map/map-localisation/geocoding.service';
 
 type NavigationMode = 'list' | 'map' | 'filters';
 
@@ -40,184 +43,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     isMapVisited: boolean = false;
     isSmallScreen: boolean = false;
     destroy = new Subject<boolean>();
-    selectedService: Service | null = null;
-
-    services = [
-        {
-            name: 'Mariusz Kowalski',
-            cityName: 'Warszawa',
-            minPrice: 100,
-            maxPrice: 200,
-            image: 'avatar1',
-            location: {
-                address: 'Warszawa 00-00, ul. Kowalska 1',
-                coordinates: {
-                    lat: 52.229,
-                    lng: 21.0,
-                },
-            },
-        },
-        {
-            name: 'Mariusz Kowalski',
-            cityName: 'Warszawa',
-            minPrice: 100,
-            maxPrice: 200,
-            image: 'avatar2',
-            location: {
-                address: 'Warszawa 00-00, ul. Kowalska 1',
-                coordinates: {
-                    lat: 53,
-                    lng: 23.0,
-                },
-            },
-        },
-        {
-            name: 'Mariusz Kowalski',
-            cityName: 'Warszawa',
-            minPrice: 100,
-            maxPrice: 200,
-            image: 'avatar1',
-            location: {
-                address: 'Warszawa 00-00, ul. Kowalska 1',
-                coordinates: {
-                    lat: 40,
-                    lng: 29.0,
-                },
-            },
-        },
-        {
-            name: 'Mariusz Kowalski',
-            cityName: 'Warszawa',
-            minPrice: 100,
-            maxPrice: 200,
-            image: 'avatar1',
-            location: {
-                address: 'Warszawa 00-00, ul. Kowalska 1',
-                coordinates: {
-                    lat: 53,
-                    lng: 25.0,
-                },
-            },
-        },
-        {
-            name: 'Mariusz Kowalski',
-            cityName: 'Warszawa',
-            minPrice: 100,
-            maxPrice: 200,
-            image: 'avatar3',
-            location: {
-                address: 'Warszawa 00-00, ul. Kowalska 1',
-                coordinates: {
-                    lat: 20,
-                    lng: 21.0,
-                },
-            },
-        },
-        {
-            name: 'Mariusz Kowalski',
-            cityName: 'Warszawa',
-            minPrice: 100,
-            maxPrice: 200,
-            image: 'avatar1',
-            location: {
-                address: 'Warszawa 00-00, ul. Kowalska 1',
-                coordinates: {
-                    lat: 58,
-                    lng: 21.0,
-                },
-            },
-        },
-        {
-            name: 'Mariusz Kowalski',
-            cityName: 'Warszawa',
-            minPrice: 100,
-            maxPrice: 200,
-            image: 'avatar1',
-            location: {
-                address: 'Warszawa 00-00, ul. Kowalska 1',
-                coordinates: {
-                    lat: 50.229,
-                    lng: 24.0,
-                },
-            },
-        },
-        {
-            name: 'Mariusz Kowalski',
-            cityName: 'Warszawa',
-            minPrice: 100,
-            maxPrice: 2001,
-            image: 'avatar1',
-            location: {
-                address: 'Warszawa 00-00, ul. Kowalska 1',
-                coordinates: {
-                    lat: 50.229,
-                    lng: 24.0,
-                },
-            },
-        },
-        {
-            name: 'Mariusz Kowalski',
-            cityName: 'Warszawa',
-            minPrice: 100,
-            maxPrice: 201,
-            image: 'avatar1',
-            location: {
-                address: 'Warszawa 00-00, ul. Kowalska 1',
-                coordinates: {
-                    lat: 50.229,
-                    lng: 24.0,
-                },
-            },
-        },
-        {
-            name: 'Mariusz Kowalski',
-            cityName: 'Warszawa',
-            minPrice: 100,
-            maxPrice: 240,
-            image: 'avatar1',
-            location: {
-                address: 'Warszawa 00-00, ul. Kowalska 1',
-                coordinates: {
-                    lat: 50.229,
-                    lng: 24.0,
-                },
-            },
-        },
-        {
-            name: 'Mariusz Kowalski',
-            cityName: 'Warszawa',
-            minPrice: 100,
-            maxPrice: 200,
-            image: 'avatar1',
-            location: {
-                address: 'Warszawa 00-00, ul. Kowalska 1',
-                coordinates: {
-                    lat: 50.22,
-                    lng: 24.0,
-                },
-            },
-        },
-        {
-            name: 'Mariusz Kowalski',
-            cityName: 'Warszawa',
-            minPrice: 150,
-            maxPrice: 200,
-            image: 'avatar1',
-            location: {
-                address: 'Warszawa 00-00, ul. Kowalska 1',
-                coordinates: {
-                    lat: 50.229,
-                    lng: 24.0,
-                },
-            },
-        },
-    ];
+    selectedService: ServiceModel | null = null;
+    services: ServiceModel[] = [];
 
     constructor(
         private auth: AuthService,
         private deviceSizeService: DeviceSizeService,
         public dialog: MatDialog,
-        private servicesService: ServicesService
+        private servicesService: ServicesService,
+        private geocodingService: GeocodingService
     ) {}
 
     ngOnInit(): void {
@@ -227,6 +61,20 @@ export class HomeComponent implements OnInit, OnDestroy {
             .subscribe(isSmallScreen => {
                 this.navigationMode = 'list';
                 this.isSmallScreen = isSmallScreen;
+            });
+
+        this.geocodingService
+            .getCurrentLocation()
+            .then(location => {
+                this.fetchServices({
+                    Location: '',
+                    CategoryOrServiceName: '',
+                    UserCoordinateX: location.x,
+                    UserCoordinateY: location.y,
+                });
+            })
+            .catch(error => {
+                this.fetchServices({ Location: '', CategoryOrServiceName: '' });
             });
     }
 
@@ -243,24 +91,54 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.destroy.unsubscribe();
     }
 
-    openFilters() {
-        this.dialog.open(FiltersComponent, { width: '500px', height: '500px' });
+    fetchServices(filters: ServiceFilters) {
+        this.servicesService.getServices(filters).subscribe(value => {
+            // swap x with y
+            value.forEach(service => {
+                const x = service.locationCoordinatesX;
+                service.locationCoordinatesX = service.locationCoordinatesY;
+                service.locationCoordinatesY = x;
+            });
+            this.services = value;
+        });
     }
 
-    openServiceButton(service: Service) {
+    openFilters() {
+        const dialogRef = this.dialog.open(FiltersComponent, { width: '500px', height: '500px' });
+        dialogRef.afterClosed().subscribe(result => {
+            const filters = result as Filters;
+            let serviceName: string | undefined = '';
+
+            if (filters?.builder.length > 0) {
+                serviceName = FILTERS_NAME_MAPPING.get(filters.builder[0]);
+            }
+
+            if (filters?.it.length > 0) {
+                serviceName = FILTERS_NAME_MAPPING.get(filters.it[0]);
+            }
+
+            if (filters?.mechanic.length > 0) {
+                serviceName = FILTERS_NAME_MAPPING.get(filters.mechanic[0]);
+            }
+
+            this.fetchServices({ Location: '', CategoryOrServiceName: serviceName ?? '' });
+        });
+    }
+
+    openServiceButton(service: ServiceModel) {
         this.dialog.open(ServiceOrderingComponent, { width: '460px', height: '780px' });
     }
 
-    selectService(service: Service) {
+    selectService(service: ServiceModel) {
         this.selectedService = service;
 
         this.scrollToSelectedService();
     }
 
-    goToLocation(service: Service) {
+    goToLocation(service: ServiceModel) {
         if (this.mapComponent) {
             this.mapComponent.flyTo({
-                center: [service.location.coordinates.lng, service.location.coordinates.lat],
+                center: [service.locationCoordinatesX, service.locationCoordinatesY],
                 zoom: 13,
             });
         }
@@ -277,7 +155,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         }
     }
 
-    isSelected(service: Service) {
+    isSelected(service: ServiceModel) {
         return isEqual(service, this.selectedService);
     }
 }

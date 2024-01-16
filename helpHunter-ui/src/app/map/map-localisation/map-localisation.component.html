@@ -1,23 +1,21 @@
-<div class="map-container">
+<div class="map-container" *ngIf="accessToken">
     <mgl-map
         [style]="'mapbox://styles/mapbox/streets-v9'"
         [zoom]="[zoom]"
         [center]="[center.x, center.y]"
         (mapCreate)="mapCreated($event)"
-        (mapLoad)="mapLoaded($event)">
+        (mapLoad)="mapLoaded($event)"
+        [accessToken]="accessToken">
         <ng-container *ngFor="let service of services; let i = index">
             <mgl-layer
                 id="circle{{ i }}"
                 type="fill"
                 [source]="{
                     type: 'geojson',
-                    data: createCircle(service.location.coordinates.lng, service.location.coordinates.lat)
+                    data: createCircle(service.locationCoordinatesX, service.locationCoordinatesY)
                 }"
                 [paint]="{ 'fill-color': '#627BC1', 'fill-opacity': 0.3 }"></mgl-layer>
-            <mgl-marker
-                #marker
-                [lngLat]="[service.location.coordinates.lng, service.location.coordinates.lat]"
-                anchor="center">
+            <mgl-marker #marker [lngLat]="[service.locationCoordinatesX, service.locationCoordinatesY]" anchor="center">
                 <img
                     src="assets/icons/marker.png"
                     alt="marker"
@@ -26,8 +24,11 @@
                     (click)="clickOnMarker.emit(service)" />
             </mgl-marker>
             <mgl-popup [closeButton]="false" [marker]="marker" [offset]="{ bottom: [0, -25] }">
-                {{ service.name }}
+                {{ service.serviceName }}
             </mgl-popup>
         </ng-container>
+        <mgl-control position="bottom-right" mglGeolocate> </mgl-control>
+        <mgl-control position="bottom-right" mglNavigation> </mgl-control>
+        <mgl-control position="bottom-left" mglScale> </mgl-control>
     </mgl-map>
 </div>

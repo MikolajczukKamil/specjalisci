@@ -14,5 +14,6 @@ WORKDIR /App
 COPY --from=build-env /App/out .
 ENV ASPNETCORE_URLS=http://+:5000
 ENV MAP_TOKEN=test
+ENV JWT_KEY=test2
 ENTRYPOINT ["dotnet", "HelpHunterBE.dll"]
 EXPOSE 5000

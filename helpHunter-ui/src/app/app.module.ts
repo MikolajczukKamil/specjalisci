@@ -11,7 +11,6 @@ import { MapLocalisationComponent } from './map/map-localisation/map-localisatio
 import { MapService, NgxMapboxGLModule } from 'ngx-mapbox-gl';
 import { GeocodingService } from './map/map-localisation/geocoding.service';
 import { MatButtonModule } from '@angular/material/button';
-import { environment } from '../environments/environment.local';
 import { HttpClient, HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { GeneralInterceptor } from './interceptors/general/general.interceptor';
 import { RouterOutlet } from '@angular/router';
@@ -33,6 +32,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MapSelectLocationComponent } from './map/map-select-location/map-select-location.component';
 import { ProfileComponent } from './profile/profile.component';
 import { MatCardModule } from '@angular/material/card';
+import { MessagesComponent } from './messages/messages/messages.component';
+import { ServicePricingComponent } from './messages/service-pricing/service-pricing.component';
 
 @NgModule({
     declarations: [
@@ -50,6 +51,8 @@ import { MatCardModule } from '@angular/material/card';
         ServiceOrderingComponent,
         ProfileComponent,
         MapSelectLocationComponent,
+        MessagesComponent,
+        ServicePricingComponent,
     ],
     imports: [
         BrowserModule,
@@ -61,7 +64,7 @@ import { MatCardModule } from '@angular/material/card';
         FormsModule,
         MatSnackBarModule,
         MatButtonModule,
-        NgxMapboxGLModule.withConfig({ accessToken: environment.mapToken }),
+        NgxMapboxGLModule,
         MatIconModule,
         MatButtonToggleModule,
         MatInputModule,

@@ -31,7 +31,12 @@ builder.Services.AddSingleton(jwtConfig);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        var signingKey = Encoding.UTF8.GetBytes(jwtConfig.Key);
+        string signingKey = Environment.GetEnvironmentVariable("JWT_KEY");
+
+        if (string.IsNullOrEmpty(signingKey))
+        {
+            throw new ApplicationException("JWT_KEY not found in environment variables.");
+        }
 
         options.TokenValidationParameters = new TokenValidationParameters
         {
@@ -41,19 +46,21 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidIssuer = jwtConfig.Issuer,
             ValidAudience = jwtConfig.Audience,
-            IssuerSigningKey = new SymmetricSecurityKey(signingKey)
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signingKey))
         };
     });
 
 builder.Services.AddScoped<IUserLogic, UserLogic>();
 builder.Services.AddScoped<IMailLogic, MailLogic>();
+builder.Services.AddScoped<IRatingLogic, RatingLogic>();
 
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
         policy =>
         {
-            policy.WithOrigins("http://95.217.193.230")
+            policy
+                .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader();
         });

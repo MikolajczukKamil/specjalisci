@@ -4,6 +4,9 @@ import { Properties, Units } from '@turf/turf';
 import { Map, MapboxEvent, Point, FlyToOptions } from 'mapbox-gl';
 import { Marker } from './marker.model';
 import { Service } from '../../home/home.component';
+import { Subject, takeUntil } from 'rxjs';
+import { TokenService } from '../token.service';
+import {ServiceModel} from "../../home/serviceModel";
 
 @Component({
     selector: 'app-map-localisation',
@@ -12,14 +15,18 @@ import { Service } from '../../home/home.component';
 })
 export class MapLocalisationComponent implements OnInit {
     @Input()
-    services: Service[] = [];
+    services: ServiceModel[] = [];
 
     @Output()
-    clickOnMarker = new EventEmitter<Service>();
+    clickOnMarker = new EventEmitter<ServiceModel>();
 
     map!: Map;
     zoom: number = 5.5;
     center: Point = { x: 19.7, y: 52.1 } as Point;
+    accessToken = '';
+    destroy = new Subject<boolean>();
+
+    constructor(private tokenService: TokenService) {}
 
     createCircle(x: number, y: number): any {
         const center = [x, y];
@@ -32,7 +39,14 @@ export class MapLocalisationComponent implements OnInit {
         return turf.circle(center, radius, options);
     }
 
-    public ngOnInit() {}
+    ngOnInit(): void {
+        this.tokenService
+            .getToken()
+            .pipe(takeUntil(this.destroy))
+            .subscribe(token => {
+                this.accessToken = token.map_token;
+            });
+    }
 
     mapCreated(map: Map) {
         this.map = map;
@@ -44,5 +58,10 @@ export class MapLocalisationComponent implements OnInit {
 
     flyTo(options: FlyToOptions) {
         this.map.flyTo(options);
+    }
+
+    ngOnDestroy(): void {
+        this.destroy.next(true);
+        this.destroy.unsubscribe();
     }
 }

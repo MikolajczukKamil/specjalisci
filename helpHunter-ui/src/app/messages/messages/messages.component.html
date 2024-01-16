@@ -1,0 +1,99 @@
+<div class="chat-container">
+    <div *ngIf="!isSmallScreen || !selectedChatId" class="chat-left-content">
+        <h2 class="title">Wiadomości</h2>
+        <div class="search-container">
+            <mat-icon class="search-icon">search</mat-icon>
+            <input type="text" class="search-input" placeholder="Szukaj" />
+            <div class="list-container">
+                <ng-container *ngFor="let chat of serviceChats; let i = index">
+                    <div class="list-item" (click)="onChatSelected(chat)" [class]="{ active: isSelected(chat) }">
+                        <div class="list-item-image">
+                            <img [src]="'./assets/images/avatars/avatar' + chat.avatar + '.png'" alt="avatar" />
+                        </div>
+                        <div class="list-item-content">
+                            <div class="list-item-service-name">
+                                <p>{{ chat.serviceName }}</p>
+                                <div
+                                    class="list-item-tag"
+                                    [class]="{
+                                        new: chat.status === 'new',
+                                        started: chat.status === 'started',
+                                        accepted: chat.status === 'accepted',
+                                        finished: chat.status === 'finished'
+                                    }">
+                                    {{
+                                        chat.status === 'new'
+                                            ? 'Nowe'
+                                            : chat.status === 'started'
+                                            ? 'Rozpoczęte'
+                                            : chat.status === 'accepted'
+                                            ? 'Zaakceptowane'
+                                            : chat.status === 'finished'
+                                            ? 'Zakończone'
+                                            : 'Unknown'
+                                    }}
+                                </div>
+                            </div>
+                            <div class="list-item-full-name">
+                                {{ chat.fullName }}
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="divider" />
+                </ng-container>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!isSmallScreen || selectedChatId" class="chat-right-content">
+        <div *ngIf="selectedChat" class="selected-chat">
+            <h2 class="title">Zlecenie: {{ selectedChat.serviceName }}</h2>
+            <h3 class="period">
+                <span style="font-weight: bold">Proponowany okres: </span> {{ selectedChat.startDate }} -
+                {{ selectedChat.endDate }}
+            </h3>
+            <h3 class="description">
+                <span style="font-weight: bold">Opis: </span> {{ selectedChat.startDate }} - {{ selectedChat.endDate }}
+            </h3>
+
+            <div class="messages-container">
+                <ng-container *ngFor="let message of selectedChat.messages">
+                    <div
+                        *ngIf="message.type === 'my' || message.type === 'other'"
+                        class="message"
+                        [class]="{ 'right-message': message.type === 'my', 'left-message': message.type === 'other' }">
+                        <div class="message-avatar">
+                            <img [src]="'./assets/images/avatars/avatar' + selectedChat.avatar + '.png'" alt="avatar" />
+                        </div>
+                        <div class="message-content">
+                            <p>{{ message.message }}</p>
+                        </div>
+                    </div>
+                    <div *ngIf="message.type === 'pricing'" class="message-pricing">
+                        <p class="title">Nowa wycena specjalisty</p>
+                        <p class="item"><span>Data rozpoczęcia: </span> {{ message.startDate }}</p>
+                        <p class="item"><span>Opis: </span> {{ message.description }}</p>
+                        <p class="item"><span>Szacowany czas wykonania: </span> {{ message.estimatedExecutionTime }}</p>
+                        <p class="item"><span>Cena: </span> {{ message.price }} zł</p>
+                    </div>
+                </ng-container>
+            </div>
+            <div *ngIf="isSmallScreen" style="padding-top: 20px; display: flex; width: 100%; justify-content: flex-end">
+                <app-button (click)="openPricing()" type="stroked" text="Złóż wycenę" style="width: 124px" />
+            </div>
+            <div class="message-input">
+                <input type="text" class="message-input-text" placeholder="Wpisz wiadomość" />
+                <app-button text="Wyślij" style="width: 78px" />
+                <app-button
+                    *ngIf="!isSmallScreen"
+                    (click)="openPricing()"
+                    type="stroked"
+                    text="Złóż wycenę"
+                    style="width: 124px" />
+            </div>
+        </div>
+        <div *ngIf="!selectedChat" class="select-chat-container">
+            <h2 class="select-chat">Wybierz rozmowę</h2>
+        </div>
+    </div>
+</div>

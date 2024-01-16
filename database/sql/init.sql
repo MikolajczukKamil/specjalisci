@@ -9,7 +9,10 @@ CREATE TABLE Users (
     is_providing_services BOOLEAN,
     location VARCHAR(255),
     location_coordinates_x DECIMAL(10, 6),
-    location_coordinates_y DECIMAL(10, 6)
+    location_coordinates_y DECIMAL(10, 6),
+    avatar INT,
+    phone_number VARCHAR(15),
+    description VARCHAR(1000)
 );
 
 -- Tworzenie tabeli Categories
@@ -42,7 +45,9 @@ CREATE TABLE Available_Services (
 CREATE TABLE Ratings (
     rating_id SERIAL PRIMARY KEY,
     user_id INT REFERENCES Users(user_id) NOT NULL,
-    rating INTEGER CHECK (rating BETWEEN 1 AND 5) NOT NULL
+    reviewer_id INT REFERENCES Users(user_id) NOT NULL,
+    rating INTEGER CHECK (rating BETWEEN 1 AND 5) NOT NULL,
+    comment VARCHAR(1000) NOT NULL
 );
 
 
@@ -131,27 +136,27 @@ VALUES
     (19, 19, 2, 'Zabezpieczanie systemów przed zagrożeniami cybernetycznymi', 250.00, 180.00, 'Elastyczne', 40.00, 'Stacjonarne'),
     (20, 20, 4, 'Rozwinięte rozwiązania e-commerce i sklepy internetowe', 200.00, 150.00, 'Poniedziałek-Piątek', 30.00, 'Mobilne');
 
-INSERT INTO Ratings (user_id, rating) VALUES
-    (1, 4),
-    (2, 2),
-    (3, 5),
-    (4, 1),
-    (5, 3),
-    (6, 5),
-    (7, 2),
-    (8, 4),
-    (9, 3),
-    (10, 1),
-    (11, 4),
-    (12, 2),
-    (13, 5),
-    (14, 1),
-    (15, 3),
-    (16, 5),
-    (17, 2),
-    (18, 4),
-    (19, 3),
-    (20, 1);
+INSERT INTO Ratings (user_id, reviewer_id, rating, comment) VALUES
+    (1, 10, 4, 'A'),
+    (2, 15, 2, 'A'),
+    (3, 4, 5, 'A'),
+    (4, 19, 1, 'A'),
+    (5, 6, 3, 'A'),
+    (6, 1, 5, 'A'),
+    (7, 1, 2, 'A'),
+    (8, 9, 4, 'A'),
+    (9, 13, 3, 'A'),
+    (10, 2, 1, 'A'),
+    (11, 1, 4, 'A'),
+    (12, 18, 2, 'A'),
+    (13, 14, 5, 'A'),
+    (14, 5, 1, 'A'),
+    (15, 20, 3, 'A'),
+    (16, 19, 5, 'A'),
+    (17, 17, 2, 'A'),
+    (18, 11, 4, 'A'),
+    (19, 6, 3, 'A'),
+    (20, 9, 1, 'A');
 
 
 -- Instalacja rozszerzenia pgcrypto (jeśli jeszcze nie zainstalowane)
@@ -168,5 +173,29 @@ BEGIN
 
     -- Verify the input password against the stored hash using pgcrypto
     RETURN crypt(p_input_password, stored_password_hash) = stored_password_hash;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Funkcja do haszowania przy rejestracji
+CREATE OR REPLACE FUNCTION register(p_full_name VARCHAR, p_phone_number VARCHAR, p_email VARCHAR, p_password VARCHAR, p_avatar INT)
+RETURNS BOOLEAN AS $$
+DECLARE
+    email_exists BOOLEAN;
+BEGIN
+    -- Sprawdzenie, czy podany email jest już zajęty
+    SELECT EXISTS (SELECT 1 FROM Users WHERE email = p_email) INTO email_exists;
+    -- Jeśli email już istnieje, zwracamy false
+    IF email_exists THEN
+        RETURN FALSE;
+    ELSE
+        -- Zaszyfrowanie hasła za pomocą MD5
+        p_password := crypt(p_password, gen_salt('md5'));
+	-- Wstawienie danych użytkownika do tabeli
+        INSERT INTO Users (username, full_name, phone_number, email, password, avatar)
+        VALUES (p_email, p_full_name, p_phone_number, p_email, p_password, p_avatar);
+
+        -- Zwracamy true, jeśli użytkownik został pomyślnie zarejestrowany
+        RETURN TRUE;
+    END IF;
 END;
 $$ LANGUAGE plpgsql;

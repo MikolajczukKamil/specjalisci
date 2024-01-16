@@ -2,18 +2,18 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
     selector: 'app-random-image',
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.css'],
 })
-
 export class RegisterComponent implements OnInit {
-
     constructor(
-        private _router: Router, 
-        private snackBar: MatSnackBar
+        private _router: Router,
+        private snackBar: MatSnackBar,
+        private authService: AuthService
     ) {
         this.getRandomImageUrl();
     }
@@ -26,84 +26,85 @@ export class RegisterComponent implements OnInit {
     imageUrls2: string = '';
     imageUrls3: string = '';
     imageUrls4: string = '';
-    chosenImage:string = '';
-    full_name:  string = '';
+    chosenImage: string = '';
+    full_name: string = '';
 
     registerForm = new FormGroup({
         firstName: new FormControl<string>('', {
             nonNullable: true,
-            validators: [
-                Validators.required, 
-                Validators.minLength(2), 
-                Validators.pattern('[a-zA-Z].*')
-            ],
+            validators: [Validators.required, Validators.minLength(2), Validators.pattern('[a-zA-Z].*')],
         }),
         lastName: new FormControl<string>('', {
             nonNullable: true,
-            validators: [
-                Validators.required, 
-                Validators.minLength(2), 
-                Validators.pattern('[a-zA-Z].*')
-            ],
-        }),
-        address: new FormControl<string>('', {
-            nonNullable: true,
-            validators: [
-                Validators.required,
-                Validators.minLength(4), 
-            ],
+            validators: [Validators.required, Validators.minLength(2), Validators.pattern('[a-zA-Z].*')],
         }),
         mobile: new FormControl<string>('', {
             nonNullable: true,
             validators: [
-                Validators.required, 
-                Validators.minLength(9), 
-                Validators.maxLength(9), 
-                Validators.pattern('[0-9].*')
+                Validators.required,
+                Validators.minLength(9),
+                Validators.maxLength(9),
+                Validators.pattern('[0-9].*'),
             ],
         }),
         email: new FormControl<string>('', {
             nonNullable: true,
-            validators: [
-                Validators.required, 
-                Validators.email
-            ],
+            validators: [Validators.required, Validators.email],
         }),
-        pwd: new FormControl<string>('', { 
-            nonNullable: true, 
-            validators: [
-                Validators.required,
-                Validators.minLength(8)
-            ] 
+        pwd: new FormControl<string>('', {
+            nonNullable: true,
+            validators: [Validators.required, Validators.minLength(8)],
         }),
     });
-
-
 
     ngOnInit(): void {}
 
     registerSubmit() {
         if (this.registerForm.valid && this.chosenImage.length > 0) {
-            this.full_name = this.registerForm.get('firstName')?.value + ' ' + this.registerForm.get('lastName')?.value;            
-            this.navigateToLogin();
+            const formData = this.registerForm.getRawValue();
+            this.full_name = this.registerForm.get('firstName')?.value + ' ' + this.registerForm.get('lastName')?.value;
 
+            this.authService
+                .register({
+                    full_name: this.full_name,
+                    phone_number: formData.mobile,
+                    email: formData.email,
+                    password: formData.pwd,
+                    avatar: this.shouldShowImage1 ? 1 : this.shouldShowImage2 ? 2 : this.shouldShowImage3 ? 3 : 4,
+                })
+                .subscribe({
+                    next: response => {
+                        this.navigateToLogin();
+                        this.snackBar.open('Zarejestrowano pomyślnie', 'Close', {
+                            duration: 3000,
+                        });
+                    },
+                    error: error => {
+                        if (error.status == 409) {
+                            this.snackBar.open('Podany adres email jest już zajęty', 'Close', {
+                                duration: 3000,
+                            });
+                        } else {
+                            this.snackBar.open('Wystąpił błąd', 'Close', {
+                                duration: 3000,
+                            });
+                        }
+                    },
+                });
         } else {
             if (this.registerForm.get('firstName')?.invalid) {
                 this.snackBar.open('Wprowadź poprawne imie', 'Close', {
                     duration: 3000,
                 });
-            }
-            else if (this.registerForm.get('lastName')?.invalid) {
+            } else if (this.registerForm.get('lastName')?.invalid) {
                 this.snackBar.open('Wprowadź poprawne nazwisko', 'Close', {
                     duration: 3000,
                 });
-            }
-            else if (this.registerForm.get('mobile')?.invalid) {
+            } else if (this.registerForm.get('mobile')?.invalid) {
                 this.snackBar.open('Wprowadź poprawny numer telefonu', 'Close', {
                     duration: 3000,
                 });
-            }
-            else if (this.registerForm.get('email')?.invalid) {
+            } else if (this.registerForm.get('email')?.invalid) {
                 this.snackBar.open('Wprowadź poprawny adres email', 'Close', {
                     duration: 3000,
                 });
@@ -111,7 +112,7 @@ export class RegisterComponent implements OnInit {
                 this.snackBar.open('Wprowadź poprawne hasło', 'Close', {
                     duration: 3000,
                 });
-            }else if (this.chosenImage.length == 0 ) {
+            } else if (this.chosenImage.length == 0) {
                 this.snackBar.open('Wybierz avatar', 'Close', {
                     duration: 3000,
                 });
@@ -184,32 +185,32 @@ export class RegisterComponent implements OnInit {
         return this.imageUrls4;
     }
 
-    choseImage1(){
+    choseImage1() {
         this.shouldShowImage1 = true;
         this.shouldShowImage2 = false;
         this.shouldShowImage3 = false;
         this.shouldShowImage4 = false;
-        this.chosenImage = this.getImageUrls1()
+        this.chosenImage = this.getImageUrls1();
     }
-    choseImage2(){
+    choseImage2() {
         this.shouldShowImage1 = false;
         this.shouldShowImage2 = true;
         this.shouldShowImage3 = false;
         this.shouldShowImage4 = false;
-        this.chosenImage = this.getImageUrls2()
+        this.chosenImage = this.getImageUrls2();
     }
-    choseImage3(){
+    choseImage3() {
         this.shouldShowImage1 = false;
         this.shouldShowImage2 = false;
         this.shouldShowImage3 = true;
         this.shouldShowImage4 = false;
-        this.chosenImage = this.getImageUrls3()
+        this.chosenImage = this.getImageUrls3();
     }
-    choseImage4(){
+    choseImage4() {
         this.shouldShowImage1 = false;
         this.shouldShowImage2 = false;
         this.shouldShowImage3 = false;
         this.shouldShowImage4 = true;
-        this.chosenImage = this.getImageUrls4()
+        this.chosenImage = this.getImageUrls4();
     }
 }

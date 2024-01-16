@@ -1,9 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, UrlTree } from '@angular/router';
+import { Observable } from 'rxjs';
 
 export interface Token {
     token: string;
+}
+
+export interface RegisterPayload {
+    full_name: string;
+    phone_number: string;
+    email: string;
+    password: string;
+    avatar: number;
 }
 
 @Injectable({
@@ -32,6 +41,10 @@ export class AuthService {
                 },
             });
         });
+    }
+
+    register(payload: RegisterPayload): Observable<unknown> {
+        return this.http.post(`/api/register`, payload, { responseType: 'text' });
     }
 
     getToken(): string | null {

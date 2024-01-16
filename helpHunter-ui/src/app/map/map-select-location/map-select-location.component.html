@@ -1,4 +1,4 @@
-<div class="map-container">
+<div *ngIf="accessToken" class="map-container">
     <mgl-map
         [style]="'mapbox://styles/mapbox/streets-v9'"
         [zoom]="[4]"
@@ -6,7 +6,8 @@
         (mapCreate)="mapCreated($event)"
         (mapLoad)="mapLoaded($event)"
         (move)="onMapDrag($event)"
-        (mapDragEnd)="onMapDragEnd($event)">
+        (mapDragEnd)="onMapDragEnd($event)"
+        [accessToken]="accessToken">
         <mgl-marker [lngLat]="markerCoordinates"></mgl-marker>
         <mgl-control *ngIf="markerCoordinates" position="bottom-left">
             <div>
