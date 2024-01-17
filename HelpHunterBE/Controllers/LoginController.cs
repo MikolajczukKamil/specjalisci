@@ -4,6 +4,7 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using HelpHunterBE.Logic;
 using Npgsql;
 
 namespace HelpHunterBE.Controllers
@@ -13,16 +14,17 @@ namespace HelpHunterBE.Controllers
     public class LoginController : ControllerBase
     {
         private readonly IConfiguration _configuration;
+        private readonly IUserLogic _userLogic;
 
-        public LoginController(IConfiguration configuration)
+        public LoginController(IConfiguration configuration, IUserLogic userLogic)
         {
             _configuration = configuration;
+            _userLogic = userLogic;
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            // Replace this with your actual user authentication logic
             if (IsUserValid(model.Username, model.Password))
             {
                 var token = GenerateJwtToken(model.Username);
@@ -57,14 +59,20 @@ namespace HelpHunterBE.Controllers
             }
         }
         private string GenerateJwtToken(string username)
-        {   string signingKey = Environment.GetEnvironmentVariable("JWT_KEY");
+        {
+            string signingKey = Environment.GetEnvironmentVariable("JWT_KEY");
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signingKey));
             var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+
+            // Fetch user_id from the database based on the username
+            var userId = _userLogic.GetUserIdByUsername(username);
+
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, username),
+                new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.Role, "Test") // We can add more roles later like this
+                new Claim(ClaimTypes.Role, "Test"), // We can add more roles later like this
+                new Claim("username", username) // Custom claim for username
             };
 
             var token = new JwtSecurityToken(
