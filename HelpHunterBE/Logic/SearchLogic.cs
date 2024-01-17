@@ -47,42 +47,19 @@ namespace HelpHunterBE.Logic
 
             specialistsWithCategory.ForEach(specialist =>
             {
-                var distance = CalculateDistance(
+                var distance = Utils.Utils.CalculateDistance(
                     criteria.UserCoordinateX, 
                     criteria.UserCoordinateY, 
-                    Convert.ToDouble(specialist.LocationCoordinatesX), 
-                    Convert.ToDouble(specialist.LocationCoordinatesY));
+                    specialist.LocationCoordinatesX, 
+                    specialist.LocationCoordinatesY);
 
-                listOfSpecialists.Add(specialist, distance);
+                listOfSpecialists.Add(specialist, distance.Value);
             });
 
             return listOfSpecialists
                 .OrderBy(x => x.Value)
                 .Select(x => x.Key)
                 .ToList();
-        }
-
-        private double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
-        {
-            const double EarthRadius = 6371.01;
-
-            double lat1Radians = Math.PI * lat1 / 180;
-            double lat2Radians = Math.PI * lat2 / 180;
-            double lon1Radians = Math.PI * lon1 / 180;
-            double lon2Radians = Math.PI * lon2 / 180;
-
-            double deltaLat = lat2Radians - lat1Radians;
-            double deltaLon = lon2Radians - lon1Radians;
-
-            double sinSquaredHalfDeltaLat = Math.Sin(deltaLat / 2) * Math.Sin(deltaLat / 2);
-            double sinSquaredHalfDeltaLon = Math.Sin(deltaLon / 2) * Math.Sin(deltaLon / 2);
-            double cosLat1CosLat2 = Math.Cos(lat1Radians) * Math.Cos(lat2Radians);
-
-            double a = sinSquaredHalfDeltaLat + cosLat1CosLat2 * sinSquaredHalfDeltaLon;
-            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-
-            double distanceInKilometers = EarthRadius * c;
-            return distanceInKilometers;
         }
 
         private string BuildSqlQuery(SearchCriteria criteria)
