@@ -35,14 +35,24 @@ export class FiltersComponent {
         laptop: new FormControl(false),
         phone: new FormControl(false),
         network: new FormControl(false),
+        integration: new FormControl(false),
+        desktop: new FormControl(false),
+        mobile: new FormControl(false),
+        cloud: new FormControl(false),
+        cybersec: new FormControl(false),
+        testing: new FormControl(false),
+        www: new FormControl(false),
+        server: new FormControl(false),
+        website: new FormControl(false),
+        data: new FormControl(false),
+        design: new FormControl(false),
     });
 
-    mechanic = new FormGroup({
-        oil: new FormControl(false),
-        filter: new FormControl(false),
-        tire: new FormControl(false),
-        diagnostics: new FormControl(false),
-        geometry: new FormControl(false),
+    services = new FormGroup({
+      sprzatanie: new FormControl(false),
+      elektronika: new FormControl(false),
+      opieka: new FormControl(false),
+      finanse: new FormControl(false),
     });
 
     reset() {
@@ -50,7 +60,7 @@ export class FiltersComponent {
         this.work.reset();
         this.builder.reset();
         this.it.reset();
-        this.mechanic.reset();
+        this.services.reset();
     }
 
     save() {
@@ -59,7 +69,7 @@ export class FiltersComponent {
             work: this.getCorrespondingValues(this.work),
             builder: this.getCorrespondingValues(this.builder),
             it: this.getCorrespondingValues(this.it),
-            mechanic: this.getCorrespondingValues(this.mechanic),
+            services: this.getCorrespondingValues(this.services),
         } as Filters);
     }
 
@@ -74,6 +84,4 @@ export class FiltersComponent {
             .map(control => controls.push(control));
         return controls;
     }
-
-    protected readonly close = close;
 }

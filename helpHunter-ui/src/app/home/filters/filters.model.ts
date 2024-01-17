@@ -3,5 +3,5 @@ export interface Filters {
   work: string[],
   builder: string[],
   it: string[],
-  mechanic: string[]
+  services: string[]
 }

@@ -73,6 +73,6 @@
         (change)="changeNavigationMode($event)">
         <mat-button-toggle class="toggle-button" value="list">Lista</mat-button-toggle>
         <mat-button-toggle class="toggle-button" value="map">Mapa</mat-button-toggle>
-        <mat-button-toggle class="toggle-button" value="filters">Filtry</mat-button-toggle>
+        <mat-button-toggle class="toggle-button" value="filters" (click)="openFilters()">Filtry</mat-button-toggle>
     </mat-button-toggle-group>
 </div>
