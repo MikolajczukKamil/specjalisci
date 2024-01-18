@@ -8,6 +8,7 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import { MainComponent } from './main/main.component';
 import { ProfileComponent } from './profile/profile.component';
 import { MessagesComponent } from './messages/messages/messages.component';
+import {ProfileOverviewComponent} from "./profile-overview/profile-overview/profile-overview.component";
 
 const routes: Routes = [
     {
@@ -20,6 +21,7 @@ const routes: Routes = [
             { path: 'profile', component: ProfileComponent },
             { path: 'chat', component: MessagesComponent },
             { path: 'chat/:id', component: MessagesComponent },
+            { path: 'profile-overview/:id', component: ProfileOverviewComponent },
         ],
     },
     { path: 'register', component: RegisterComponent },
