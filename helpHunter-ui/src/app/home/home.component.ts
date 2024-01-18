@@ -12,6 +12,7 @@ import { isEqual } from 'lodash';
 import { Filters } from './filters/filters.model';
 import { FILTERS_NAME_MAPPING } from './filters/filters-mapping.model';
 import { GeocodingService } from '../map/map-localisation/geocoding.service';
+import { Router } from '@angular/router';
 
 type NavigationMode = 'list' | 'map' | 'filters';
 
@@ -60,7 +61,8 @@ export class HomeComponent implements OnInit, OnDestroy {
         private deviceSizeService: DeviceSizeService,
         public dialog: MatDialog,
         private servicesService: ServicesService,
-        private geocodingService: GeocodingService
+        private geocodingService: GeocodingService,
+        private router: Router
     ) {}
 
     ngOnInit(): void {
@@ -192,5 +194,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     isSelected(service: ServiceModel) {
         return isEqual(service, this.selectedService);
+    }
+
+    navigateToProfile(id: string | number) {
+        this.router.navigate(['/profile-overview/' + id]);
     }
 }
