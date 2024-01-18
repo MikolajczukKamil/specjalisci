@@ -30,6 +30,11 @@ export interface Service {
     };
 }
 
+export interface Location {
+  x: number
+  y: number
+}
+
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
@@ -45,8 +50,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     destroy = new Subject<boolean>();
     selectedService: ServiceModel | null = null;
     services: ServiceModel[] = [];
-    distance: number = 100
+    distance: number = 1000
     workMode: string | undefined = undefined
+    location: Location = { x: 0, y: 0 }
+    filters: Filters = { size: [], work: [], builder: [], it: [], services: []}
 
     constructor(
         private auth: AuthService,
@@ -68,11 +75,12 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.geocodingService
             .getCurrentLocation()
             .then(location => {
+                this.location = location;
                 this.fetchServices({
                     Location: '',
                     CategoryOrServiceName: '',
-                    UserCoordinateX: location.x,
-                    UserCoordinateY: location.y,
+                    UserCoordinateX: location.y,
+                    UserCoordinateY: location.x,
                 });
             })
             .catch(error => {
@@ -108,41 +116,47 @@ export class HomeComponent implements OnInit, OnDestroy {
               })
             }
 
+            if (this.distance) {
+              value = value.filter(service => {
+                return service?.distance <= (this.distance * 1000)
+              })
+            }
+
             this.services = value;
         });
     }
 
     openFilters() {
-        const dialogRef = this.dialog.open(FiltersComponent, { width: '500px', height: '500px' });
+        const dialogRef = this.dialog.open(FiltersComponent, { width: '500px', height: '500px', data : { currentFilters: this.filters }});
         dialogRef.afterClosed().subscribe(result => {
-            const filters = result as Filters;
+            this.filters = result as Filters;
             let serviceName: string | undefined = '';
 
-            if (filters?.builder.length > 0) {
-                serviceName = FILTERS_NAME_MAPPING.get(filters.builder[0]);
+            if (this.filters?.builder.length > 0) {
+                serviceName = FILTERS_NAME_MAPPING.get(this.filters?.builder[0]);
             }
 
-            if (filters?.it.length > 0) {
-                serviceName = FILTERS_NAME_MAPPING.get(filters.it[0]);
+            if (this.filters?.it.length > 0) {
+                serviceName = FILTERS_NAME_MAPPING.get(this.filters?.it[0]);
             }
 
-            if (filters?.services.length > 0) {
-                serviceName = FILTERS_NAME_MAPPING.get(filters.services[0]);
+            if (this.filters?.services.length > 0) {
+                serviceName = FILTERS_NAME_MAPPING.get(this.filters?.services[0]);
             }
 
-            if (filters?.services?.length > 0) {
-                this.distance = parseInt(FILTERS_NAME_MAPPING.get(filters.services[0]) as string)
+            if (this.filters?.size?.length > 0) {
+                this.distance = parseInt(this.filters?.size[0])
             } else {
-                this.distance = 100
+                this.distance = 1000
             }
 
-            if (filters?.work?.length > 0) {
-              this.workMode = FILTERS_NAME_MAPPING.get(filters?.work[0])
+            if (this.filters?.work?.length > 0) {
+              this.workMode = FILTERS_NAME_MAPPING.get(this.filters?.work[0])
             } else {
               this.workMode = undefined
             }
 
-            this.fetchServices({ Location: '', CategoryOrServiceName: serviceName ?? '' });
+            this.fetchServices({ Location: '', CategoryOrServiceName: serviceName ?? '', UserCoordinateX: this.location.y, UserCoordinateY: this.location.x });
         });
     }
 

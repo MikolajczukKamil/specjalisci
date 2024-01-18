@@ -21,7 +21,7 @@ export const FILTERS_NAME_MAPPING = new Map<string, string>([
   ["server", "Administracja Serwerami"],
   ["website", "Tworzenie Stron Internetowych"],
   ["data", "Analiza Danych"],
-  ["design", "Projektowanie Graficzne Stron"],
+  ["graphic", "Projektowanie Graficzne Stron"],
 
   ["sprzatanie", "Usługi Sprzątające"],
   ["elektronika", "Naprawa Elektroniki"],
