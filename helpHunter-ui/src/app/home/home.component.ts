@@ -12,6 +12,7 @@ import { isEqual } from 'lodash';
 import { Filters } from './filters/filters.model';
 import { FILTERS_NAME_MAPPING } from './filters/filters-mapping.model';
 import { GeocodingService } from '../map/map-localisation/geocoding.service';
+import { Router } from '@angular/router';
 
 type NavigationMode = 'list' | 'map' | 'filters';
 
@@ -45,15 +46,16 @@ export class HomeComponent implements OnInit, OnDestroy {
     destroy = new Subject<boolean>();
     selectedService: ServiceModel | null = null;
     services: ServiceModel[] = [];
-    distance: number = 100
-    workMode: string | undefined = undefined
+    distance: number = 100;
+    workMode: string | undefined = undefined;
 
     constructor(
         private auth: AuthService,
         private deviceSizeService: DeviceSizeService,
         public dialog: MatDialog,
         private servicesService: ServicesService,
-        private geocodingService: GeocodingService
+        private geocodingService: GeocodingService,
+        private router: Router
     ) {}
 
     ngOnInit(): void {
@@ -103,9 +105,9 @@ export class HomeComponent implements OnInit, OnDestroy {
             });
 
             if (this.workMode != undefined) {
-              value = value.filter(service => {
-                return service?.operatingMode == this.workMode
-              })
+                value = value.filter(service => {
+                    return service?.operatingMode == this.workMode;
+                });
             }
 
             this.services = value;
@@ -131,15 +133,15 @@ export class HomeComponent implements OnInit, OnDestroy {
             }
 
             if (filters?.services?.length > 0) {
-                this.distance = parseInt(FILTERS_NAME_MAPPING.get(filters.services[0]) as string)
+                this.distance = parseInt(FILTERS_NAME_MAPPING.get(filters.services[0]) as string);
             } else {
-                this.distance = 100
+                this.distance = 100;
             }
 
             if (filters?.work?.length > 0) {
-              this.workMode = FILTERS_NAME_MAPPING.get(filters?.work[0])
+                this.workMode = FILTERS_NAME_MAPPING.get(filters?.work[0]);
             } else {
-              this.workMode = undefined
+                this.workMode = undefined;
             }
 
             this.fetchServices({ Location: '', CategoryOrServiceName: serviceName ?? '' });
@@ -178,5 +180,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     isSelected(service: ServiceModel) {
         return isEqual(service, this.selectedService);
+    }
+
+    navigateToProfile(id: string | number) {
+        this.router.navigate(['/profile-overview/' + id]);
     }
 }

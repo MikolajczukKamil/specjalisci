@@ -1,0 +1,18 @@
+<div class="my-comment">
+    <app-button *ngIf="!isEditing" text="Dodaj komentarz" (click)="addComment()" />
+    <div *ngIf="isEditing" class="container">
+        <p class="title">Twój komentarz</p>
+        <div class="mark">
+            <p>Ocena</p>
+            <app-stars [formControl]="rating" [rating]="0" [isEditable]="true" />
+        </div>
+        <div class="comment">
+            <p>Komentarz</p>
+            <textarea class="description" placeholder="Wpisz swój komentarz" [formControl]="text"></textarea>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: center; gap: 25px">
+            <app-button text="Wstaw komentarz" (click)="sendComment()" />
+            <app-button text="Anuluj komentarz" type="stroked" (click)="closeComment()" />
+        </div>
+    </div>
+</div>
