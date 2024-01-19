@@ -1,0 +1,70 @@
+.my-comment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    z-index: 5;
+
+    width: 100%;
+}
+
+p {
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: white;
+    gap: 25px;
+    font-weight: 700;
+
+    .title {
+        font-size: 24px;
+    }
+
+    .mark {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+    }
+
+    .comment {
+        display: flex;
+        gap: 30px;
+    }
+
+    .description {
+        height: 144px;
+        width: 100%;
+        resize: none;
+        padding: 8px 12px;
+        border-radius: 10px;
+        border: 1px solid var(--gray-300);
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        font-size: 14px;
+        .title {
+            font-size: 20px;
+        }
+
+        .mark {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .comment {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .description {
+            width: unset;
+        }
+    }
+}

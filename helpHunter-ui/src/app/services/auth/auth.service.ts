@@ -44,9 +44,7 @@ export class AuthService {
     }
 
     register(payload: RegisterPayload): Observable<unknown> {
-        // add heder with origin access
-
-        return this.http.post(`/api/register`, payload);
+        return this.http.post(`/api/register`, payload, { responseType: 'text' });
     }
 
     getToken(): string | null {

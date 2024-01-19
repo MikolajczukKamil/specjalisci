@@ -9,8 +9,10 @@ import { ServiceOrderingComponent } from '../service-ordering/service-ordering.c
 import { ServiceFilters, ServiceModel, ServicesService } from './serviceModel';
 import { MapLocalisationComponent } from '../map/map-localisation/map-localisation.component';
 import { isEqual } from 'lodash';
-import {Filters} from "./filters/filters.model";
-import {FILTERS_NAME_MAPPING} from "./filters/filters-mapping.model";
+import { Filters } from './filters/filters.model';
+import { FILTERS_NAME_MAPPING } from './filters/filters-mapping.model';
+import { GeocodingService } from '../map/map-localisation/geocoding.service';
+import { Router } from '@angular/router';
 
 type NavigationMode = 'list' | 'map' | 'filters';
 
@@ -29,6 +31,11 @@ export interface Service {
     };
 }
 
+export interface Location {
+    x: number;
+    y: number;
+}
+
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
@@ -43,13 +50,19 @@ export class HomeComponent implements OnInit, OnDestroy {
     isSmallScreen: boolean = false;
     destroy = new Subject<boolean>();
     selectedService: ServiceModel | null = null;
-    services: ServiceModel[] = []
+    services: ServiceModel[] = [];
+    distance: number | undefined = undefined;
+    workMode: string | undefined = undefined;
+    location: Location | undefined = undefined;
+    filters: Filters = { size: [], work: [], builder: [], it: [], services: [] };
 
     constructor(
         private auth: AuthService,
         private deviceSizeService: DeviceSizeService,
         public dialog: MatDialog,
-        private servicesService: ServicesService
+        private servicesService: ServicesService,
+        private geocodingService: GeocodingService,
+        private router: Router
     ) {}
 
     ngOnInit(): void {
@@ -61,7 +74,20 @@ export class HomeComponent implements OnInit, OnDestroy {
                 this.isSmallScreen = isSmallScreen;
             });
 
-        this.fetchServices("Warszawa", 'Budowlanka')
+        this.geocodingService
+            .getCurrentLocation()
+            .then(location => {
+                this.location = location;
+                this.fetchServices({
+                    Location: '',
+                    CategoryOrServiceName: '',
+                    UserCoordinateX: location.y,
+                    UserCoordinateY: location.x,
+                });
+            })
+            .catch(error => {
+                this.fetchServices({ Location: '', CategoryOrServiceName: '' });
+            });
     }
 
     changeNavigationMode(event: MatButtonToggleChange) {
@@ -77,32 +103,72 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.destroy.unsubscribe();
     }
 
-    fetchServices(localisation: string, serviceName: string | undefined) {
-      this.servicesService.getServices({Location: localisation, CategoryOrServiceName: serviceName} as ServiceFilters).subscribe(value => {
-        this.services = value
-      })
+    fetchServices(filters: ServiceFilters) {
+        this.servicesService.getServices(filters).subscribe(value => {
+            // swap x with y
+            value.forEach(service => {
+                const x = service.locationCoordinatesX;
+                service.locationCoordinatesX = service.locationCoordinatesY;
+                service.locationCoordinatesY = x;
+            });
+
+            if (this.workMode != undefined) {
+                value = value.filter(service => {
+                    return service?.operatingMode == this.workMode;
+                });
+            }
+
+            if (this.location && this.distance) {
+                value = value.filter(service => {
+                    return service?.distance <= (this.distance || 1) * 1000;
+                });
+            }
+
+            this.services = value;
+        });
     }
 
     openFilters() {
-        const dialogRef = this.dialog.open(FiltersComponent, { width: '500px', height: '500px' });
+        const dialogRef = this.dialog.open(FiltersComponent, {
+            width: '500px',
+            height: '500px',
+            data: { currentFilters: this.filters },
+        });
         dialogRef.afterClosed().subscribe(result => {
-          const filters = result as Filters
-          let serviceName : string | undefined = ""
+            this.filters = result as Filters;
+            let serviceName: string | undefined = '';
 
-          if (filters?.builder.length > 0) {
-            serviceName = FILTERS_NAME_MAPPING.get(filters.builder[0])
-          }
+            if (this.filters?.builder.length > 0) {
+                serviceName = FILTERS_NAME_MAPPING.get(this.filters?.builder[0]);
+            }
 
-          if (filters?.it.length > 0) {
-            serviceName = FILTERS_NAME_MAPPING.get(filters.it[0])
-          }
+            if (this.filters?.it.length > 0) {
+                serviceName = FILTERS_NAME_MAPPING.get(this.filters?.it[0]);
+            }
 
-          if (filters?.mechanic.length > 0) {
-            serviceName = FILTERS_NAME_MAPPING.get(filters.mechanic[0])
-          }
+            if (this.filters?.services.length > 0) {
+                serviceName = FILTERS_NAME_MAPPING.get(this.filters?.services[0]);
+            }
 
-          this.fetchServices('Warszawa', serviceName)
-        })
+            if (this.filters?.size?.length > 0) {
+                this.distance = parseInt(this.filters?.size[0]);
+            } else {
+                this.distance = 1000;
+            }
+
+            if (this.filters?.work?.length > 0) {
+                this.workMode = FILTERS_NAME_MAPPING.get(this.filters?.work[0]);
+            } else {
+                this.workMode = undefined;
+            }
+
+            this.fetchServices({
+                Location: '',
+                CategoryOrServiceName: serviceName ?? '',
+                UserCoordinateX: this.location?.y,
+                UserCoordinateY: this.location?.x,
+            });
+        });
     }
 
     openServiceButton(service: ServiceModel) {
@@ -137,5 +203,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     isSelected(service: ServiceModel) {
         return isEqual(service, this.selectedService);
+    }
+
+    navigateToProfile(id: string | number) {
+        this.router.navigate(['/profile-overview/' + id]);
     }
 }

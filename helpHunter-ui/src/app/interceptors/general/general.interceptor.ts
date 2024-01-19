@@ -22,7 +22,7 @@ export class GeneralInterceptor implements HttpInterceptor {
             });
         }
 
-        if (!this.allowedUrls.includes(request.url)) {
+        if (!this.allowedUrls.some(allowedUrl => request.url.includes(allowedUrl))) {
             if (!this.auth.getToken()) {
                 this.auth.logout();
             } else {
@@ -37,7 +37,7 @@ export class GeneralInterceptor implements HttpInterceptor {
         return next.handle(request).pipe(
             catchError((err: any) => {
                 if (err instanceof HttpErrorResponse) {
-                    if (err.status === 401 && !this.allowedUrls.includes(request.url)) {
+                    if (err.status === 401 && !this.allowedUrls.some(allowedUrl => request.url.includes(allowedUrl))) {
                         this.auth.logout();
                         this.snackBar.open('Sesja wygasła', 'Close', {
                             duration: 3000,

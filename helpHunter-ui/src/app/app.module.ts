@@ -32,6 +32,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MapSelectLocationComponent } from './map/map-select-location/map-select-location.component';
 import { ProfileComponent } from './profile/profile.component';
 import { MatCardModule } from '@angular/material/card';
+import { MessagesComponent } from './messages/messages/messages.component';
+import { ServicePricingComponent } from './messages/service-pricing/service-pricing.component';
+import { ProfileOverviewComponent } from './profile-overview/profile-overview/profile-overview.component';
+import { StarComponent } from './profile-overview/components/star/star.component';
+import { StarsComponent } from './profile-overview/components/stars/stars.component';
+import { AddCommentComponent } from './profile-overview/components/add-comment/add-comment.component';
 
 @NgModule({
     declarations: [
@@ -49,6 +55,12 @@ import { MatCardModule } from '@angular/material/card';
         ServiceOrderingComponent,
         ProfileComponent,
         MapSelectLocationComponent,
+        MessagesComponent,
+        ServicePricingComponent,
+        ProfileOverviewComponent,
+        StarComponent,
+        StarsComponent,
+        AddCommentComponent,
     ],
     imports: [
         BrowserModule,
