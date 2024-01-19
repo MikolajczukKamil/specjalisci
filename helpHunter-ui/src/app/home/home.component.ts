@@ -32,8 +32,8 @@ export interface Service {
 }
 
 export interface Location {
-  x: number
-  y: number
+    x: number;
+    y: number;
 }
 
 @Component({
@@ -51,10 +51,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     destroy = new Subject<boolean>();
     selectedService: ServiceModel | null = null;
     services: ServiceModel[] = [];
-    distance: number = 1000
-    workMode: string | undefined = undefined
-    location: Location = { x: 0, y: 0 }
-    filters: Filters = { size: [], work: [], builder: [], it: [], services: []}
+    distance: number | undefined = undefined;
+    workMode: string | undefined = undefined;
+    location: Location | undefined = undefined;
+    filters: Filters = { size: [], work: [], builder: [], it: [], services: [] };
 
     constructor(
         private auth: AuthService,
@@ -113,15 +113,15 @@ export class HomeComponent implements OnInit, OnDestroy {
             });
 
             if (this.workMode != undefined) {
-              value = value.filter(service => {
-                return service?.operatingMode == this.workMode
-              })
+                value = value.filter(service => {
+                    return service?.operatingMode == this.workMode;
+                });
             }
 
-            if (this.distance) {
-              value = value.filter(service => {
-                return service?.distance <= (this.distance * 1000)
-              })
+            if (this.location && this.distance) {
+                value = value.filter(service => {
+                    return service?.distance <= (this.distance || 1) * 1000;
+                });
             }
 
             this.services = value;
@@ -129,7 +129,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     openFilters() {
-        const dialogRef = this.dialog.open(FiltersComponent, { width: '500px', height: '500px', data : { currentFilters: this.filters }});
+        const dialogRef = this.dialog.open(FiltersComponent, {
+            width: '500px',
+            height: '500px',
+            data: { currentFilters: this.filters },
+        });
         dialogRef.afterClosed().subscribe(result => {
             this.filters = result as Filters;
             let serviceName: string | undefined = '';
@@ -147,18 +151,23 @@ export class HomeComponent implements OnInit, OnDestroy {
             }
 
             if (this.filters?.size?.length > 0) {
-                this.distance = parseInt(this.filters?.size[0])
+                this.distance = parseInt(this.filters?.size[0]);
             } else {
-                this.distance = 1000
+                this.distance = 1000;
             }
 
             if (this.filters?.work?.length > 0) {
-              this.workMode = FILTERS_NAME_MAPPING.get(this.filters?.work[0])
+                this.workMode = FILTERS_NAME_MAPPING.get(this.filters?.work[0]);
             } else {
-              this.workMode = undefined
+                this.workMode = undefined;
             }
 
-            this.fetchServices({ Location: '', CategoryOrServiceName: serviceName ?? '', UserCoordinateX: this.location.y, UserCoordinateY: this.location.x });
+            this.fetchServices({
+                Location: '',
+                CategoryOrServiceName: serviceName ?? '',
+                UserCoordinateX: this.location?.y,
+                UserCoordinateY: this.location?.x,
+            });
         });
     }
 
