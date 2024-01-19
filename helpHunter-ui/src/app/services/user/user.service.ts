@@ -1,16 +1,28 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://localhost:3000/api/user'; // URL to web API
+  private apiUrl = `http://localhost:5147/api/user/-1`; // URL to web API
 
   constructor(private http: HttpClient) { }
 
-  getUserData(): Observable<any> {
-    return this.http.get(this.apiUrl);
+  getUserData(token: string): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      })
+    };
+
+    const url = `${this.apiUrl}`;
+    return this.http.get(url, httpOptions);
   }
+
+  // getUserData(token: number): Observable<any> {
+  //   const url = `${this.apiUrl}/${token}`;
+  //   return this.http.get(url);
+  // }
 }
