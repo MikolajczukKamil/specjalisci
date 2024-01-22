@@ -15,5 +15,7 @@ COPY --from=build-env /App/out .
 ENV ASPNETCORE_URLS=https://+:5000
 ENV MAP_TOKEN=test
 ENV JWT_KEY=test2
+RUN dotnet dev-certs https
+RUN dotnet dev-certs https --trust
 ENTRYPOINT ["dotnet", "HelpHunterBE.dll"]
 EXPOSE 5000
