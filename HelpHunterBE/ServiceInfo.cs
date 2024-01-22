@@ -2,6 +2,7 @@ public class ServiceInfo
 {
     public int ServiceId { get; set; }
     public string ServiceName { get; set; }
+    public int Avatar { get; set; }
     public decimal? MaxPrice { get; set; }
     public decimal? MinPrice { get; set; }
     public string OperatingMode { get; set; }
