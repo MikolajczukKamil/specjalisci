@@ -37,6 +37,7 @@ namespace HelpHunterBE.Logic
         {
             string sqlQuery = @"SELECT
                                 u.user_id,
+                                u.avatar,
                                 u.full_name,
                                 u.location,
                                 u.location_coordinates_x,
@@ -151,6 +152,7 @@ namespace HelpHunterBE.Logic
             {
                 ServiceId = reader.GetInt32(reader.GetOrdinal("service_id")),
                 ServiceName = reader.GetString(reader.GetOrdinal("service_name")),
+                Avatar = reader.GetInt32(reader.GetOrdinal("avatar")),
                 MaxPrice = reader.IsDBNull(reader.GetOrdinal("max_price")) ? (decimal?)null : reader.GetDecimal(reader.GetOrdinal("max_price")),
                 MinPrice = reader.IsDBNull(reader.GetOrdinal("min_price")) ? (decimal?)null : reader.GetDecimal(reader.GetOrdinal("min_price")),
                 OperatingMode = reader.GetString(reader.GetOrdinal("operating_mode")),
