@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
+import {ProfileComponent} from "../../profile/profile.component";
 
 export interface Token {
     token: string;
@@ -33,6 +34,7 @@ export class AuthService {
             this.http.post<Token>(`/api/login`, { username, password }).subscribe({
                 next: token => {
                     this.token = token.token;
+                    ProfileComponent.userToken = token.token;
                     localStorage.setItem('token', token.token);
                     resolve(true);
                 },

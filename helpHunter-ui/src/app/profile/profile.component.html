@@ -12,7 +12,7 @@
         <app-button *ngIf="!isEdit" text="Edytuj" (click)="editData()"/>
         <app-button *ngIf="isEdit" type="stroked" text="Anuluj" style="margin-right: 5px; border: 2px black"
                     (click)="cancel()"/>
-        <app-button *ngIf="isEdit" text="Zapisz" (click)="save()"/>
+        <app-button *ngIf="isEdit" text="Zapisz" (click)="save(fullnameInput, phonenumberInput,emailInput,locationInput,descriptionInput)"/>
       </div>
     </mat-card-content>
     <mat-card-content class="list-item" style="display: flex; margin: auto">
@@ -21,8 +21,7 @@
       </div>
       <div class="end-list">
         <p *ngIf="!isEdit">{{user.fullname}}</p>
-        <input *ngIf="isEdit" value={{user.fullname}} class="input">
-        <input *ngIf="isEdit" value={{user.fullname}} class="input">
+        <input *ngIf="isEdit" placeholder="{{user.fullname}}" [(ngModel)]="fullnameInput"class="input">
       </div>
     </mat-card-content>
     <mat-card-content class="list-item" style="display: flex; margin: auto">
@@ -31,7 +30,7 @@
       </div>
       <div class="end-list">
         <p *ngIf="!isEdit">{{user.phonenumber}}</p>
-        <input *ngIf="isEdit" value={{user.phonenumber}} class="input">
+        <input *ngIf="isEdit" [(ngModel)]="phonenumberInput" value={{user.phonenumber}} class="input">
       </div>
     </mat-card-content>
     <mat-card-content class="list-item" style="display: flex; margin: auto">
@@ -40,7 +39,7 @@
       </div>
       <div class="end-list">
         <p *ngIf="!isEdit">{{user.email}}</p>
-        <input *ngIf="isEdit" value={{user.email}} class="input">
+        <input *ngIf="isEdit" [(ngModel)]="emailInput" value={{user.email}} class="input">
       </div>
     </mat-card-content>
     <mat-card-content class="list-item" style="display: flex; margin: auto">
@@ -49,7 +48,11 @@
           <br><small style="color: gray">Będzie to widoczne na Twoim profilu.</small></p>
       </div>
       <div class="end-list">
-        <img src="{{srcAvatar}}" class="image"/>
+        <img *ngIf="isEdit || user.avatar==1" src="{{'./assets/images/avatars/avatar1.png'}}" class="image" (click)="setAvatar(1)"/>
+        <img *ngIf="isEdit || user.avatar==2" src="{{'./assets/images/avatars/avatar2.png'}}" class="image" (click)="setAvatar(2)"/>
+        <img *ngIf="isEdit || user.avatar==3" src="{{'./assets/images/avatars/avatar3.png'}}" class="image" (click)="setAvatar(3)"/>
+        <img *ngIf="isEdit || user.avatar==4" src="{{'./assets/images/avatars/avatar4.png'}}" class="image" (click)="setAvatar(4)"/>
+        <img *ngIf="isEdit || user.avatar==5" src="{{'./assets/images/avatars/avatar5.png'}}" class="image" (click)="setAvatar(5)"/>
       </div>
     </mat-card-content>
     <mat-card-content class="list-item" style="display: flex; margin: auto">
@@ -58,18 +61,31 @@
       </div>
       <div class="end-list">
         <p *ngIf="!isEdit">{{user.location}}</p>
-        <input *ngIf="isEdit" value={{user.location}} class="input">
+        <input *ngIf="isEdit" [(ngModel)]="locationInput" value={{user.location}} class="input">
       </div>
     </mat-card-content>
     <mat-card-content class="list-item" style="display: flex; margin: auto">
       <div class="start-list">
         <p>Tryb specjalisty</p>
       </div>
-      <div class="end-list expert">
-          <div *ngIf="user.isprovidingservice" class="expert-true" style="border-bottom-right-radius: 0; border-top-right-radius: 0">Włączony</div>
-          <div *ngIf="!user.isprovidingservice" class="expert-false" style="border-bottom-right-radius: 0; border-top-right-radius: 0">Włączony</div>
-          <div *ngIf="!user.isprovidingservice" class="expert-true" style="border-bottom-left-radius: 0; border-top-left-radius: 0">Wyłączony</div>
-          <div *ngIf="user.isprovidingservice" class="expert-false" style="border-bottom-left-radius: 0; border-top-left-radius: 0">Wyłączony</div>
+<!--      <div class="end-list expert">-->
+<!--        <div *ngIf="!user.isprovidingservice" class="expert-true"-->
+<!--             style="border-bottom-right-radius: 0; border-top-right-radius: 0">Włączony-->
+<!--        </div>-->
+<!--        <div *ngIf="user.isprovidingservice" class="expert-false"-->
+<!--             style="border-bottom-right-radius: 0; border-top-right-radius: 0">Włączony-->
+<!--        </div>-->
+<!--        <div *ngIf="user.isprovidingservice" class="expert-true"-->
+<!--             style="border-bottom-left-radius: 0; border-top-left-radius: 0">Wyłączony-->
+<!--        </div>-->
+<!--        <div *ngIf="!user.isprovidingservice" class="expert-false"-->
+<!--             style="border-bottom-left-radius: 0; border-top-left-radius: 0">Wyłączony-->
+<!--        </div>-->
+<!--      </div>-->
+      <div>
+        <app-custom-slide-toggle [leftOption]="'Włączony'"
+                                 [rightOption]="'Wyłączony'"
+                                 [onOff]="user.isprovidingservice"></app-custom-slide-toggle>
       </div>
     </mat-card-content>
     <mat-card-content *ngIf="user.isprovidingservice" class="list-item" style="display: flex; margin: auto">
@@ -78,7 +94,7 @@
       </div>
       <div class="end-list">
         <p *ngIf="!isEdit">{{user.description}}</p>
-        <input *ngIf="isEdit" value={{user.description}} class="input">
+        <input *ngIf="isEdit" [(ngModel)]="descriptionInput" value={{user.description}} class="input">
       </div>
     </mat-card-content>
     <mat-card-content *ngIf="user.isprovidingservice" class="list-item" style="display: flex; margin: auto">

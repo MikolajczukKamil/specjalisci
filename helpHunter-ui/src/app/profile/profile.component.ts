@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
-import {ButtonComponent} from "../components/button/button.component";
 import {UserService} from "../services/user/user.service";
 import {UserData} from "./user-data";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-profile',
@@ -11,28 +11,38 @@ import {UserData} from "./user-data";
 export class ProfileComponent {
 
   user?: UserData;
-  srcAvatar?: string;
   static userToken: string;
+  fullnameInput!: string;
+  phonenumberInput!: string;
+  emailInput!: string;
+  locationInput!: string;
+  descriptionInput!: string;
+  avatarInput!: number | undefined;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
-    console.log(ProfileComponent.userToken)
     this.getUserData(ProfileComponent.userToken);
   }
 
   getUserData(token: string) {
     this.userService.getUserData(token).subscribe(
-      (data) => {
+      data => {
         this.user = data;
-        this.showAvatar(data.avatar)
-        console.log(this.user);
-      },
-      (err) => {
-        console.error(err);
+        this.avatarInput = data.avatar;
+        this.setDefaultValueOfInputs(data);
       }
-    );
+    )
+  }
+
+  setDefaultValueOfInputs(user: UserData) {
+    this.fullnameInput = user.fullname;
+    this.phonenumberInput = user.phonenumber;
+    this.emailInput = user.email;
+    this.locationInput = user.location;
+    this.descriptionInput = user.description;
   }
 
   isEdit = false;
@@ -45,18 +55,41 @@ export class ProfileComponent {
     this.isEdit = false;
   }
 
-  public save() {
+  public save(fullnameInput: string,
+              phonenumberInput: string,
+              emailInput: string,
+              locationInput: string,
+              descriptionInput: string) {
+    let newData = {
+      avatar: this.avatarInput,
+      birthdate: this.user?.birthdate,
+      description: descriptionInput,
+      email: emailInput,
+      fullname: fullnameInput,
+      id: this.user?.id,
+      isprovidingservice: true,
+      latitude: this.user?.latitude,
+      location: locationInput,
+      longitude: this.user?.longitude,
+      phonenumber: phonenumberInput,
+      username: this.user?.username
+    }
+    // @ts-ignore
+    this.setDefaultValueOfInputs(this.user);
+    // @ts-ignore
+    this.userService.updateUserData(newData).subscribe();
     this.isEdit = false;
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+      this.router.navigate([currentUrl]);
+    });
   }
 
-  public showAvatar(avatarId: number) {
-    switch (avatarId) {
-      case 1: return this.srcAvatar = './assets/images/avatars/avatar1.png';
-      case 2: return this.srcAvatar = './assets/images/avatars/avatar2.png';
-      case 3: return this.srcAvatar = './assets/images/avatars/avatar3.png';
-      case 4: return this.srcAvatar = './assets/images/avatars/avatar4.png';
-      case 5: return this.srcAvatar = './assets/images/avatars/avatar5.png';
-      default: return this.srcAvatar = '0';
+  setAvatar(avatar: number) {
+    if (avatar != null) {
+      this.avatarInput = avatar;
+    } else {
+      this.avatarInput = this.user?.avatar;
     }
   }
 

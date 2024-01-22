@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
+import {UserData} from "../../profile/user-data";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = `http://localhost:5147/api/user/-1`; // URL to web API
+  private apiUrl = `/api/user/-1`; // URL to web API
 
   constructor(private http: HttpClient) { }
 
@@ -18,11 +19,10 @@ export class UserService {
     };
 
     const url = `${this.apiUrl}`;
-    return this.http.get(url, httpOptions);
+    return this.http.get(this.apiUrl, httpOptions);
   }
 
-  // getUserData(token: number): Observable<any> {
-  //   const url = `${this.apiUrl}/${token}`;
-  //   return this.http.get(url);
-  // }
+  updateUserData(userDto: UserData): Observable<any> {
+    return this.http.put('/api/user', userDto);
+  }
 }

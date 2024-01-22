@@ -1,0 +1,6 @@
+<div class="toggle-container" (click)="toggle()">
+  <div class="toggle-labels">
+    <span class="toggle-label" [class.active]="onOff">{{leftOption}}</span>
+    <span class="toggle-label" [class.active]="!onOff">{{rightOption}}</span>
+  </div>
+</div>
