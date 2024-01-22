@@ -1,4 +1,5 @@
 ﻿using HelpHunterBE.Dto;
+using HelpHunterBE.utils;
 using Npgsql;
 
 namespace HelpHunterBE.Logic
@@ -42,7 +43,7 @@ namespace HelpHunterBE.Logic
             using var connection = new NpgsqlConnection(_configuration.GetConnectionString("Postgres"));
             await connection.OpenAsync();
 
-            var query = "SELECT ratings.*, users.full_name as reviewer_name FROM ratings INNER JOIN users ON ratings.reviewer_id = users.user_id WHERE ratings.user_id = @UserId";
+            var query = "SELECT ratings.*, users.full_name as reviewer_name, users.avatar as reviewer_avatar FROM ratings INNER JOIN users ON ratings.reviewer_id = users.user_id WHERE ratings.user_id = @UserId";
             using var command = new NpgsqlCommand(query, connection);
             command.Parameters.AddWithValue("@UserId", userId);
 
@@ -58,7 +59,8 @@ namespace HelpHunterBE.Logic
                     ReviewerId = reader.GetInt32(2),
                     Rating = reader.GetInt32(3),
                     Comment = reader.GetString(4),
-                    ReviewerName = reader.GetString(5)
+                    ReviewerName = reader.GetString(5),
+                    ReviewerAvatar = reader.GetNullableField<int>(6)
                 };
 
                 list.Add(rating);
