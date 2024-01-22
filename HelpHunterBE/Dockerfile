@@ -12,7 +12,7 @@ RUN dotnet publish -c Release -o out
 FROM mcr.microsoft.com/dotnet/aspnet:7.0
 WORKDIR /App
 COPY --from=build-env /App/out .
-ENV ASPNETCORE_URLS=http://+:5000
+ENV ASPNETCORE_URLS=https://+:5000
 ENV MAP_TOKEN=test
 ENV JWT_KEY=test2
 ENTRYPOINT ["dotnet", "HelpHunterBE.dll"]
