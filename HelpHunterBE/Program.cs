@@ -50,6 +50,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddScoped<IUserLogic, UserLogic>();
 builder.Services.AddScoped<IRatingLogic, RatingLogic>();
+builder.Services.AddScoped<IServiceLogic, ServiceLogic>();
 
 builder.Services.AddCors(options =>
 {
