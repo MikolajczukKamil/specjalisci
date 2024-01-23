@@ -4,6 +4,8 @@ namespace HelpHunterBE.Models
     public class Order
     {
         public int Id { get; set; }
+        public int specialistId { get; set; }
+        public int consumerId { get; set; }
         public Status Status { get; set; }
         public decimal SpecialistPricing { get; set; }
         public string SpecialistDescription { get; set; }
