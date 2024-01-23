@@ -26,10 +26,8 @@ export interface Profile {
 }
 
 export interface RatingPayload {
-    id: number;
     userId: number;
     reviewerId: number;
-    reviewerName: string;
     rating: number;
     comment: string;
 }

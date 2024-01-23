@@ -4,6 +4,7 @@ import { Profile, ProfileOverviewService } from '../../service/profile-overview.
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DeviceSizeService } from '../../../services/deviceSize/device-size.service';
 import { Subject, takeUntil } from 'rxjs';
+import { UserService } from '../../../services/user/user.service';
 
 @Component({
     selector: 'app-add-comment',
@@ -21,7 +22,8 @@ export class AddCommentComponent implements OnInit, OnDestroy {
     constructor(
         private profileOverview: ProfileOverviewService,
         private toast: MatSnackBar,
-        private deviceSizeService: DeviceSizeService
+        private deviceSizeService: DeviceSizeService,
+        private userService: UserService
     ) {}
 
     ngOnInit(): void {
@@ -47,22 +49,30 @@ export class AddCommentComponent implements OnInit, OnDestroy {
     }
 
     sendComment() {
-        this.profileOverview
-            .sendRating({
-                id: 0,
-                userId: this.profile.id,
-                reviewerId: 0,
-                reviewerName: 'Wstaw tutaj imię użytkownika',
-                rating: this.rating.getRawValue(),
-                comment: this.text.getRawValue(),
-            })
-            .subscribe(() => {
-                this.isEditing = false;
-                this.isEditingChanged.emit(this.isEditing);
-                this.toast.open('Dodano komentarz', 'Zamknij', {
-                    duration: 3000,
-                });
-            });
+        this.userService.getUserData().subscribe({
+            next: userData => {
+                if (userData.id) {
+                    this.profileOverview
+                        .sendRating({
+                            userId: this.profile.id,
+                            reviewerId: userData.id,
+                            rating: this.rating.getRawValue(),
+                            comment: this.text.getRawValue(),
+                        })
+                        .subscribe(() => {
+                            this.isEditing = false;
+                            this.isEditingChanged.emit(this.isEditing);
+                            this.toast.open('Dodano komentarz', 'Zamknij', {
+                                duration: 3000,
+                            });
+                        });
+                } else {
+                    this.toast.open('Wystąpił problem podczas dodawania komentarza', 'Zamknij', {
+                        duration: 3000,
+                    });
+                }
+            },
+        });
     }
 
     ngOnDestroy(): void {
