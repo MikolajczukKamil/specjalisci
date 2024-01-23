@@ -9,7 +9,10 @@ CREATE TABLE Users (
     is_providing_services BOOLEAN,
     location VARCHAR(255),
     location_coordinates_x DECIMAL(10, 6),
-    location_coordinates_y DECIMAL(10, 6)
+    location_coordinates_y DECIMAL(10, 6),
+    avatar INT,
+    phone_number VARCHAR(15),
+    description VARCHAR(1000)
 );
 
 -- Tworzenie tabeli Categories
@@ -39,31 +42,39 @@ CREATE TABLE Available_Services (
     operating_mode VARCHAR(50)
 );
 
+CREATE TABLE Ratings (
+    rating_id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES Users(user_id) NOT NULL,
+    reviewer_id INT REFERENCES Users(user_id) NOT NULL,
+    rating INTEGER CHECK (rating BETWEEN 1 AND 5) NOT NULL,
+    comment VARCHAR(1000) NOT NULL
+);
+
 
 
 -- Wprowadzanie przykładowych danych do tabeli Users
-INSERT INTO Users (username, email, password, full_name, date_of_birth, is_providing_services, location, location_coordinates_x, location_coordinates_y)
+INSERT INTO Users (username, email, avatar, password, full_name, date_of_birth, is_providing_services, location, location_coordinates_x, location_coordinates_y)
 VALUES
-    ('john_doe', 'john@example.com', '$1$IOchfG/z$bZW1pRFA3wuvn6pAuD.Du/', 'Sylwia Jankowska', '1990-01-15', true, 'Warszawa', 52.2297, 21.0122),
-    ('Kamil@sggw.com', 'Kamil@sggw.com', '$1$qyDv12Sy$XXa1qlRckgb9tkgJ46QjN/', 'Kamil Mikołajczuk', '1992-03-10', true, 'Kraków', 50.0647, 19.9450),
-    ('user_3', 'user3@example.com', 'hashed_password_3', 'Alicja Kowalska', '1992-03-10', true, 'Wrocław', 51.1079, 17.0385),
-    ('user_4', 'user4@example.com', 'hashed_password_4', 'Bartłomiej Nowak', '1988-07-05', false, 'Grodzisk Mazowiecki', 51.8972, 20.6305),
-    ('user_5', 'user5@example.com', 'hashed_password_5', 'Czesław Malinowski', '1995-12-18', true, 'Grójec', 51.8616, 20.8678),
-    ('user_6', 'user6@example.com', 'hashed_password_6', 'Dorota Wójcik', '1980-09-28', false, 'Siedlce', 52.1671, 22.2906),
-    ('user_7', 'user7@example.com', 'hashed_password_7', 'Edward Szymański', '1993-04-03', true, 'Białystok', 53.1325, 23.1688),
-    ('user_8', 'user8@example.com', 'hashed_password_8', 'Franciszka Jankowska', '1987-11-15', false, 'Radom', 51.4027, 21.1471),
-    ('user_9', 'user9@example.com', 'hashed_password_9', 'Grzegorz Pawlak', '1994-06-22', true, 'Gdańsk', 54.3520, 18.6466),
-    ('user_10', 'user10@example.com', 'hashed_password_10', 'Hanna Górska', '1983-02-14', false, 'Poznań', 52.4068, 16.9290),
-    ('user_11', 'user11@example.com', 'hashed_password_11', 'Igor Kaczmarski', '1996-08-07', true, 'Łódź', 51.7592, 19.4558),
-    ('user_12', 'user12@example.com', 'hashed_password_12', 'Joanna Zielińska', '1986-01-25', false, 'Kraków', 50.0647, 19.9450),
-    ('user_13', 'user13@example.com', 'hashed_password_13', 'Karol Lewandowski', '1991-05-31', true, 'Szczecin', 53.4289, 14.5530),
-    ('user_14', 'user14@example.com', 'hashed_password_14', 'Lidia Woźniak', '1989-10-12', false, 'Katowice', 50.2649, 19.0238),
-    ('user_15', 'user15@example.com', 'hashed_password_15', 'Michał Kowalczyk', '1997-11-03', true, 'Wrocław', 51.1079, 17.0385),
-    ('user_16', 'user16@example.com', 'hashed_password_16', 'Natalia Adamczyk', '1984-06-09', false, 'Gdynia', 54.5189, 18.5305),
-    ('user_17', 'user17@example.com', 'hashed_password_17', 'Oskar Nowicki', '1998-04-20', true, 'Warszawa', 52.2297, 21.0122),
-    ('user_18', 'user18@example.com', 'hashed_password_18', 'Patrycja Sokołowska', '1982-09-14', false, 'Lublin', 51.2465, 22.5684),
-    ('user_19', 'user19@example.com', 'hashed_password_19', 'Rafał Dąbrowski', '1999-02-27', true, 'Kraków', 50.0647, 19.9450),
-    ('user_20', 'user20@example.com', 'hashed_password_20', 'Sylwia Jastrzębska', '1981-12-08', false, 'Warszawa', 52.2297, 21.0122);
+    ('john_doe', 'john@example.com', 1, '$1$IOchfG/z$bZW1pRFA3wuvn6pAuD.Du/', 'Sylwia Jankowska', '1990-01-15', true, 'Warszawa', 52.2297, 21.0122),
+    ('Kamil@sggw.com', 'Kamil@sggw.com', 2, '$1$qyDv12Sy$XXa1qlRckgb9tkgJ46QjN/', 'Kamil Mikołajczuk', '1992-03-10', true, 'Kraków', 50.0647, 19.9450),
+    ('user_3', 'user3@example.com', 4, 'hashed_password_3', 'Alicja Kowalska', '1992-03-10', true, 'Wrocław', 51.1079, 17.0385),
+    ('user_4', 'user4@example.com', 2, 'hashed_password_4', 'Bartłomiej Nowak', '1988-07-05', false, 'Grodzisk Mazowiecki', 51.8972, 20.6305),
+    ('user_5', 'user5@example.com', 2, 'hashed_password_5', 'Czesław Malinowski', '1995-12-18', true, 'Grójec', 51.8616, 20.8678),
+    ('user_6', 'user6@example.com', 4, 'hashed_password_6', 'Dorota Wójcik', '1980-09-28', false, 'Siedlce', 52.1671, 22.2906),
+    ('user_7', 'user7@example.com', 3, 'hashed_password_7', 'Edward Szymański', '1993-04-03', true, 'Białystok', 53.1325, 23.1688),
+    ('user_8', 'user8@example.com', 5, 'hashed_password_8', 'Franciszka Jankowska', '1987-11-15', false, 'Radom', 51.4027, 21.1471),
+    ('user_9', 'user9@example.com', 3, 'hashed_password_9', 'Grzegorz Pawlak', '1994-06-22', true, 'Gdańsk', 54.3520, 18.6466),
+    ('user_10', 'user10@example.com', 1, 'hashed_password_10', 'Hanna Górska', '1983-02-14', false, 'Poznań', 52.4068, 16.9290),
+    ('user_11', 'user11@example.com', 1, 'hashed_password_11', 'Igor Kaczmarski', '1996-08-07', true, 'Łódź', 51.7592, 19.4558),
+    ('user_12', 'user12@example.com', 3, 'hashed_password_12', 'Joanna Zielińska', '1986-01-25', false, 'Kraków', 50.0647, 19.9450),
+    ('user_13', 'user13@example.com', 4, 'hashed_password_13', 'Karol Lewandowski', '1991-05-31', true, 'Szczecin', 53.4289, 14.5530),
+    ('user_14', 'user14@example.com', 2, 'hashed_password_14', 'Lidia Woźniak', '1989-10-12', false, 'Katowice', 50.2649, 19.0238),
+    ('user_15', 'user15@example.com', 1, 'hashed_password_15', 'Michał Kowalczyk', '1997-11-03', true, 'Wrocław', 51.1079, 17.0385),
+    ('user_16', 'user16@example.com', 4, 'hashed_password_16', 'Natalia Adamczyk', '1984-06-09', false, 'Gdynia', 54.5189, 18.5305),
+    ('user_17', 'user17@example.com', 5, 'hashed_password_17', 'Oskar Nowicki', '1998-04-20', true, 'Warszawa', 52.2297, 21.0122),
+    ('user_18', 'user18@example.com', 1, 'hashed_password_18', 'Patrycja Sokołowska', '1982-09-14', false, 'Lublin', 51.2465, 22.5684),
+    ('user_19', 'user19@example.com', 3, 'hashed_password_19', 'Rafał Dąbrowski', '1999-02-27', true, 'Kraków', 50.0647, 19.9450),
+    ('user_20', 'user20@example.com', 4, 'hashed_password_20', 'Sylwia Jastrzębska', '1981-12-08', false, 'Warszawa', 52.2297, 21.0122);
 
 
 -- Wprowadzanie przykładowych danych do tabeli Categories
@@ -125,7 +136,27 @@ VALUES
     (19, 19, 2, 'Zabezpieczanie systemów przed zagrożeniami cybernetycznymi', 250.00, 180.00, 'Elastyczne', 40.00, 'Stacjonarne'),
     (20, 20, 4, 'Rozwinięte rozwiązania e-commerce i sklepy internetowe', 200.00, 150.00, 'Poniedziałek-Piątek', 30.00, 'Mobilne');
 
-
+INSERT INTO Ratings (user_id, reviewer_id, rating, comment) VALUES
+    (1, 10, 4, 'A'),
+    (2, 15, 2, 'A'),
+    (3, 4, 5, 'A'),
+    (4, 19, 1, 'A'),
+    (5, 6, 3, 'A'),
+    (6, 1, 5, 'A'),
+    (7, 1, 2, 'A'),
+    (8, 9, 4, 'A'),
+    (9, 13, 3, 'A'),
+    (10, 2, 1, 'A'),
+    (11, 1, 4, 'A'),
+    (12, 18, 2, 'A'),
+    (13, 14, 5, 'A'),
+    (14, 5, 1, 'A'),
+    (15, 20, 3, 'A'),
+    (16, 19, 5, 'A'),
+    (17, 17, 2, 'A'),
+    (18, 11, 4, 'A'),
+    (19, 6, 3, 'A'),
+    (20, 9, 1, 'A');
 
 
 -- Instalacja rozszerzenia pgcrypto (jeśli jeszcze nie zainstalowane)
@@ -142,5 +173,29 @@ BEGIN
 
     -- Verify the input password against the stored hash using pgcrypto
     RETURN crypt(p_input_password, stored_password_hash) = stored_password_hash;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Funkcja do haszowania przy rejestracji
+CREATE OR REPLACE FUNCTION register(p_full_name VARCHAR, p_phone_number VARCHAR, p_email VARCHAR, p_password VARCHAR, p_avatar INT)
+RETURNS BOOLEAN AS $$
+DECLARE
+    email_exists BOOLEAN;
+BEGIN
+    -- Sprawdzenie, czy podany email jest już zajęty
+    SELECT EXISTS (SELECT 1 FROM Users WHERE email = p_email) INTO email_exists;
+    -- Jeśli email już istnieje, zwracamy false
+    IF email_exists THEN
+        RETURN FALSE;
+    ELSE
+        -- Zaszyfrowanie hasła za pomocą MD5
+        p_password := crypt(p_password, gen_salt('md5'));
+	-- Wstawienie danych użytkownika do tabeli
+        INSERT INTO Users (username, full_name, phone_number, email, password, avatar)
+        VALUES (p_email, p_full_name, p_phone_number, p_email, p_password, p_avatar);
+
+        -- Zwracamy true, jeśli użytkownik został pomyślnie zarejestrowany
+        RETURN TRUE;
+    END IF;
 END;
 $$ LANGUAGE plpgsql;

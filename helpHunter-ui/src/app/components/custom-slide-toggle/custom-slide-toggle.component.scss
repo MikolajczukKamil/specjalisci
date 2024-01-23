@@ -1,0 +1,27 @@
+.toggle-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  height: 30px;
+  //border: 1px solid black;
+  border-radius: 15px;
+  transition: background-color 0.2s;
+  background-color: #7f56d9;
+}
+
+.toggle-labels {
+  margin-right: 10px;
+}
+
+.toggle-label {
+  color: darkgray;
+  padding: 0 5px;
+  font-size: 14px;
+  transition: color 0.2s;
+}
+
+.toggle-label.active {
+  color: #fff;
+}

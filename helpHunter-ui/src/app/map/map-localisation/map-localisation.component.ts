@@ -1,8 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as turf from '@turf/turf';
 import { Properties, Units } from '@turf/turf';
-import {Map, MapboxEvent, Point} from 'mapbox-gl';
-import {Marker} from "./marker.model";
+import { Map, MapboxEvent, Point, FlyToOptions } from 'mapbox-gl';
+import { Marker } from './marker.model';
+import { Service } from '../../home/home.component';
+import { Subject, takeUntil } from 'rxjs';
+import { TokenService } from '../token.service';
+import {ServiceModel} from "../../home/serviceModel";
 
 @Component({
     selector: 'app-map-localisation',
@@ -10,18 +14,21 @@ import {Marker} from "./marker.model";
     styleUrls: ['./map-localisation.component.css'],
 })
 export class MapLocalisationComponent implements OnInit {
-
     @Input()
-    markers: Marker[] = [
-      { name: "Marker 1", coordinates: {x: 21.0, y: 52.229} } as Marker,
-      { name: "Marker 2", coordinates: {x: 22.0, y: 53.228} } as Marker
-    ]
+    services: ServiceModel[] = [];
+
+    @Output()
+    clickOnMarker = new EventEmitter<ServiceModel>();
 
     map!: Map;
     zoom: number = 5.5;
-    center: Point = { x: 19.70, y: 52.10 } as Point
+    center: Point = { x: 19.7, y: 52.1 } as Point;
+    accessToken = '';
+    destroy = new Subject<boolean>();
 
-    createCircle(x : number, y: number): any {
+    constructor(private tokenService: TokenService) {}
+
+    createCircle(x: number, y: number): any {
         const center = [x, y];
         const radius = 5;
         const options: { steps?: number; units?: Units; properties?: Properties } = {
@@ -32,7 +39,14 @@ export class MapLocalisationComponent implements OnInit {
         return turf.circle(center, radius, options);
     }
 
-    public ngOnInit() {}
+    ngOnInit(): void {
+        this.tokenService
+            .getToken()
+            .pipe(takeUntil(this.destroy))
+            .subscribe(token => {
+                this.accessToken = token.map_token;
+            });
+    }
 
     mapCreated(map: Map) {
         this.map = map;
@@ -40,5 +54,14 @@ export class MapLocalisationComponent implements OnInit {
 
     mapLoaded(event: MapboxEvent) {
         this.map.resize();
+    }
+
+    flyTo(options: FlyToOptions) {
+        this.map.flyTo(options);
+    }
+
+    ngOnDestroy(): void {
+        this.destroy.next(true);
+        this.destroy.unsubscribe();
     }
 }

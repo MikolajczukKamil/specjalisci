@@ -1,0 +1,14 @@
+export interface UserData {
+  avatar: number,
+  birthdate: Date,
+  description: string,
+  email: string,
+  fullname: string,
+  id: number,
+  isprovidingservice: boolean,
+  latitude: number,
+  location: string,
+  longitude: number,
+  phonenumber: string,
+  username: string
+}

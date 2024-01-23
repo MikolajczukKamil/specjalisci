@@ -14,44 +14,55 @@
                 </div>
             </div>
             <div class="list-container">
-                <div class="list-item">
+                <div
+                    *ngFor="let service of services; let i = index"
+                    #serviceItem
+                    class="list-item"
+                    (click)="goToLocation(service)"
+                    [class]="{ active: isSelected(service) }">
                     <div class="list-item-image">
-                        <img src="./assets/images/avatars/avatar1.png" alt="avatar" />
+                        <img [src]="'./assets/images/avatars/' + 'avatar1' + '.png'" alt="avatar" />
                     </div>
                     <div class="list-item-content">
                         <div class="list-item-header">
-                            <div class="list-item-name">Mariusz Tracz</div>
+                            <div
+                                class="list-item-name"
+                                (click)="navigateToProfile(service.userId); $event.stopPropagation()">
+                                {{ service.fullName }}
+                            </div>
                             <div class="list-item-tags">
                                 <div class="list-item-tag">Murarz</div>
                                 <div class="list-item-tag">Tynkarz</div>
                                 <div class="list-item-tag">Akrobata</div>
                             </div>
                         </div>
-                        <div class="list-item-info">
-                            <div class="list-item-city"><mat-icon>location_on</mat-icon> Warszawa</div>
-                            <div class="list-item-distance"><mat-icon>outlined_flag</mat-icon>~5km</div>
-                            <div class="list-item-price">$ 5000-150000 PLN</div>
+                        <div style="display: flex; justify-content: space-between">
+                            <div class="list-item-info">
+                                <div class="list-item-city">
+                                    <mat-icon>location_on</mat-icon> {{ service.location }}
+                                </div>
+                                <div class="list-item-distance"><mat-icon>outlined_flag</mat-icon>~5km</div>
+                                <div class="list-item-price">$ {{ service.minPrice }}-{{ service.maxPrice }} PLN</div>
+                            </div>
+                            <button
+                                class="service-order-button"
+                                (click)="openServiceButton(service); $event.stopPropagation()">
+                                Zamów usługę
+                            </button>
                         </div>
                     </div>
                 </div>
-                <div class="list-item"></div>
-                <div class="list-item"></div>
-                <div class="list-item"></div>
-                <div class="list-item"></div>
-                <div class="list-item"></div>
-                <div class="list-item"></div>
-                <div class="list-item"></div>
-                <div class="list-item"></div>
-                <div class="list-item"></div>
-                <div class="list-item"></div>
-                <div class="list-item"></div>
             </div>
         </div>
         <div
             *ngIf="isMapVisited || navigationMode === 'map' || !isSmallScreen"
             [hidden]="navigationMode !== 'map' && isSmallScreen"
             class="content">
-            <app-map-localisation></app-map-localisation>
+            <app-map-localisation
+                #mapComponent
+                [services]="services"
+                (clickOnMarker)="selectService($event)"></app-map-localisation>
+            <!--            <app-map-select-location></app-map-select-location>-->
         </div>
         <div [hidden]="navigationMode !== 'filters'" class="content">
             <div class="filters-container"></div>
@@ -66,6 +77,6 @@
         (change)="changeNavigationMode($event)">
         <mat-button-toggle class="toggle-button" value="list">Lista</mat-button-toggle>
         <mat-button-toggle class="toggle-button" value="map">Mapa</mat-button-toggle>
-        <mat-button-toggle class="toggle-button" value="filters">Filtry</mat-button-toggle>
+        <mat-button-toggle class="toggle-button" value="filters" (click)="openFilters()">Filtry</mat-button-toggle>
     </mat-button-toggle-group>
 </div>

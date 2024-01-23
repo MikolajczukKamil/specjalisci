@@ -1,0 +1,60 @@
+<div class="profile-container">
+    <div style="margin-bottom: 24px">
+        <app-button text="Wróć" (click)="back()" />
+    </div>
+    <div *ngIf="profile === null" style="display: flex; align-items: center; justify-content: center">
+        <p style="font-size: 48px; font-weight: bold">Nie odnaleziono profilu.</p>
+    </div>
+    <div *ngIf="profile" style="width: 100%; height: calc(100% - 64px)">
+        <div
+            style="overflow: auto"
+            [style]="{ height: 'calc(100% - ' + (isCommenting ? (isSmallScreen ? '400px' : '300px') : '50px') + ')' }">
+            <div class="profile-overview">
+                <div class="image">
+                    <img [src]="'./assets/images/avatars/avatar' + (profile.avatar || 1) + '.png'" alt="avatar" />
+                </div>
+                <div class="profile-description">
+                    <p style="font-size: 30px; font-weight: bold">{{ profile.fullname }}</p>
+                    <p style="color: var(--gray-500)"><mat-icon>location_on</mat-icon>{{ profile.location }}</p>
+                    <p style="color: var(--gray-500)">
+                        <mat-icon>phone</mat-icon>{{ profile.phoneNumber || 'Nieznany' }}
+                    </p>
+                </div>
+            </div>
+            <div style="margin-bottom: 51px">
+                <p style="margin: 0">{{ profile.description }}</p>
+            </div>
+            <div class="rating-container">
+                <p style="font-size: 30px; font-weight: bold; margin: 0">Oceny i komentarze</p>
+                <div *ngIf="comments" class="comments">
+                    <div *ngIf="comments.length === 0">
+                        <p>Ten specjalista nie otrzymał jeszcze żadnych ocen</p>
+                    </div>
+                    <ng-container *ngFor="let comment of comments; let i = index">
+                        <div class="comment">
+                            <div class="header">
+                                <div class="header-image">
+                                    <img [src]="'./assets/images/avatars/avatar' + 1 + '.png'" alt="avatar" />
+                                </div>
+                                <div style="display: flex; flex-direction: column">
+                                    <p class="reviewer-name">
+                                        {{ comment.reviewerName }}
+                                    </p>
+                                    <div style="margin-top: 10px">
+                                        <app-stars [rating]="comment.rating" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="comment.comment" class="message">
+                                <p>{{ comment.comment }}</p>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <div class="my-comment">
+            <app-add-comment [profile]="profile" (isEditingChanged)="isEditingChanged($event)" style="width: 100%" />
+        </div>
+    </div>
+</div>

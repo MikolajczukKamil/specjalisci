@@ -1,0 +1,169 @@
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+
+    padding: 29px 39px;
+}
+
+.profile-overview {
+    display: flex;
+    gap: 31px;
+    margin-bottom: 19px;
+    height: 134px;
+
+    .image {
+        width: 134px;
+        height: 134px;
+        border-radius: 10px;
+        background-color: var(--gray-300);
+
+        & img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+    }
+
+    .profile-description {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        font-size: 16px;
+
+        & p {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0;
+        }
+    }
+}
+
+.rating-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 35px;
+
+    .comments {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        width: 100%;
+
+        .comment {
+            display: flex;
+            flex-direction: column;
+            gap: 19px;
+
+            .header {
+                display: flex;
+                gap: 13px;
+
+                .header-image {
+                    width: 60px;
+                    height: 60px;
+                    border-radius: 50%;
+                    background-color: var(--gray-300);
+
+                    & img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        border-radius: 50%;
+                    }
+                }
+
+                .reviewer-name {
+                    font-size: 18px;
+                    font-weight: bold;
+                    margin: 0;
+                }
+            }
+
+            .message {
+                font-size: 16px;
+
+                & p {
+                    margin: 0;
+                }
+            }
+        }
+    }
+}
+
+.my-comment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding-top: 25px;
+}
+
+@media (max-width: 768px) {
+    .profile-container {
+        padding: 15px 20px;
+    }
+
+    .profile-overview {
+        height: 100px;
+        gap: 12px;
+
+        .image {
+            width: 100px;
+            height: 100px;
+        }
+
+        .profile-description {
+            gap: 12px;
+            font-size: 14px;
+
+            & p:first-child {
+                font-size: 24px !important;
+            }
+        }
+    }
+
+    .rating-container {
+        gap: 25px;
+
+        & p:first-child {
+            font-size: 24px !important;
+        }
+
+        .comments {
+            gap: 25px;
+
+            .comment {
+                .header {
+                    display: flex;
+                    gap: 13px;
+
+                    .header-image {
+                        width: 60px;
+                        height: 60px;
+                    }
+
+                    .reviewer-name {
+                        font-size: 16px !important;
+                    }
+                }
+
+                .message p {
+                    font-size: 14px !important;
+                }
+            }
+        }
+    }
+
+    .my-comment {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding-top: 25px;
+    }
+}
