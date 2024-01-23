@@ -1,28 +1,34 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import { Observable } from 'rxjs';
-import {UserData} from "../../profile/user-data";
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { UserData } from '../../profile/user-data';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = `/api/user/-1`; // URL to web API
+    private apiUrl = `/api/user/-1`; // URL to web API
+    private userData = new BehaviorSubject<UserData>({} as UserData);
 
-  constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {}
 
-  getUserData(token: string): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Authorization': `Bearer ${token}`
-      })
-    };
+    getUserData(): Observable<UserData> {
+        if (!this.userData.getValue().id) {
+            this.http.get<UserData>(this.apiUrl).subscribe({
+                next: userData => {
+                    this.userData.next(userData);
+                },
+                error: err => {
+                    console.error(err);
+                },
+            });
+        }
 
-    const url = `${this.apiUrl}`;
-    return this.http.get(this.apiUrl, httpOptions);
-  }
+        return this.userData.asObservable();
+    }
 
-  updateUserData(userDto: UserData): Observable<any> {
-    return this.http.put('/api/user', userDto);
-  }
+    updateUserData(userDto: UserData): Observable<any> {
+        this.userData.next({} as UserData);
+        return this.http.put('/api/user', userDto);
+    }
 }

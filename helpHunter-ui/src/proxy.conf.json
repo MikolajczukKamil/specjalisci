@@ -1,6 +1,6 @@
 {
   "/api/*": {
-    "target": "http://95.217.193.230:9999",
+    "target": "https://95.217.193.230:9999",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true

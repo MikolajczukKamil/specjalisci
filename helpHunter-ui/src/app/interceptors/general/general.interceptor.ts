@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class GeneralInterceptor implements HttpInterceptor {
-    private readonly apiServer = '//95.217.193.230:9999';
+    private readonly apiServer = 'https://95.217.193.230:9999';
 
     private allowedUrls = ['/api/login', '/api/register', 'api.mapbox.com'];
 
