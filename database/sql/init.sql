@@ -37,14 +37,13 @@ CREATE TABLE Orders (
     start_date timestamp NOT NULL,
     estimated_time double precision NOT NULL,
     final_price decimal(10,2) NOT NULL,
-    end_date timestamp
+    end_date timestamp,
+    specialistId INT NOT NULL,
+    customerId INT NOT NULL,
+    FOREIGN KEY (specialistId) REFERENCES Users (user_id),
+    FOREIGN KEY (customerId) REFERENCES Users (user_id)
 );
 
-INSERT INTO Orders (status, specialist_pricing, specialist_description, start_date, estimated_time, final_price, end_date)
-VALUES
-    ('Inprogress', 150.00, 'Installation of equipment', '2024-01-10 10:00:00', 8.5, 1275.00, '2024-01-10 18:30:00'),
-    ('Completed', 200.00, 'Maintenance services', '2024-01-12 13:30:00', 5.0, 1000.00, '2024-01-12 18:30:00'),
-    ('Canceled', 180.00, 'Repair work', '2024-01-15 09:00:00', 10.0, 1800.00, NULL);
 
 
 -- Tworzenie tabeli Available_Services
@@ -174,6 +173,12 @@ INSERT INTO Ratings (user_id, rating) VALUES
     (18, 4),
     (19, 3),
     (20, 1);
+
+INSERT INTO Orders (status, specialist_pricing, specialist_description, start_date, estimated_time, final_price, end_date, specialistId, customerId)
+VALUES
+    ('W trakcie', 150.00, 'Instalacja oprogramowania', '2024-01-10 10:00:00', 8.5, 1275.00, '2024-01-10 18:30:00', 1, 2),
+    ('Zakończone', 200.00, 'Serwisowanie systemu', '2024-01-12 13:30:00', 5.0, 1000.00, '2024-01-12 18:30:00', 3, 4),
+    ('Anulowane', 180.00, 'Naprawa sprzętu', '2024-01-15 09:00:00', 10.0, 1800.00, '2024-01-13 18:30:00', 5, 6);
 
 
 -- Instalacja rozszerzenia pgcrypto (jeśli jeszcze nie zainstalowane)
