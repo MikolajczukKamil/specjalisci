@@ -23,25 +23,25 @@ namespace HelpHunterBE.Controllers
             return Ok(resultList);
         }
 
-        [HttpPost("GetSpecialistsByCategoryAndDistance")]
-        public IActionResult GetSpecialistsByCategoryAndDistance([FromBody] SpecialistDto specialistDto)
+        [HttpPost("search/categoriesByUsername")]
+        [AllowAnonymous]
+        public IActionResult CategoriesByUsername([FromBody] SpecialistDto specialistDto)
         {
             var searchCriteria = new SearchCriteria()
             {
-                CategoryOrServiceName = specialistDto.Category,
-                UserCoordinateX = Convert.ToSingle(specialistDto.LocationX),
-                UserCoordinateY = Convert.ToSingle(specialistDto.LocationY),
+                Name = specialistDto.Name,
+                Surname = specialistDto.Surname
             };
-            var specialists = _searchLogic.GetSpecialistsByCategoryAndDistance(searchCriteria);
-            return Ok(specialists);
+            var specialists = _searchLogic.GetCategoriesByUsername(searchCriteria);
+            var toReturn = specialists.Select(x => x.CategoryName).ToList();
+            return Ok(toReturn);
         }
 
         
     }
     public class SpecialistDto
     {
-        public string Category { get; set; }
-        public double LocationX { get; set; }
-        public double LocationY { get; set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
     }
 }
