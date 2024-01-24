@@ -28,6 +28,24 @@ CREATE TABLE Services (
     service_name VARCHAR(100) NOT NULL
 );
 
+-- Tworzenie tabeli Orders
+CREATE TABLE Orders (
+    id serial PRIMARY KEY,
+    status VARCHAR(20) NOT NULL, --enum('Inprogress', 'Completed', 'Canceled')
+    specialist_pricing decimal(10,2) NOT NULL,
+    specialist_description text NOT NULL,
+    start_date timestamp NOT NULL,
+    estimated_time double precision NOT NULL,
+    final_price decimal(10,2) NOT NULL,
+    end_date timestamp,
+    specialistId INT NOT NULL,
+    customerId INT NOT NULL,
+    FOREIGN KEY (specialistId) REFERENCES Users (user_id),
+    FOREIGN KEY (customerId) REFERENCES Users (user_id)
+);
+
+
+
 -- Tworzenie tabeli Available_Services
 CREATE TABLE Available_Services (
     available_service_id SERIAL PRIMARY KEY,
@@ -157,6 +175,12 @@ INSERT INTO Ratings (user_id, reviewer_id, rating, comment) VALUES
     (18, 11, 4, 'A'),
     (19, 6, 3, 'A'),
     (20, 9, 1, 'A');
+
+INSERT INTO Orders (status, specialist_pricing, specialist_description, start_date, estimated_time, final_price, end_date, specialistId, customerId)
+VALUES
+    ('W trakcie', 150.00, 'Instalacja oprogramowania', '2024-01-10 10:00:00', 8.5, 1275.00, '2024-01-10 18:30:00', 1, 2),
+    ('Zakończone', 200.00, 'Serwisowanie systemu', '2024-01-12 13:30:00', 5.0, 1000.00, '2024-01-12 18:30:00', 3, 4),
+    ('Anulowane', 180.00, 'Naprawa sprzętu', '2024-01-15 09:00:00', 10.0, 1800.00, '2024-01-13 18:30:00', 5, 6);
 
 
 -- Instalacja rozszerzenia pgcrypto (jeśli jeszcze nie zainstalowane)
