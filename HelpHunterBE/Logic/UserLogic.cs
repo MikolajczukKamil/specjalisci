@@ -55,7 +55,7 @@ namespace HelpHunterBE.Logic
                             user.Latitude = reader.GetDecimal(8);
                             user.Longitude = reader.GetDecimal(9);
                             user.Avatar = reader.GetNullableField<int>(10);
-                            user.PhoneNumber = reader.GetNullableField<string>(11);
+                            user.Phonenumber = reader.GetNullableField<string>(11);
                             user.Description = reader.GetNullableField<string>(12);
                         }
                     }
@@ -73,7 +73,7 @@ namespace HelpHunterBE.Logic
                 {
                     connection.Open();
 
-                    string query = "UPDATE users SET username = @Username, email = @Email, full_name = @Fullname, date_of_birth = @Birthdate, is_providing_services = @IsProvidingServices, location = @Location, location_coordinates_x = @Latitude, location_coordinates_y = @Longitude, avatar = @Avatar, phone_number = @PhoneNumber, description = @Description WHERE user_id = @Id";
+                    string query = "UPDATE users SET username = @Email, email = @Email, full_name = @Fullname, date_of_birth = @Birthdate, is_providing_services = @IsProvidingServices, location = @Location, location_coordinates_x = @Latitude, location_coordinates_y = @Longitude, avatar = @Avatar, phone_number = @PhoneNumber, description = @Description WHERE user_id = @Id";
 
                     using (var command = new NpgsqlCommand(query, connection))
                     {
@@ -87,7 +87,7 @@ namespace HelpHunterBE.Logic
                         command.Parameters.AddWithValue("@Latitude", userDto.Latitude);
                         command.Parameters.AddWithValue("@Longitude", userDto.Longitude);
                         command.Parameters.AddWithValue("@Avatar", userDto.Avatar ?? 0);
-                        command.Parameters.AddWithValue("@PhoneNumber", userDto.PhoneNumber ?? "");
+                        command.Parameters.AddWithValue("@PhoneNumber", userDto.Phonenumber ?? "");
                         command.Parameters.AddWithValue("@Description", userDto.Description ?? "");
 
                         command.ExecuteNonQuery();
