@@ -1,6 +1,7 @@
 
 using HelpHunterBE.Logic;
 using HelpHunterBE.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -8,6 +9,7 @@ namespace HelpHunterBE.Controllers
 {
     [Route("api")]
     [ApiController]
+    [AllowAnonymous]
     public class OrderController : ControllerBase
     {
         private readonly IConfiguration _configuration;
@@ -18,7 +20,7 @@ namespace HelpHunterBE.Controllers
             _orderLogic = orderLogic;
         }
 
-        [HttpPost]
+        [HttpPost("order")]
         public HttpStatusCode Order([FromBody] Order model)
         {
            _orderLogic.Add(model);
