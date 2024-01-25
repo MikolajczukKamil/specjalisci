@@ -1,95 +1,151 @@
-import { Component } from '@angular/core';
-import { UserService } from '../services/user/user.service';
-import { UserData } from './user-data';
-import { Router } from '@angular/router';
+import {Component} from '@angular/core';
+import {UserService} from '../services/user/user.service';
+import {UserData} from './user-data';
+import {Router} from '@angular/router';
 
 @Component({
-    selector: 'app-profile',
-    templateUrl: './profile.component.html',
-    styleUrls: ['./profile.component.css'],
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent {
-    user?: UserData;
-    static userToken: string;
-    fullnameInput!: string;
-    phonenumberInput!: string;
-    emailInput!: string;
-    locationInput!: string;
-    descriptionInput!: string;
-    avatarInput!: number | undefined;
+  user?: UserData;
+  static userToken: string;
+  fullnameInput!: string;
+  phonenumberInput!: string;
+  emailInput!: string;
+  locationInput!: string;
+  descriptionInput!: string;
+  avatarInput!: number | undefined;
 
-    constructor(
-        private userService: UserService,
-        private router: Router
-    ) {}
+  public shouldShowImage1 = false;
+  public shouldShowImage2 = false;
+  public shouldShowImage3 = false;
+  public shouldShowImage4 = false;
+  imageUrls1: string = '';
+  imageUrls2: string = '';
+  imageUrls3: string = '';
+  imageUrls4: string = '';
+  chosenImage: string = '';
 
-    ngOnInit(): void {
-        this.getUserData(ProfileComponent.userToken);
+  constructor(
+    private userService: UserService,
+    private router: Router
+  ) {
+  }
+
+  ngOnInit(): void {
+    this.getUserData(ProfileComponent.userToken);
+  }
+
+  getUserData(token: string) {
+    this.userService.getUserData().subscribe(data => {
+      this.user = data;
+      this.avatarInput = data.avatar;
+      this.setDefaultValueOfInputs(data);
+    });
+  }
+
+  setDefaultValueOfInputs(user: UserData) {
+    this.fullnameInput = user.fullname;
+    this.phonenumberInput = user.phonenumber;
+    this.emailInput = user.email;
+    this.locationInput = user.location;
+    this.descriptionInput = user.description;
+  }
+
+  isEdit = false;
+
+  public editData() {
+    this.isEdit = true;
+  }
+
+  public cancel() {
+    this.isEdit = false;
+  }
+
+  public save(
+    fullnameInput: string,
+    phonenumberInput: string,
+    emailInput: string,
+    locationInput: string,
+    descriptionInput: string
+  ) {
+    let newData = {
+      avatar: this.avatarInput,
+      birthdate: this.user?.birthdate,
+      description: descriptionInput,
+      email: emailInput,
+      fullname: fullnameInput,
+      id: this.user?.id,
+      isprovidingservice: true,
+      latitude: this.user?.latitude,
+      location: locationInput,
+      longitude: this.user?.longitude,
+      phonenumber: phonenumberInput,
+      username: this.user?.username,
+    };
+    // @ts-ignore
+    this.setDefaultValueOfInputs(this.user);
+    // @ts-ignore
+    this.userService.updateUserData(newData).subscribe();
+    this.isEdit = false;
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+      this.router.navigate([currentUrl]);
+    });
+  }
+
+  setAvatar(avatar: number) {
+    if (avatar != null) {
+      this.avatarInput = avatar;
+    } else {
+      this.avatarInput = this.user?.avatar;
     }
+  }
 
-    getUserData(token: string) {
-        this.userService.getUserData().subscribe(data => {
-            this.user = data;
-            this.avatarInput = data.avatar;
-            this.setDefaultValueOfInputs(data);
-        });
-    }
+  getImageUrls1(): string {
+    return './assets/images/avatars/avatar1.png';
+  }
 
-    setDefaultValueOfInputs(user: UserData) {
-        this.fullnameInput = user.fullname;
-        this.phonenumberInput = user.phonenumber;
-        this.emailInput = user.email;
-        this.locationInput = user.location;
-        this.descriptionInput = user.description;
-    }
+  getImageUrls2(): string {
+    return './assets/images/avatars/avatar2.png';
+  }
 
-    isEdit = false;
+  getImageUrls3(): string {
+    return './assets/images/avatars/avatar3.png';
+  }
 
-    public editData() {
-        this.isEdit = true;
-    }
+  getImageUrls4(): string {
+    return './assets/images/avatars/avatar4.png';
+  }
 
-    public cancel() {
-        this.isEdit = false;
-    }
-
-    public save(
-        fullnameInput: string,
-        phonenumberInput: string,
-        emailInput: string,
-        locationInput: string,
-        descriptionInput: string
-    ) {
-        let newData = {
-            avatar: this.avatarInput,
-            birthdate: this.user?.birthdate,
-            description: descriptionInput,
-            email: emailInput,
-            fullname: fullnameInput,
-            id: this.user?.id,
-            isprovidingservice: true,
-            latitude: this.user?.latitude,
-            location: locationInput,
-            longitude: this.user?.longitude,
-            phonenumber: phonenumberInput,
-            username: this.user?.username,
-        };
-        // @ts-ignore
-        this.setDefaultValueOfInputs(this.user);
-        // @ts-ignore
-        this.userService.updateUserData(newData).subscribe();
-        this.isEdit = false;
-        let currentUrl = this.router.url;
-        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-            this.router.navigate([currentUrl]);
-        });
-    }
-
-    setAvatar(avatar: number) {
-        if (avatar != null) {
-            this.avatarInput = avatar;
-        } else {
-            this.avatarInput = this.user?.avatar;
-        }
-    }
+  choseImage1() {
+    this.shouldShowImage1 = true;
+    this.shouldShowImage2 = false;
+    this.shouldShowImage3 = false;
+    this.shouldShowImage4 = false;
+    this.setAvatar(1);
+  }
+  choseImage2() {
+    this.shouldShowImage1 = false;
+    this.shouldShowImage2 = true;
+    this.shouldShowImage3 = false;
+    this.shouldShowImage4 = false;
+    this.setAvatar(2);
+  }
+  choseImage3() {
+    this.shouldShowImage1 = false;
+    this.shouldShowImage2 = false;
+    this.shouldShowImage3 = true;
+    this.shouldShowImage4 = false;
+    this.setAvatar(3);
+  }
+  choseImage4() {
+    this.shouldShowImage1 = false;
+    this.shouldShowImage2 = false;
+    this.shouldShowImage3 = false;
+    this.shouldShowImage4 = true;
+    this.setAvatar(4);
+  }
 }
