@@ -47,6 +47,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signingKey))
         };
     });
+builder.Services.AddScoped<IOrderLogic, OrderLogic>();
 
 builder.Services.AddScoped<IUserLogic, UserLogic>();
 builder.Services.AddScoped<IRatingLogic, RatingLogic>();
@@ -74,7 +75,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseCors();
 
 app.UseHttpsRedirection();
