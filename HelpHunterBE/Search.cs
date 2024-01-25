@@ -8,7 +8,6 @@ public class SearchCriteria
     public decimal RatingMin { get; set; }
     public float UserCoordinateX { get; set; }
     public float UserCoordinateY { get; set; }
-
-    
-
+    public string Name { get; set; }
+    public string Surname { get; set; }
 }

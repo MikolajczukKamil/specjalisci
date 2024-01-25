@@ -14,6 +14,8 @@ namespace HelpHunterBE.Dto
 
         public string? ReviewerName { get; set; }
 
+        public int? ReviewerAvatar {  get; set; }
+
         [Required]
         [Range(1, 5)]
         public int Rating { get; set; }

@@ -25,6 +25,14 @@
           <input type="checkbox" style="display: none" value="20" id="20" formControlName="20">
           <label class="choice" for="20">20</label>
         </div>
+        <div>
+          <input type="checkbox" style="display: none" value="50" id="50" formControlName="50">
+          <label class="choice" for="50">50</label>
+        </div>
+        <div>
+          <input type="checkbox" style="display: none" value="100" id="100" formControlName="100">
+          <label class="choice" for="100">100</label>
+        </div>
       </div>
     </div>
     <div class="section-container">
@@ -84,29 +92,71 @@
             <input type="checkbox" style="display: none" id="network" formControlName="network">
             <label class="choice" for="network">Bezpieczeństwo sieciowe</label>
           </div>
+          <div>
+            <input type="checkbox" style="display: none" id="integration" formControlName="integration">
+            <label class="choice" for="integration">Intergracja systemów</label>
+          </div>
+          <div>
+            <input type="checkbox" style="display: none" id="desktop" formControlName="desktop">
+            <label class="choice" for="desktop">Rozwój aplikacji desktopwych</label>
+          </div>
+          <div>
+            <input type="checkbox" style="display: none" id="mobile" formControlName="mobile">
+            <label class="choice" for="mobile">Tworzenie aplikacji mobilnych</label>
+          </div>
+          <div>
+            <input type="checkbox" style="display: none" id="cloud" formControlName="cloud">
+            <label class="choice" for="cloud">Cloud Computing</label>
+          </div>
+          <div>
+            <input type="checkbox" style="display: none" id="cybersec" formControlName="cybersec">
+            <label class="choice" for="cybersec">Cybersecurity</label>
+          </div>
+          <div>
+            <input type="checkbox" style="display: none" id="testing" formControlName="testing">
+            <label class="choice" for="testing">Testowanie Oprogramowania</label>
+          </div>
+          <div>
+            <input type="checkbox" style="display: none" id="www" formControlName="www">
+            <label class="choice" for="www">Optymalizacja Stron WWW</label>
+          </div>
+          <div>
+            <input type="checkbox" style="display: none" id="server" formControlName="server">
+            <label class="choice" for="server">Administracja Serwerami</label>
+          </div>
+          <div>
+            <input type="checkbox" style="display: none" id="website" formControlName="website">
+            <label class="choice" for="website">Tworzenie Stron Internetowych</label>
+          </div>
+          <div>
+            <input type="checkbox" style="display: none" id="data" formControlName="data">
+            <label class="choice" for="data">Analiza Danych</label>
+          </div>
+          <div>
+            <input type="checkbox" style="display: none" id="graphic" formControlName="graphic">
+            <label class="choice" for="graphic">Projektowanie Graficzne Stron</label>
+          </div>
         </div>
       </div>
-      <div [formGroup]="mechanic">
-        <div>Mechanicy</div>
+      <div [formGroup]="services">
+        <div>Usługi</div>
         <div class="choice-container">
           <div>
-            <input type="checkbox" style="display: none" id="oil" formControlName="oil">
-            <label class="choice" for="oil">Wymiana oleju</label>
+            <input type="checkbox" style="display: none" id="sprzatanie" formControlName="sprzatanie">
+            <label class="choice" for="sprzatanie">Usługi sprzątające</label>
           </div>
           <div>
-            <input type="checkbox" style="display: none" id="filter" formControlName="filter">
-            <label class="choice" for="filter">Wymiana filtrów</label>
+            <input type="checkbox" style="display: none" id="elektronika" formControlName="elektronika">
+            <label class="choice" for="elektronika">Naprawa elektroniki</label>
           </div>
           <div>
-            <input type="checkbox" style="display: none" id="tire" formControlName="tire">
-            <label class="choice" for="tire">Wymiana opon</label>
+            <input type="checkbox" style="display: none" id="opieka" formControlName="opieka">
+            <label class="choice" for="opieka">Opieka dziecięca</label>
           </div>
           <div>
-            <input type="checkbox" style="display: none" id="diagnostics" formControlName="diagnostics">
-            <label class="choice" for="diagnostics">Diagnostyka</label>
+            <input type="checkbox" style="display: none" id="finanse" formControlName="finanse">
+            <label class="choice" for="finanse">Doradztwo finansowe</label>
           </div>
-          <input type="checkbox" style="display: none" id="geometry" formControlName="geometry">
-          <label class="choice" for="geometry">Geometria</label>
         </div>
       </div>
     </div>

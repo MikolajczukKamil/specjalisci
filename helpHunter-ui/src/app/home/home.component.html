@@ -4,7 +4,7 @@
             <div style="display: flex">
                 <div class="search-container">
                     <mat-icon class="search-icon">search</mat-icon>
-                    <input type="text" class="search-input" placeholder="Szukaj" />
+                    <input type="text" class="search-input" placeholder="Szukaj" [formControl]="searchValue" />
                 </div>
                 <div class="filters-button-container">
                     <button mat-stroked-button class="filters-button" (click)="openFilters()">
@@ -13,23 +13,26 @@
                     </button>
                 </div>
             </div>
-            <div class="list-container">
+            <div *ngIf="filteredServices.length > 0" class="list-container">
                 <div
-                    *ngFor="let service of services; let i = index"
+                    *ngFor="let service of filteredServices; let i = index"
                     #serviceItem
                     class="list-item"
-                    (click)="selectService(service); goToLocation(service)"
+                    (click)="goToLocation(service)"
                     [class]="{ active: isSelected(service) }">
                     <div class="list-item-image">
-                        <img [src]="'./assets/images/avatars/' + 'avatar1' + '.png'" alt="avatar" />
+                        <img [src]="'./assets/images/avatars/avatar' + service.avatar + '.png'" alt="avatar" />
                     </div>
                     <div class="list-item-content">
                         <div class="list-item-header">
-                            <div class="list-item-name">{{ service.fullName }}</div>
+                            <div
+                                class="list-item-name"
+                                (click)="navigateToProfile(service.userId); $event.stopPropagation()">
+                                {{ service.fullName }}
+                            </div>
                             <div class="list-item-tags">
-                                <div class="list-item-tag">Murarz</div>
-                                <div class="list-item-tag">Tynkarz</div>
-                                <div class="list-item-tag">Akrobata</div>
+                                <div class="list-item-tag">{{service.categoryName}}</div>
+                                <div class="list-item-tag">{{service.operatingMode}}</div>
                             </div>
                         </div>
                         <div style="display: flex; justify-content: space-between">
@@ -49,6 +52,9 @@
                     </div>
                 </div>
             </div>
+            <div *ngIf="filteredServices.length === 0" class="list-container">
+                <p style="font-size: 20px">Brak usług</p>
+            </div>
         </div>
         <div
             *ngIf="isMapVisited || navigationMode === 'map' || !isSmallScreen"
@@ -56,7 +62,7 @@
             class="content">
             <app-map-localisation
                 #mapComponent
-                [services]="services"
+                [services]="filteredServices"
                 (clickOnMarker)="selectService($event)"></app-map-localisation>
             <!--            <app-map-select-location></app-map-select-location>-->
         </div>
@@ -73,6 +79,6 @@
         (change)="changeNavigationMode($event)">
         <mat-button-toggle class="toggle-button" value="list">Lista</mat-button-toggle>
         <mat-button-toggle class="toggle-button" value="map">Mapa</mat-button-toggle>
-        <mat-button-toggle class="toggle-button" value="filters">Filtry</mat-button-toggle>
+        <mat-button-toggle class="toggle-button" value="filters" (click)="openFilters()">Filtry</mat-button-toggle>
     </mat-button-toggle-group>
 </div>

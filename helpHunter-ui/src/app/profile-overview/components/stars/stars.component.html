@@ -1,0 +1,34 @@
+<div *ngIf="!isEditable" style="display: flex; gap: 5px">
+    <app-star [isFilled]="rating >= 1" />
+    <app-star [isFilled]="rating >= 2" />
+    <app-star [isFilled]="rating >= 3" />
+    <app-star [isFilled]="rating >= 4" />
+    <app-star [isFilled]="rating >= 5" />
+</div>
+<div *ngIf="isEditable" class="container" style="display: flex; gap: 5px">
+    <app-star
+        [isFilled]="(savedRating ? savedRating : rating) >= 1"
+        (mouseenter)="rating = 1"
+        (mouseleave)="rating = 0"
+        (click)="setRating(1)" />
+    <app-star
+        [isFilled]="(savedRating ? savedRating : rating) >= 2"
+        (mouseenter)="rating = 2"
+        (mouseleave)="rating = 0"
+        (click)="setRating(2)" />
+    <app-star
+        [isFilled]="(savedRating ? savedRating : rating) >= 3"
+        (mouseenter)="rating = 3"
+        (mouseleave)="rating = 0"
+        (click)="setRating(3)" />
+    <app-star
+        [isFilled]="(savedRating ? savedRating : rating) >= 4"
+        (mouseenter)="rating = 4"
+        (mouseleave)="rating = 0"
+        (click)="setRating(4)" />
+    <app-star
+        [isFilled]="(savedRating ? savedRating : rating) >= 5"
+        (mouseenter)="rating = 5"
+        (mouseleave)="rating = 0"
+        (click)="setRating(5)" />
+</div>

@@ -34,6 +34,11 @@ import { ProfileComponent } from './profile/profile.component';
 import { MatCardModule } from '@angular/material/card';
 import { MessagesComponent } from './messages/messages/messages.component';
 import { ServicePricingComponent } from './messages/service-pricing/service-pricing.component';
+import { ProfileOverviewComponent } from './profile-overview/profile-overview/profile-overview.component';
+import { StarComponent } from './profile-overview/components/star/star.component';
+import { StarsComponent } from './profile-overview/components/stars/stars.component';
+import { AddCommentComponent } from './profile-overview/components/add-comment/add-comment.component';
+import { CustomSlideToggleComponent } from './components/custom-slide-toggle/custom-slide-toggle.component';
 
 @NgModule({
     declarations: [
@@ -53,6 +58,11 @@ import { ServicePricingComponent } from './messages/service-pricing/service-pric
         MapSelectLocationComponent,
         MessagesComponent,
         ServicePricingComponent,
+        ProfileOverviewComponent,
+        StarComponent,
+        StarsComponent,
+        AddCommentComponent,
+        CustomSlideToggleComponent,
     ],
     imports: [
         BrowserModule,

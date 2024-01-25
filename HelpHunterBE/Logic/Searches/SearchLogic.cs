@@ -1,4 +1,6 @@
+using HelpHunterBE.Dto;
 using Npgsql;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace HelpHunterBE.Logic.Searches
 {
@@ -33,10 +35,25 @@ namespace HelpHunterBE.Logic.Searches
             }
         }
 
+        public List<ServiceInfo> GetCategoriesByUsername(SearchCriteria criteria)
+        {
+            var category = new SearchCriteria()
+            {
+                Name = criteria.Name,
+                Surname = criteria.Surname,
+            };
+
+            List<ServiceInfo> specialistsWithCategory = ExecuteSearchQuery(category);
+
+
+            return specialistsWithCategory;
+        }
+
         private string BuildSqlQuery(SearchCriteria criteria)
         {
             string sqlQuery = @"SELECT
                                 u.user_id,
+                                u.avatar,
                                 u.full_name,
                                 u.location,
                                 u.location_coordinates_x,
@@ -72,6 +89,16 @@ namespace HelpHunterBE.Logic.Searches
 
             if (!string.IsNullOrEmpty(criteria.CategoryOrServiceName))
                 sqlQuery += " AND (c.category_name = @CategoryOrServiceName OR s.service_name = @CategoryOrServiceName) ";
+
+            if (!string.IsNullOrEmpty(criteria.Name))
+            {
+                sqlQuery += " AND u.full_name LIKE @Name";
+            }
+
+            if (!string.IsNullOrEmpty(criteria.Surname))
+            {
+                sqlQuery += " AND u.full_name LIKE @Surname";
+            }
 
             sqlQuery += @" GROUP BY
                         u.user_id,
@@ -123,6 +150,13 @@ namespace HelpHunterBE.Logic.Searches
 
             if (!string.IsNullOrEmpty(criteria.CategoryOrServiceName))
                 command.Parameters.AddWithValue("CategoryOrServiceName", criteria.CategoryOrServiceName);
+
+            if (!String.IsNullOrEmpty(criteria.Name))
+                command.Parameters.AddWithValue("Name", '%' + criteria.Name + '%');
+
+            if (!String.IsNullOrEmpty(criteria.Surname))
+                command.Parameters.AddWithValue("Surname", '%' + criteria.Surname + '%');
+
         }
 
         private List<ServiceInfo> ExecuteQueryAndMapResults(NpgsqlCommand command, SearchCriteria criteria)
@@ -151,8 +185,9 @@ namespace HelpHunterBE.Logic.Searches
             {
                 ServiceId = reader.GetInt32(reader.GetOrdinal("service_id")),
                 ServiceName = reader.GetString(reader.GetOrdinal("service_name")),
-                MaxPrice = reader.IsDBNull(reader.GetOrdinal("max_price")) ? null : reader.GetDecimal(reader.GetOrdinal("max_price")),
-                MinPrice = reader.IsDBNull(reader.GetOrdinal("min_price")) ? null : reader.GetDecimal(reader.GetOrdinal("min_price")),
+                Avatar = reader.GetInt32(reader.GetOrdinal("avatar")),
+                MaxPrice = reader.IsDBNull(reader.GetOrdinal("max_price")) ? (decimal?)null : reader.GetDecimal(reader.GetOrdinal("max_price")),
+                MinPrice = reader.IsDBNull(reader.GetOrdinal("min_price")) ? (decimal?)null : reader.GetDecimal(reader.GetOrdinal("min_price")),
                 OperatingMode = reader.GetString(reader.GetOrdinal("operating_mode")),
                 CategoryName = reader.GetString(reader.GetOrdinal("category_name")),
                 CategoryId = reader.GetInt32(reader.GetOrdinal("category_id")),
@@ -162,7 +197,8 @@ namespace HelpHunterBE.Logic.Searches
                 Location = reader.IsDBNull(reader.GetOrdinal("location")) ? null : reader.GetString(reader.GetOrdinal("location")),
                 LocationCoordinatesX = LocationCoordX,
                 LocationCoordinatesY = LocationCoordY,
-                Distance = CalculatedDistance
+                Distance = CalculatedDistance,
+                
             };
 
             return serviceInfo;
