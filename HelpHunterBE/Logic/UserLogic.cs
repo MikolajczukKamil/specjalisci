@@ -49,11 +49,10 @@ namespace HelpHunterBE.Logic
                             user.Username = reader.GetString(1);
                             user.Email = reader.GetString(2);
                             user.Fullname = reader.GetString(4);
-                            user.Birthdate = reader.GetDateTime(5);
                             user.IsProvidingServices = reader.GetBoolean(6);
-                            user.Location = reader.GetString(7);
-                            user.Latitude = reader.GetDecimal(8);
-                            user.Longitude = reader.GetDecimal(9);
+                            user.Location = reader.GetNullableField<string>(7) ?? "";
+                            user.Latitude = reader.GetNullableField<decimal>(8);
+                            user.Longitude = reader.GetNullableField<decimal>(9);
                             user.Avatar = reader.GetNullableField<int>(10);
                             user.Phonenumber = reader.GetNullableField<string>(11);
                             user.Description = reader.GetNullableField<string>(12);
@@ -73,7 +72,7 @@ namespace HelpHunterBE.Logic
                 {
                     connection.Open();
 
-                    string query = "UPDATE users SET username = @Email, email = @Email, full_name = @Fullname, date_of_birth = @Birthdate, is_providing_services = @IsProvidingServices, location = @Location, location_coordinates_x = @Latitude, location_coordinates_y = @Longitude, avatar = @Avatar, phone_number = @PhoneNumber, description = @Description WHERE user_id = @Id";
+                    string query = "UPDATE users SET username = @Email, email = @Email, full_name = @Fullname, is_providing_services = @IsProvidingServices, location = @Location, location_coordinates_x = @Latitude, location_coordinates_y = @Longitude, avatar = @Avatar, phone_number = @PhoneNumber, description = @Description WHERE user_id = @Id";
 
                     using (var command = new NpgsqlCommand(query, connection))
                     {
@@ -81,7 +80,6 @@ namespace HelpHunterBE.Logic
                         command.Parameters.AddWithValue("@Username", userDto.Username);
                         command.Parameters.AddWithValue("@Email", userDto.Email);
                         command.Parameters.AddWithValue("@Fullname", userDto.Fullname);
-                        command.Parameters.AddWithValue("@Birthdate", userDto.Birthdate);
                         command.Parameters.AddWithValue("@IsProvidingServices", userDto.IsProvidingServices);
                         command.Parameters.AddWithValue("@Location", userDto.Location);
                         command.Parameters.AddWithValue("@Latitude", userDto.Latitude);
