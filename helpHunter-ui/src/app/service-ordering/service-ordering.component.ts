@@ -11,10 +11,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ServiceOrderingComponent {
 
+  send = false;
+
 
 
   constructor(
-    public modalRef: MatDialogRef<ServiceOrderingComponent>, 
+    public modalRef: MatDialogRef<ServiceOrderingComponent>,
     private snackBar: MatSnackBar) {}
 
 
@@ -61,7 +63,10 @@ export class ServiceOrderingComponent {
     }
   }
 
-
+  setSend() {
+    this.send = !this.send;
+    if (!this.send) this.closeModal();
+  }
 
 }
 
