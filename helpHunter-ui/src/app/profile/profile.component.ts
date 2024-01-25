@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { UserService } from '../services/user/user.service';
 import { UserData } from './user-data';
 import { Router } from '@angular/router';
+import {Subject, takeUntil} from "rxjs";
+import {DeviceSizeService} from "../services/deviceSize/device-size.service";
+import {NavigationMode} from "../home/home.component";
 
 @Component({
   selector: 'app-profile',
