@@ -34,12 +34,12 @@
 }
 
 .start-list {
-  width: 15%;
+  width: 25%;
   font-size: 18px;
 }
 
 .end-list {
-  width: 85%;
+  width: 75%;
   text-align: left;
   align-content: center;
   justify-content: center;

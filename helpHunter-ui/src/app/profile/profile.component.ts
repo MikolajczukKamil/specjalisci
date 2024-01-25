@@ -2,6 +2,11 @@ import {Component} from '@angular/core';
 import {UserService} from '../services/user/user.service';
 import {UserData} from './user-data';
 import {Router} from '@angular/router';
+import {Subject, takeUntil} from "rxjs";
+import {DeviceSizeService} from "../services/deviceSize/device-size.service";
+
+class NavigationMode {
+}
 
 @Component({
   selector: 'app-profile',
@@ -18,24 +23,32 @@ export class ProfileComponent {
   descriptionInput!: string;
   avatarInput!: number | undefined;
 
+  destroy = new Subject<boolean>();
+  navigationMode: NavigationMode = 'list';
+  isSmallScreen: boolean = false;
+
   public shouldShowImage1 = false;
   public shouldShowImage2 = false;
   public shouldShowImage3 = false;
   public shouldShowImage4 = false;
-  imageUrls1: string = '';
-  imageUrls2: string = '';
-  imageUrls3: string = '';
-  imageUrls4: string = '';
-  chosenImage: string = '';
 
   constructor(
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private deviceSizeService: DeviceSizeService,
   ) {
   }
 
   ngOnInit(): void {
     this.getUserData(ProfileComponent.userToken);
+
+    this.deviceSizeService
+      .getIsSmallScreen()
+      .pipe(takeUntil(this.destroy))
+      .subscribe(isSmallScreen => {
+        this.navigationMode = 'list';
+        this.isSmallScreen = isSmallScreen;
+      });
   }
 
   getUserData(token: string) {

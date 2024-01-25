@@ -48,11 +48,6 @@
           <br><small style="color: gray">Będzie to widoczne na Twoim profilu.</small></p>
       </div>
       <div class="end-list">
-<!--        <img *ngIf="isEdit || user.avatar==1" src="{{'./assets/images/avatars/avatar1.png'}}" class="image" (click)="setAvatar(1)"/>-->
-<!--        <img *ngIf="isEdit || user.avatar==2" src="{{'./assets/images/avatars/avatar2.png'}}" class="image" (click)="setAvatar(2)"/>-->
-<!--        <img *ngIf="isEdit || user.avatar==3" src="{{'./assets/images/avatars/avatar3.png'}}" class="image" (click)="setAvatar(3)"/>-->
-<!--        <img *ngIf="isEdit || user.avatar==4" src="{{'./assets/images/avatars/avatar4.png'}}" class="image" (click)="setAvatar(4)"/>-->
-<!--        <img *ngIf="isEdit || user.avatar==5" src="{{'./assets/images/avatars/avatar5.png'}}" class="image" (click)="setAvatar(5)"/>-->
         <img *ngIf="isEdit || user.avatar==1" class="image"
         [ngClass]="{
                                             avatar_image_show: shouldShowImage1,
