@@ -15,7 +15,7 @@ import { GeocodingService } from '../map/map-localisation/geocoding.service';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 
-type NavigationMode = 'list' | 'map' | 'filters';
+export type NavigationMode = 'list' | 'map' | 'filters';
 
 export interface Service {
     name: string;
