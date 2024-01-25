@@ -9,7 +9,7 @@ namespace HelpHunterBE.Controllers
 {
     [Route("api")]
     [ApiController]
-    [AllowAnonymous]
+    [Authorize]
     public class OrderController : ControllerBase
     {
         private readonly IConfiguration _configuration;
