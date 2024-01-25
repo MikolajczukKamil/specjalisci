@@ -61,6 +61,14 @@ export class ProfileOverviewComponent implements OnInit, OnDestroy {
         this.isCommenting = isEditing;
     }
 
+    addedComment() {
+        if (this.selectedProfileId) {
+            this.profileOverviewService.getRating(this.selectedProfileId).subscribe(data => {
+                this.comments = data;
+            });
+        }
+    }
+
     ngOnDestroy(): void {
         this.destroy.next(true);
         this.destroy.unsubscribe();

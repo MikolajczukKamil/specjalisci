@@ -14,6 +14,7 @@ import { UserService } from '../../../services/user/user.service';
 export class AddCommentComponent implements OnInit, OnDestroy {
     @Input() profile!: Profile;
     @Output() isEditingChanged = new EventEmitter<boolean>();
+    @Output() addedComment = new EventEmitter<void>();
 
     isEditing = false;
     destroy = new Subject<boolean>();
@@ -62,6 +63,7 @@ export class AddCommentComponent implements OnInit, OnDestroy {
                         .subscribe(() => {
                             this.isEditing = false;
                             this.isEditingChanged.emit(this.isEditing);
+                            this.addedComment.emit();
                             this.toast.open('Dodano komentarz', 'Zamknij', {
                                 duration: 3000,
                             });
