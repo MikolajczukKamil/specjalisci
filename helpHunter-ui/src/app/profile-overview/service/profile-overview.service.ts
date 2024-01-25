@@ -7,6 +7,7 @@ export interface Rating {
     rating: number;
     reviewerId: number;
     reviewerName: string;
+  reviewerAvatar: number;
     userId: number;
 }
 

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, computed, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { AuthService } from '../services/auth/auth.service';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { DeviceSizeService } from '../services/deviceSize/device-size.service';
@@ -13,6 +13,7 @@ import { Filters } from './filters/filters.model';
 import { FILTERS_NAME_MAPPING } from './filters/filters-mapping.model';
 import { GeocodingService } from '../map/map-localisation/geocoding.service';
 import { Router } from '@angular/router';
+import { FormControl } from '@angular/forms';
 
 type NavigationMode = 'list' | 'map' | 'filters';
 
@@ -51,10 +52,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     destroy = new Subject<boolean>();
     selectedService: ServiceModel | null = null;
     services: ServiceModel[] = [];
+    filteredServices: ServiceModel[] = [];
     distance: number | undefined = undefined;
     workMode: string | undefined = undefined;
     location: Location | undefined = undefined;
     filters: Filters = { size: [], work: [], builder: [], it: [], services: [] };
+
+    searchValue = new FormControl('', { nonNullable: true });
 
     constructor(
         private auth: AuthService,
@@ -88,6 +92,10 @@ export class HomeComponent implements OnInit, OnDestroy {
             .catch(error => {
                 this.fetchServices({ Location: '', CategoryOrServiceName: '' });
             });
+
+        this.searchValue.valueChanges.subscribe(value => {
+            this.updateFilteredServices();
+        });
     }
 
     changeNavigationMode(event: MatButtonToggleChange) {
@@ -125,6 +133,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             }
 
             this.services = value;
+            this.updateFilteredServices();
         });
     }
 
@@ -192,7 +201,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     scrollToSelectedService() {
         if (this.selectedService) {
-            const selectedIndex = this.services.findIndex(s => isEqual(s, this.selectedService));
+            const selectedIndex = this.filteredServices.findIndex(s => isEqual(s, this.selectedService));
             if (selectedIndex !== undefined) {
                 this.serviceItems
                     .get(selectedIndex)
@@ -207,5 +216,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     navigateToProfile(id: string | number) {
         this.router.navigate(['/profile-overview/' + id]);
+    }
+
+    updateFilteredServices() {
+        this.filteredServices = this.services.filter(service =>
+            service.fullName.toLowerCase().includes(this.searchValue.value.toLowerCase())
+        );
     }
 }

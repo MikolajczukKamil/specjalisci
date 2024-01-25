@@ -27,6 +27,7 @@ export interface ServiceFilters {
 export interface ServiceModel {
     serviceId: number;
     serviceName: string;
+    avatar: number;
     maxPrice: number;
     minPrice: number;
     operatingMode: string;
