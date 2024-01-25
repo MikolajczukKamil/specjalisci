@@ -5,7 +5,7 @@ export interface UserData {
   email: string,
   fullname: string,
   id: number,
-  isprovidingservice: boolean,
+  IsProvidingServices: boolean,
   latitude: number,
   location: string,
   longitude: number,

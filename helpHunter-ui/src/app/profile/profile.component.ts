@@ -1,12 +1,7 @@
-import {Component} from '@angular/core';
-import {UserService} from '../services/user/user.service';
-import {UserData} from './user-data';
-import {Router} from '@angular/router';
-import {Subject, takeUntil} from "rxjs";
-import {DeviceSizeService} from "../services/deviceSize/device-size.service";
-
-class NavigationMode {
-}
+import { Component } from '@angular/core';
+import { UserService } from '../services/user/user.service';
+import { UserData } from './user-data';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -22,6 +17,7 @@ export class ProfileComponent {
   locationInput!: string;
   descriptionInput!: string;
   avatarInput!: number | undefined;
+  booleanValue?: boolean;
 
   destroy = new Subject<boolean>();
   navigationMode: NavigationMode = 'list';
@@ -77,6 +73,10 @@ export class ProfileComponent {
     this.isEdit = false;
   }
 
+  handleToggleChange(toggleState: boolean) {
+    this.booleanValue = toggleState;
+  }
+
   public save(
     fullnameInput: string,
     phonenumberInput: string,
@@ -91,13 +91,14 @@ export class ProfileComponent {
       email: emailInput,
       fullname: fullnameInput,
       id: this.user?.id,
-      isprovidingservice: true,
+      IsProvidingServices: this.booleanValue,
       latitude: this.user?.latitude,
       location: locationInput,
       longitude: this.user?.longitude,
       phonenumber: phonenumberInput,
       username: this.user?.username,
     };
+    console.log(this.booleanValue);
     // @ts-ignore
     this.setDefaultValueOfInputs(this.user);
     // @ts-ignore

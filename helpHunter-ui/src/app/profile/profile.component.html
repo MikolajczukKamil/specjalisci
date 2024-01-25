@@ -106,12 +106,20 @@
 <!--        </div>-->
 <!--      </div>-->
       <div>
-        <app-custom-slide-toggle [leftOption]="'Włączony'"
+        <app-custom-slide-toggle *ngIf="isEdit"
+                                 [leftOption]="'Włączony'"
                                  [rightOption]="'Wyłączony'"
-                                 [onOff]="user.isprovidingservice"></app-custom-slide-toggle>
+                                 [canChanege]="true"
+                                 [onOff]="user.IsProvidingServices"
+                                 (dataEmitter)="handleToggleChange($event)"></app-custom-slide-toggle>
+        <app-custom-slide-toggle *ngIf="!isEdit"
+                                 [leftOption]="'Włączony'"
+                                 [rightOption]="'Wyłączony'"
+                                 [canChanege]="false"
+                                 [onOff]="user.IsProvidingServices"></app-custom-slide-toggle>
       </div>
     </mat-card-content>
-    <mat-card-content *ngIf="user.isprovidingservice" class="list-item" style="display: flex; margin: auto">
+    <mat-card-content *ngIf="user.IsProvidingServices" class="list-item" style="display: flex; margin: auto">
       <div class="start-list">
         <p>O firmie</p>
       </div>
@@ -120,12 +128,12 @@
         <input *ngIf="isEdit" [(ngModel)]="descriptionInput" value={{user.description}} class="input">
       </div>
     </mat-card-content>
-    <mat-card-content *ngIf="user.isprovidingservice" class="list-item" style="display: flex; margin: auto">
+    <mat-card-content *ngIf="user.IsProvidingServices" class="list-item" style="display: flex; margin: auto">
       <div class="start-list">
         <p>List usług</p>
       </div>
       <div class="end-list">
-        <p>{{user.isprovidingservice}}</p>
+        <p>{{user.IsProvidingServices}}</p>
       </div>
     </mat-card-content>
   </mat-card-content>

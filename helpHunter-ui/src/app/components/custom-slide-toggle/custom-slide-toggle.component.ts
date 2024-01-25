@@ -1,4 +1,4 @@
-import {Component, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
   selector: 'app-custom-slide-toggle',
@@ -10,11 +10,14 @@ export class CustomSlideToggleComponent {
   @Input() leftOption?: string;
   @Input() rightOption?: string;
   @Input() onOff?: boolean;
+  @Input() canChanege?: boolean;
 
-  @Output() dataEmitter?: boolean;
+  @Output() dataEmitter = new EventEmitter<boolean>();
 
   toggle() {
-    this.onOff = !this.onOff;
-    this.dataEmitter = this.onOff;
+    if (this.canChanege) {
+      this.onOff = !this.onOff;
+      this.dataEmitter.emit(this.onOff);
+    }
   }
 }
