@@ -84,6 +84,10 @@ export class RegisterComponent implements OnInit {
                             this.snackBar.open('Podany adres email jest już zajęty', 'Close', {
                                 duration: 3000,
                             });
+                        } else if (error.status == 400) {
+                            this.snackBar.open('Hasło jest zbyt słabe - wybierz inne hasło', 'Close', {
+                                duration: 3000,
+                            });
                         } else {
                             this.snackBar.open('Wystąpił błąd', 'Close', {
                                 duration: 3000,
