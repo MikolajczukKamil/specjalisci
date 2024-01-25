@@ -34,7 +34,6 @@ export class AuthService {
             this.http.post<Token>(`/api/login`, { username, password }).subscribe({
                 next: token => {
                     this.token = token.token;
-                    ProfileComponent.userToken = token.token;
                     localStorage.setItem('token', token.token);
                     resolve(true);
                 },
