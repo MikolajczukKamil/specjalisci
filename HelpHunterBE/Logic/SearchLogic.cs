@@ -1,4 +1,6 @@
+using HelpHunterBE.Dto;
 using Npgsql;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace HelpHunterBE.Logic
 {
@@ -31,6 +33,20 @@ namespace HelpHunterBE.Logic
                 Console.WriteLine(ex);
                 throw; // Rethrow the exception after logging or handling
             }
+        }
+
+        public List<ServiceInfo> GetCategoriesByUsername(SearchCriteria criteria)
+        {
+            var category = new SearchCriteria()
+            {
+                Name = criteria.Name,
+                Surname = criteria.Surname,
+            };
+
+            List<ServiceInfo> specialistsWithCategory = ExecuteSearchQuery(category);
+
+
+            return specialistsWithCategory;
         }
 
         private string BuildSqlQuery(SearchCriteria criteria)
@@ -73,6 +89,16 @@ namespace HelpHunterBE.Logic
 
             if (!string.IsNullOrEmpty(criteria.CategoryOrServiceName))
                 sqlQuery += " AND (c.category_name = @CategoryOrServiceName OR s.service_name = @CategoryOrServiceName) ";
+
+            if (!string.IsNullOrEmpty(criteria.Name))
+            {
+                sqlQuery += " AND u.full_name LIKE @Name";
+            }
+
+            if (!string.IsNullOrEmpty(criteria.Surname))
+            {
+                sqlQuery += " AND u.full_name LIKE @Surname";
+            }
 
             sqlQuery += @" GROUP BY
                         u.user_id,
@@ -124,6 +150,13 @@ namespace HelpHunterBE.Logic
 
             if (!string.IsNullOrEmpty(criteria.CategoryOrServiceName))
                 command.Parameters.AddWithValue("CategoryOrServiceName", criteria.CategoryOrServiceName);
+
+            if (!String.IsNullOrEmpty(criteria.Name))
+                command.Parameters.AddWithValue("Name", '%' + criteria.Name + '%');
+
+            if (!String.IsNullOrEmpty(criteria.Surname))
+                command.Parameters.AddWithValue("Surname", '%' + criteria.Surname + '%');
+
         }
 
         private List<ServiceInfo> ExecuteQueryAndMapResults(NpgsqlCommand command, SearchCriteria criteria)
@@ -164,7 +197,8 @@ namespace HelpHunterBE.Logic
                 Location = reader.IsDBNull(reader.GetOrdinal("location")) ? null : reader.GetString(reader.GetOrdinal("location")),
                 LocationCoordinatesX = LocationCoordX,
                 LocationCoordinatesY = LocationCoordY,
-                Distance = CalculatedDistance
+                Distance = CalculatedDistance,
+                
             };
 
             return serviceInfo;
