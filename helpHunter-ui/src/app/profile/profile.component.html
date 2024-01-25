@@ -48,11 +48,34 @@
           <br><small style="color: gray">Będzie to widoczne na Twoim profilu.</small></p>
       </div>
       <div class="end-list">
-        <img *ngIf="isEdit || user.avatar==1" src="{{'./assets/images/avatars/avatar1.png'}}" class="image" (click)="setAvatar(1)"/>
-        <img *ngIf="isEdit || user.avatar==2" src="{{'./assets/images/avatars/avatar2.png'}}" class="image" (click)="setAvatar(2)"/>
-        <img *ngIf="isEdit || user.avatar==3" src="{{'./assets/images/avatars/avatar3.png'}}" class="image" (click)="setAvatar(3)"/>
-        <img *ngIf="isEdit || user.avatar==4" src="{{'./assets/images/avatars/avatar4.png'}}" class="image" (click)="setAvatar(4)"/>
-        <img *ngIf="isEdit || user.avatar==5" src="{{'./assets/images/avatars/avatar5.png'}}" class="image" (click)="setAvatar(5)"/>
+        <img *ngIf="isEdit || user.avatar==1" class="image"
+        [ngClass]="{
+                                            avatar_image_show: shouldShowImage1,
+                                            avatar_image_hide: !shouldShowImage1
+                                        }"
+        [src]="getImageUrls1()"
+        (click)="choseImage1()" />
+        <img *ngIf="isEdit || user.avatar==2" class="image"
+          [ngClass]="{
+                                            avatar_image_show: shouldShowImage2,
+                                            avatar_image_hide: !shouldShowImage2
+                                        }"
+          [src]="getImageUrls2()"
+          (click)="choseImage2()" />
+        <img *ngIf="isEdit || user.avatar==3" class="image"
+          [ngClass]="{
+                                            avatar_image_show: shouldShowImage3,
+                                            avatar_image_hide: !shouldShowImage3
+                                        }"
+          [src]="getImageUrls3()"
+          (click)="choseImage3()" />
+        <img *ngIf="isEdit || user.avatar==4" class="image"
+          [ngClass]="{
+                                            avatar_image_show: shouldShowImage4,
+                                            avatar_image_hide: !shouldShowImage4
+                                        }"
+          [src]="getImageUrls4()"
+          (click)="choseImage4()" />
       </div>
     </mat-card-content>
     <mat-card-content class="list-item" style="display: flex; margin: auto">

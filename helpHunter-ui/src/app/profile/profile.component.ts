@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
-import {UserService} from '../services/user/user.service';
-import {UserData} from './user-data';
-import {Router} from '@angular/router';
+import { Component } from '@angular/core';
+import { UserService } from '../services/user/user.service';
+import { UserData } from './user-data';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -19,16 +19,33 @@ export class ProfileComponent {
   avatarInput!: number | undefined;
   booleanValue?: boolean;
 
+  destroy = new Subject<boolean>();
+  navigationMode: NavigationMode = 'list';
+  isSmallScreen: boolean = false;
+
+  public shouldShowImage1 = false;
+  public shouldShowImage2 = false;
+  public shouldShowImage3 = false;
+  public shouldShowImage4 = false;
+
   constructor(
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private deviceSizeService: DeviceSizeService,
   ) {
   }
 
   ngOnInit(): void {
     this.getUserData(ProfileComponent.userToken);
-  }
 
+    this.deviceSizeService
+      .getIsSmallScreen()
+      .pipe(takeUntil(this.destroy))
+      .subscribe(isSmallScreen => {
+        this.navigationMode = 'list';
+        this.isSmallScreen = isSmallScreen;
+      });
+  }
 
   getUserData(token: string) {
     this.userService.getUserData().subscribe(data => {
@@ -99,5 +116,50 @@ export class ProfileComponent {
     } else {
       this.avatarInput = this.user?.avatar;
     }
+  }
+
+  getImageUrls1(): string {
+    return './assets/images/avatars/avatar1.png';
+  }
+
+  getImageUrls2(): string {
+    return './assets/images/avatars/avatar2.png';
+  }
+
+  getImageUrls3(): string {
+    return './assets/images/avatars/avatar3.png';
+  }
+
+  getImageUrls4(): string {
+    return './assets/images/avatars/avatar4.png';
+  }
+
+  choseImage1() {
+    this.shouldShowImage1 = true;
+    this.shouldShowImage2 = false;
+    this.shouldShowImage3 = false;
+    this.shouldShowImage4 = false;
+    this.setAvatar(1);
+  }
+  choseImage2() {
+    this.shouldShowImage1 = false;
+    this.shouldShowImage2 = true;
+    this.shouldShowImage3 = false;
+    this.shouldShowImage4 = false;
+    this.setAvatar(2);
+  }
+  choseImage3() {
+    this.shouldShowImage1 = false;
+    this.shouldShowImage2 = false;
+    this.shouldShowImage3 = true;
+    this.shouldShowImage4 = false;
+    this.setAvatar(3);
+  }
+  choseImage4() {
+    this.shouldShowImage1 = false;
+    this.shouldShowImage2 = false;
+    this.shouldShowImage3 = false;
+    this.shouldShowImage4 = true;
+    this.setAvatar(4);
   }
 }
