@@ -4,7 +4,7 @@
       <h1>Formularz zamawiania usługi</h1>
       <mat-icon class="close" (click)="closeModal()">close</mat-icon>
     </div>
-    <mat-form-field style="width: 100%; padding-bottom: 350px;">
+    <mat-form-field style="width: 100%; padding-bottom: 50px;">
       <mat-label>Wybierz okres</mat-label>
       <mat-date-range-input [rangePicker]="picker">
         <input matStartDate placeholder="Start date" id="dateFrom" formControlName="dateFrom">
@@ -16,7 +16,7 @@
     </mat-form-field>
     <mat-form-field style="width: 100%" >
       <mat-label>Opis</mat-label>
-      <textarea matInput id="description" style="height: 150px" formControlName="description"></textarea>
+      <textarea matInput id="description" style="height: 450px" formControlName="description"></textarea>
     </mat-form-field>
     <div class="button-container" style="align-self: center;">
       <button class="button-exit" (click)="closeModal()">Wróć</button>
