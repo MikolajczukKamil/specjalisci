@@ -22,6 +22,8 @@ export interface ServiceFilters {
     RatingMin?: number;
     UserCoordinateX?: number;
     UserCoordinateY?: number;
+    name: string;
+    surname: string;
 }
 
 export interface ServiceModel {

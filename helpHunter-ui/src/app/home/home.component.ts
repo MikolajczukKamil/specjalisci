@@ -87,10 +87,12 @@ export class HomeComponent implements OnInit, OnDestroy {
                     CategoryOrServiceName: '',
                     UserCoordinateX: location.y,
                     UserCoordinateY: location.x,
+                    name: '',
+                    surname: '',
                 });
             })
             .catch(error => {
-                this.fetchServices({ Location: '', CategoryOrServiceName: '' });
+                this.fetchServices({ Location: '', CategoryOrServiceName: '', name: '', surname: '' });
             });
 
         this.searchValue.valueChanges.subscribe(value => {
@@ -176,6 +178,8 @@ export class HomeComponent implements OnInit, OnDestroy {
                 CategoryOrServiceName: serviceName ?? '',
                 UserCoordinateX: this.location?.y,
                 UserCoordinateY: this.location?.x,
+                name: '',
+                surname: '',
             });
         });
     }
