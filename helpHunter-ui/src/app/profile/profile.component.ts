@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
-import { UserService } from '../services/user/user.service';
-import { UserData } from './user-data';
-import { Router } from '@angular/router';
+import {Component} from '@angular/core';
+import {UserService} from '../services/user/user.service';
+import {UserData} from './user-data';
+import {Router} from '@angular/router';
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'app-profile',
@@ -10,7 +11,6 @@ import { Router } from '@angular/router';
 })
 export class ProfileComponent {
   user?: UserData;
-  static userToken: string;
   fullnameInput!: string;
   phonenumberInput!: string;
   emailInput!: string;
@@ -19,10 +19,6 @@ export class ProfileComponent {
   avatarInput!: number | undefined;
   booleanValue?: boolean;
 
-  destroy = new Subject<boolean>();
-  navigationMode: NavigationMode = 'list';
-  isSmallScreen: boolean = false;
-
   public shouldShowImage1 = false;
   public shouldShowImage2 = false;
   public shouldShowImage3 = false;
@@ -30,24 +26,15 @@ export class ProfileComponent {
 
   constructor(
     private userService: UserService,
-    private router: Router,
-    private deviceSizeService: DeviceSizeService,
+    private router: Router
   ) {
   }
 
   ngOnInit(): void {
-    this.getUserData(ProfileComponent.userToken);
-
-    this.deviceSizeService
-      .getIsSmallScreen()
-      .pipe(takeUntil(this.destroy))
-      .subscribe(isSmallScreen => {
-        this.navigationMode = 'list';
-        this.isSmallScreen = isSmallScreen;
-      });
+    this.getUserData();
   }
 
-  getUserData(token: string) {
+  getUserData() {
     this.userService.getUserData().subscribe(data => {
       this.user = data;
       this.avatarInput = data.avatar;
