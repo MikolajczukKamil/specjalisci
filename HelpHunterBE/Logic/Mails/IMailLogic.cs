@@ -4,6 +4,6 @@ namespace HelpHunterBE.Logic.Mails
 {
     public interface IMailLogic
     {
-        void SendMail(MailDto mailData, bool accept);
+        void SendMail(MailDto mailData);
     }
 }

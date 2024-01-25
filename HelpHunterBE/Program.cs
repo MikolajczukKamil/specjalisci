@@ -8,6 +8,7 @@ using System.Text;
 using HelpHunterBE.Logic.Mails;
 using HelpHunterBE.Logic.Users;
 using HelpHunterBE.Logic.Searches;
+using HelpHunterBE.Logic;
 
 
 var builder = WebApplication.CreateBuilder(args);

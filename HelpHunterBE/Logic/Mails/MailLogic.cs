@@ -1,66 +1,44 @@
-﻿using System.Net.Mail;
-using System.Net;
-using HelpHunterBE.Models;
+﻿using HelpHunterBE.Models;
+using MailKit.Net.Smtp;
+using MimeKit;
 
 namespace HelpHunterBE.Logic.Mails
 {
     public class MailLogic : IMailLogic
     {
-        public void SendMail(MailDto mailData, bool accept)
+        public void SendMail(MailDto mailData)
         {
-            string fromEmail = mailData.SenderEmail;
-            string recipientEmail = mailData.ReceiverEmail;
-            string subject = mailData.Subject;
-            string senderMessage = mailData.SenderMessage;
             string url = mailData.Url;
-            string senderFullname = mailData.SenderFullname;
-            string recipientFullname = mailData.SenderFullname;
-            string serviceName = mailData.ServiceName;
-            decimal servicePrice = mailData.ServicePrice;
+            string receiverFullname = mailData.ReceiverFullname;
 
-            var body = accept ? 
-                FillRequestTemplate(recipientFullname, senderFullname, serviceName, url, senderMessage) : 
-                FillAcceptTemplate(recipientFullname, senderFullname, serviceName, url, senderMessage, servicePrice);
+            var email = new MimeMessage();
 
-            try
+            email.From.Add(new MailboxAddress("HelpHunter Pomoc", "helphunterpomoc@gmail.com"));
+            email.To.Add(new MailboxAddress("HelpHunter Klient", "helphunterpomoc@gmail.com"));
+
+            email.Subject = "Witamy na pokładzie!";
+            email.Body = new TextPart(MimeKit.Text.TextFormat.Html)
             {
-                SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
-                smtpClient.Port = 587;
-                smtpClient.Credentials = new NetworkCredential("helphunterpomoc@gmail.com", "helphunterpomocSGGW");
-                smtpClient.EnableSsl = true;
-                smtpClient.UseDefaultCredentials = false;
+                Text = "<b>" +
+                $"Cześć {receiverFullname}" +
+                "<br/>" +
+                $"witamy w HelpHunter {url} " +
+                "<br/>" +
+                $"W razie pytań odpisz!" +
+                "<br/>" +
+                $"Pozdrawiamy zespół Helphanter" +
+                $"</b>"
+            };
 
-                MailMessage message = new MailMessage("helphunterpomoc@gmail.com", "rosochackif@gmail.com", subject, body);
-                message.IsBodyHtml = true;
-
-                smtpClient.Send(message);
-                Console.WriteLine("Email sent successfully.");
-            }
-            catch (Exception ex)
+            using (var smtp = new SmtpClient())
             {
-                Console.WriteLine("Error sending email: " + ex.Message);
+                smtp.Connect("smtp.gmail.com", 587, false);
+
+                smtp.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                smtp.Authenticate("helphunterpomoc@gmail.com", "xpxm fllm oxpa sekk");
+                smtp.Send(email);
+                smtp.Disconnect(true);
             }
-        }
-
-        private string FillRequestTemplate(string recipientFullname, string senderFullname, string serviceName, string url, string senderMessage)
-        {
-            return $"" +
-                $"Cześć {recipientFullname}," +
-                $"{senderFullname} chce zamówić u Ciebie usługę {serviceName}" +
-                $"Zobacz więcej na platformie Helphanter {url}" +
-                $"Wiadomość od klienta:" +
-                $"{senderMessage}" +
-                $"Pozdrawiamy zespół Helphanter";
-        }
-
-        private string FillAcceptTemplate(string recipientFullname, string senderFullname, string serviceName, string url, string senderMessage, decimal servicePrice)
-        {
-            return $"Cześć {recipientFullname}," +
-                $"{senderFullname} zaakceptował Twoje zamówienie na usługę {serviceName} w cenie {servicePrice}" +
-                $"Zobacz więcej na platformie Helphanter {url}" +
-                $"Wiadomość od specjalisty:" +
-                $"{senderMessage}" +
-                $"Pozdrawiamy zespół Helphanter";
         }
     }
 }

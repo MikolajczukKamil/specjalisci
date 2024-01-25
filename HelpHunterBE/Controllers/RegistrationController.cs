@@ -30,22 +30,15 @@ public class RegistrationController : ControllerBase
             {
                 return BadRequest("weak password");
             }
-            if(AddUserEntryInDatabase(model))
+            if (AddUserEntryInDatabase(model))
             {
                 var mailData = new MailDto
                 {
-                    SenderEmail = "helphunterpomoc@gmail.com",
-                    SenderFullname = "HelpHunter Wsparcie",
-                    ReceiverEmail = "rosochackif@gmail.com",
                     ReceiverFullname = "John Doe",
-                    Url = "google.com",
-                    Subject = "Witaj w HelpHunter",
-                    SenderMessage = "Siema",
-                    ServiceName = "Testowanie",
-                    ServicePrice = 222.22m
+                    Url = "helphunter.pl",
                 };
+                _mailLogic.SendMail(mailData);
 
-                _mailLogic.SendMail(mailData, false);
                 return Ok("Ok");
             }
             return StatusCode(409, "Email in use");
@@ -55,7 +48,7 @@ public class RegistrationController : ControllerBase
         {
             return StatusCode(500, ex.Message);
         }
-        
+
     }
 
     private static bool IsPasswordStrong(RegistrationModel registrationModel)
