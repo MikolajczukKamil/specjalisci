@@ -10,11 +10,12 @@ namespace HelpHunterBE.Logic.Mails
         {
             string url = mailData.Url;
             string receiverFullname = mailData.ReceiverFullname;
+            string receiverEmail = mailData.ReceiverEmail;
 
             var email = new MimeMessage();
 
             email.From.Add(new MailboxAddress("HelpHunter Pomoc", "helphunterpomoc@gmail.com"));
-            email.To.Add(new MailboxAddress("HelpHunter Klient", "helphunterpomoc@gmail.com"));
+            email.To.Add(new MailboxAddress("HelpHunter Klient", receiverEmail));
 
             email.Subject = "Witamy na pokładzie!";
             email.Body = new TextPart(MimeKit.Text.TextFormat.Html)

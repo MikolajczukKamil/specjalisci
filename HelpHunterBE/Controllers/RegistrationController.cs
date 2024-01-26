@@ -34,7 +34,8 @@ public class RegistrationController : ControllerBase
             {
                 var mailData = new MailDto
                 {
-                    ReceiverFullname = "John Doe",
+                    ReceiverFullname = model.full_name,
+                    ReceiverEmail = model.email,
                     Url = "helphunter.pl",
                 };
                 _mailLogic.SendMail(mailData);
