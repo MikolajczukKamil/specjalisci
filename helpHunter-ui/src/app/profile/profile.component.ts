@@ -91,7 +91,7 @@ export class ProfileComponent {
     // @ts-ignore
     this.setDefaultValueOfInputs(this.user);
     // @ts-ignore
-    this.userService.updateUserData(newData).subscribe();
+    this.userService.updateUserData(newData).subscribe(() => this.getUserData());
     this.isEdit = false;
     let currentUrl = this.router.url;
     this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
