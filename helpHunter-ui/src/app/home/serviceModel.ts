@@ -11,6 +11,21 @@ export class ServicesService {
     getServices(filters: ServiceFilters): Observable<ServiceModel[]> {
         return this.client.post<ServiceModel[]>(this.url, filters);
     }
+
+    orderService(payload: ServiceOrderPayload): Observable<unknown> {
+        return this.client.post('/api/order', payload);
+    }
+}
+
+export interface ServiceOrderPayload {
+    specialistId: number;
+    consumerId: number;
+    specialistPricing: number;
+    specialistDescription: string;
+    startDate: string;
+    estimatedTime: number;
+    finalPrice: number;
+    endDate: string;
 }
 
 export interface ServiceFilters {

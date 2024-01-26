@@ -185,7 +185,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     openServiceButton(service: ServiceModel) {
-        this.dialog.open(ServiceOrderingComponent, { width: '460px', height: '780px' });
+        this.dialog.open(ServiceOrderingComponent, { width: '460px', height: '780px', data: { service } });
     }
 
     selectService(service: ServiceModel) {
