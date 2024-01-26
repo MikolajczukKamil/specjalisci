@@ -2,9 +2,9 @@ using HelpHunterBE.Dto;
 using Npgsql;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace HelpHunterBE.Logic
+namespace HelpHunterBE.Logic.Searches
 {
-    public class SearchLogic
+    public class SearchLogic : ISearchLogic
     {
         private readonly IConfiguration _configuration;
 
@@ -114,13 +114,13 @@ namespace HelpHunterBE.Logic
                         c.category_name,
                         c.category_id";
 
-            if (criteria.RatingMax > 0 || criteria.RatingMin > 0) 
+            if (criteria.RatingMax > 0 || criteria.RatingMin > 0)
                 sqlQuery += " HAVING";
 
             if (criteria.RatingMax > 0)
                 sqlQuery += " AVG(r.rating) <= @RatingMax";
-            
-            if (criteria.RatingMax > 0 && criteria.RatingMin > 0) 
+
+            if (criteria.RatingMax > 0 && criteria.RatingMin > 0)
                 sqlQuery += " AND";
 
             if (criteria.RatingMin > 0)
@@ -177,8 +177,8 @@ namespace HelpHunterBE.Logic
 
         private ServiceInfo MapServiceInfoFromReader(NpgsqlDataReader reader, SearchCriteria criteria)
         {
-            float? LocationCoordX = reader.IsDBNull(reader.GetOrdinal("location_coordinates_x")) ? (float?)null : reader.GetFloat(reader.GetOrdinal("location_coordinates_x"));
-            float? LocationCoordY = reader.IsDBNull(reader.GetOrdinal("location_coordinates_y")) ? (float?)null : reader.GetFloat(reader.GetOrdinal("location_coordinates_y"));
+            float? LocationCoordX = reader.IsDBNull(reader.GetOrdinal("location_coordinates_x")) ? null : reader.GetFloat(reader.GetOrdinal("location_coordinates_x"));
+            float? LocationCoordY = reader.IsDBNull(reader.GetOrdinal("location_coordinates_y")) ? null : reader.GetFloat(reader.GetOrdinal("location_coordinates_y"));
             double? CalculatedDistance = Utils.Utils.CalculateDistance(LocationCoordX, LocationCoordY, criteria.UserCoordinateX, criteria.UserCoordinateY);
 
             var serviceInfo = new ServiceInfo

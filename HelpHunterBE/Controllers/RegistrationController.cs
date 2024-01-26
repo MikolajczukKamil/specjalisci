@@ -1,5 +1,6 @@
 ﻿using Easy_Password_Validator;
 using Easy_Password_Validator.Models;
+using HelpHunterBE.Logic.Mails;
 using HelpHunterBE.Models;
 using Microsoft.AspNetCore.Mvc;
 using Npgsql;
@@ -12,10 +13,12 @@ namespace HelpHunterBE.Controllers;
 public class RegistrationController : ControllerBase
 {
     private readonly IConfiguration _configuration;
+    private readonly IMailLogic _mailLogic;
 
-    public RegistrationController(IConfiguration configuration)
+    public RegistrationController(IConfiguration configuration, IMailLogic mailLogic)
     {
         _configuration = configuration;
+        _mailLogic = mailLogic;
     }
 
     [HttpPost("register")]
@@ -27,8 +30,15 @@ public class RegistrationController : ControllerBase
             {
                 return BadRequest("weak password");
             }
-            if(AddUserEntryInDatabase(model))
+            if (AddUserEntryInDatabase(model))
             {
+                var mailData = new MailDto
+                {
+                    ReceiverFullname = "John Doe",
+                    Url = "helphunter.pl",
+                };
+                _mailLogic.SendMail(mailData);
+
                 return Ok("Ok");
             }
             return StatusCode(409, "Email in use");
@@ -38,7 +48,7 @@ public class RegistrationController : ControllerBase
         {
             return StatusCode(500, ex.Message);
         }
-        
+
     }
 
     private static bool IsPasswordStrong(RegistrationModel registrationModel)

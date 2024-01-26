@@ -4,7 +4,7 @@ using Npgsql;
 using System.Net;
 using System.IdentityModel.Tokens.Jwt;
 
-namespace HelpHunterBE.Logic
+namespace HelpHunterBE.Logic.Users
 {
     public class UserLogic : IUserLogic
     {

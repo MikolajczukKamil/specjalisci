@@ -2,10 +2,13 @@
 using Easy_Password_Validator.Models;
 using Easy_Password_Validator;
 using HelpHunterBE;
-using HelpHunterBE.Logic;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using HelpHunterBE.Logic.Mails;
+using HelpHunterBE.Logic.Users;
+using HelpHunterBE.Logic.Searches;
+using HelpHunterBE.Logic;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -50,6 +53,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddScoped<IOrderLogic, OrderLogic>();
 
 builder.Services.AddScoped<IUserLogic, UserLogic>();
+builder.Services.AddScoped<IMailLogic, MailLogic>();
 builder.Services.AddScoped<IRatingLogic, RatingLogic>();
 builder.Services.AddScoped<IServiceLogic, ServiceLogic>();
 

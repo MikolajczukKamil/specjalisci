@@ -1,7 +1,7 @@
 ﻿using HelpHunterBE.Dto;
 using System.Net;
 
-namespace HelpHunterBE.Logic
+namespace HelpHunterBE.Logic.Users
 {
     public interface IUserLogic
     {

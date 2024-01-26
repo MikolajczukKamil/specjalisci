@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using HelpHunterBE.Logic;
 using Npgsql;
+using HelpHunterBE.Logic.Users;
 
 namespace HelpHunterBE.Controllers
 {
